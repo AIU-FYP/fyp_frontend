@@ -1,0 +1,294 @@
+<script setup lang="ts">
+
+</script>
+
+<template>
+  <div class="footer">
+    <div class="container">
+      <div class="info-container">
+        <div class="box">
+          <span class="icon"><UIcon name="mdi-location"/></span>
+          <p class="info"><a href="">Jalan Tun Abdul Razak,
+            05200, Alor Setar,
+            Kedah Darul Aman, Malaysia.</a></p>
+        </div>
+        <div class="box">
+          <span class="icon"><UIcon name="ic-baseline-email" /></span>
+          <p class="info"><a href="">(60) 4774 7300</a></p>
+        </div>
+        <div class="box">
+          <span class="icon"><UIcon name="ic-baseline-email" /></span>
+          <p class="info"><a href="">info@aiu.edu.my</a></p>
+        </div>
+        <div class="box">
+          <span class="icon"><UIcon name="mdi-university" /></span>
+          <p class="info"><a href="">Al Bukhary International University </a></p>
+        </div>
+      </div>
+      <hr>
+      <div class="links-container">
+        <div class="links">
+          <h2>Quick Links</h2>
+          <ul>
+            <li><a href="http://">
+              <span>
+                <UIcon name="material-symbols-contact-page"
+                />
+              </span>
+              Home
+            </a></li>
+            <li><a href="http://">
+              <span>
+                <UIcon name="la-university"
+                />
+              </span>
+              About</a></li>
+            <li><a href="http://">
+              <span>
+                <UIcon name="ph-student-bold"
+                />
+              </span>
+              Students</a></li>
+            <li><a href="http://">
+              <span>
+                <UIcon name="pepicons-pop-info-circle"
+                />
+              </span>
+              Learn more </a></li>
+          </ul></div>
+        <div class="others-links-section">
+          <h2>Others</h2>
+          <ul>
+            <li>
+              <a href="http://">
+              <span><UIcon name="la-university" />
+              </span>
+                Hostel leave</a></li>
+            <li>
+              <a href="http://">
+              <span><UIcon name="material-symbols-policy-outline" />
+              </span>
+                Policy</a></li>
+            <li>
+              <a href="http://">
+              <span><UIcon name="la-university" />
+              </span>
+                Privacy</a></li>
+          </ul>
+        </div>
+        <div class="subscribe-section">
+          <h1 class="subscribe-title">Subscribe</h1>
+          <div class="container-form">
+            <div class="subscribe-input">
+              <input type="email" placeholder="Enter your email" />
+            </div>
+            <div class="subscribe-button">
+              <button>Subscribe</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="socials-section">
+        <div class="socials-container">
+          <div></div>
+          <div class="social-icons">
+            <ul>
+              <li>
+                <a href="https://facebook.com" target="_blank" rel="noopener">
+                  <UIcon name="ic-baseline-facebook"/>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com" target="_blank" rel="noopener">
+                  <UIcon name="mdi-twitter"/>
+                </a>
+              </li>
+              <li>
+                <a href="https://youtube.com" target="_blank" rel="noopener">
+                  <UIcon name="mdi-youtube"/>
+                </a>
+              </li>
+              <li>
+                <a href="https://instagram.com" target="_blank" rel="noopener">
+                  <UIcon name="mdi-instagram"/>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div></div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; Copyright <a href="">Albukhary International University 2023</a> </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+
+.footer {
+  padding: 1em 0;
+  background-color: #f5f5f5;
+}
+
+.container {
+  display: block;
+  padding: 0 100px ;
+}
+
+@media (max-width: 800px) {
+  .container{
+    padding: 0 ;
+  }
+}
+
+.info-container,
+.links-container{
+  display: flex;
+  flex-direction: row;
+}
+
+.info-container div{
+  flex: 25%;
+}
+
+.info-container div,
+.links-container div{
+  flex: 30%;
+}
+
+@media (max-width: 800px) {
+  .info-container {
+    display: block;
+  }
+  .links-container{
+    display: block;
+  }
+}
+
+.box {
+  display: block;
+  text-align: center;
+  margin: 20px;
+}
+
+.box span{
+  font-size: 3rem;
+  color: var(--main-color);
+}
+
+.links,
+.others-links-section{
+  margin: 0 50px ;
+}
+
+.links h2,
+.subscribe-section h2,
+.others-links-section h2{
+  color: var(--main-color);
+  font-size: 1.5rem;
+  margin: 15px 0;
+}
+
+.links ul li,
+.others-links-section ul li {
+  list-style: none;
+  font-size: 1.2rem;
+}
+
+.links ul li a span,
+.others-links-section li a span
+{
+  color: var(--main-color);
+  margin: 0 10px ;
+}
+
+.subscribe-section {
+  text-align: center;
+  padding: 20px;
+}
+
+.container-form {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+@media (max-width: 800px) {
+  .container-form {
+    display: block;
+    margin: 0 auto;
+  }
+  .container-form div{
+    margin: 3rem 0;
+  }
+}
+
+.subscribe-title {
+  color: var(--main-color);
+  margin-bottom:  40px ;
+  font-size: 1.5rem;
+}
+
+.subscribe-input input {
+  padding: 10px;
+  font-size: 16px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.subscribe-button button {
+  padding: 10px 20px;
+  background-color: var(--main-color);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.subscribe-button button:hover {
+  background-color: var(--text-hovor-color);
+}
+
+.socials-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.social-icons ul{
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+  margin: 20px 0;
+}
+
+.social-icons ul li{
+  width: 3rem;
+  height: 3rem;
+  text-align: center;
+  font-size: 1.5rem;
+  padding: 5px;
+  border:2px solid var(--text-color) ;
+  border-radius: 50%;
+}
+
+.social-icons ul li:hover{
+  border:none ;
+  transition: 0.4s;
+}
+
+.footer-bottom{
+  text-align: center;
+  font-size: 16px;
+  color: var(--text-color);
+}
+
+.footer-bottom a{
+  color: var(--text-hovor-color);
+}
+
+</style>
