@@ -5,16 +5,10 @@ const previousQuestions = [
     type: "text",
     placeholder: "Enter your name",
     required: true,
-  },{
+  }, {
     label: "Student ID Number",
     type: "text",
     placeholder: "Enter your student ID(E.g, AIU21011234)",
-    required: true,
-  },
-  {
-    label: "Gender",
-    type: "text",
-    options: ["Male", "Female"],
     required: true,
   },
   {
@@ -35,15 +29,33 @@ const previousQuestions = [
     placeholder: "Enter your email address",
     required: true,
   },
-
-  // ,
-  // {
-  //   label: "Please provide photo evidence?",
-  //   type: "file",
-  //   accept: "image/*",
-  //   maxFileSize: 10 * 1024 * 1024, //
-  //   required: true,
-  // }
+  {
+    label: "Gender",
+    type: "select",
+    options: ["Male", "Female"],
+    required: true,
+    placeholder: "Enter your gender",
+  },
+  {
+    label: "Type of damage",
+    type: "select",
+    options: ["Room", "Bathroom", "Hangout Room", "TV Room", "Laundry Area", "Pest"],
+    required: true,
+    placeholder: "Enter type of damage",
+  },
+  {
+    label: "How frequent the damages occur?",
+    type: "select",
+    options: ["1 time", "2 times", "3 times", "4 times", "5 times", "More than 5 times"],
+    required: true,
+    placeholder: "How frequent the damages occur?",
+  },
+  {
+    label: "Please provide photo evidence?",
+    type: "file",
+    required: true,
+    placeholder: "Please describe the maintenance issue?",
+  },
 ];
 
 
@@ -55,10 +67,14 @@ const previousQuestions = [
       <div class="description">
         <img src="/images/AIU-Official-Logo.png" alt="AIU">
         <h2 class="title-maintenance-form">Form For Maintenance Room Issues</h2>
-        <p class="description-maintenance-form">If you're experiencing any problems with your room, please fill out this form to let us know. This will help us quickly identify and address the issue, ensuring your living space remains comfortable and safe. Your detailed report will assist the maintenance team in resolving the problem as soon as possible.
+        <p class="description-maintenance-form">If you're experiencing any problems with your room, please fill out this
+          form to let us know. This will help us quickly identify and address the issue, ensuring your living space
+          remains comfortable and safe. Your detailed report will assist the maintenance team in resolving the problem
+          as soon as possible.
         </p>
         <p>
-          Note: Before registering to the system please make sure you have your student ID card scanned in your phone or pc.
+          Note: Before registering to the system please make sure you have your student ID card scanned in your phone or
+          pc.
         </p>
       </div>
       <div class="maintenance-room-form">
@@ -67,22 +83,51 @@ const previousQuestions = [
           <form action="">
             <div class="maintenance-form">
               <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-                <label>{{ question.label }}</label>
-                <input
-                    :type="question.type"
-                    :name="question.label"
-                >
+                <h2 class="lable">{{ question.label }}</h2>
+                <div class="input-container">
+                  <UIcon class="input-icon" name="heroicons-search"/>
+                  <template v-if="question.type === 'text'">
+                    <input
+                        :type="question.type"
+                        :name="question.label"
+                        :placeholder="question.placeholder"
+                        :required="question.required"
+                    >
+                  </template>
+                  <template v-else-if="question.type === 'select'">
+                    <select
+                        :name="question.label"
+                        :required="question.required"
+                    >
+                      <option disabled selected>Select {{ question.placeholder }}</option>
+                      <option v-for="option in question.options" :key="option" :value="option">
+                        {{ option }}
+                      </option>
+                    </select>
+                  </template>
+                  <template v-else-if="question.type === 'file'">
+                    <input
+                        :type="question.type"
+                        :name="question.label"
+                        :placeholder="question.placeholder"
+                        :required="question.required"
+                        rows="5"
+                    />
+                  </template>
+                </div>
               </div>
+              <template>
+                <h2 class="lable">Explain in detail the damage in mention above</h2>
+                    <textarea
+                        name="Explain in detail the damage in mention above"
+                        placeholder="Please describe the maintenance issue ?"
+                    />
+              </template>
+
             </div>
-            <div class="maintenance-form">
-              <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-                <label>{{ question.label }}</label>
-                <input
-                    :type="question.type"
-                    :name="question.label"
-                >
-              </div>
-            </div>
+            <UButton style="background-color: rgb(28, 100, 188)" type="submit">
+              Submit
+            </UButton>
           </form>
         </div>
       </div>
@@ -111,23 +156,24 @@ const previousQuestions = [
   flex-wrap: wrap;
 }
 
-.container .description{
+.container .description {
   flex: 30%;
   background-color: #eeeeee;
   padding: 2.5rem;
   border-radius: 0;
 }
 
-.container .maintenance-room-form{
+.container .maintenance-room-form {
   flex: 60%;
   padding: 2.5rem;
 }
 
 @media (max-width: 800px) {
-  .container div{
+  .container div {
     display: block;
   }
-  .container .description{
+
+  .container .description {
     padding: 1rem;
   }
 }
@@ -135,7 +181,7 @@ const previousQuestions = [
 .container .description h2 {
   font-size: 1.2rem;
   padding: .5rem 0;
-  font-weight:bold ;
+  font-weight: bold;
   color: var(--text-color);
   text-align: center;
 }
@@ -143,22 +189,22 @@ const previousQuestions = [
 .container .description p {
   font-size: 1rem;
   padding: 1rem 0;
-  font-weight:normal ;
+  font-weight: normal;
   color: black;
   text-align: justify;
 }
 
-.maintenance-room-form > h2{
+.maintenance-room-form > h2 {
   font-size: 1.5rem;
   color: var(--text-color);
   text-align: center;
-  padding: 1rem 0 ;
+  padding: 1rem 0;
 }
 
 .maintenance-form {
   display: flex;
   flex-wrap: wrap;
-  flex-direction:row ;
+  flex-direction: row;
   gap: 10px;
 }
 
@@ -168,17 +214,36 @@ const previousQuestions = [
   display: block;
 }
 
-.maintenance-form label {
+.maintenance-form .lable {
   font-size: 1rem;
   color: var(--text-color);
   padding: .5rem 0;
 }
 
-.maintenance-form input {
+.maintenance-form input,
+.maintenance-form select {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
+  outline: none;
 }
+
+.maintenance-form textarea {
+  width: 200%;
+  height: 5rem;
+  max-height: 5rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+@media (max-width: 800px) {
+  .maintenance-form textarea {
+    width: calc(100% - .5rem );
+  }
+}
+
 
 </style>

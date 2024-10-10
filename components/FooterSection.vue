@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+const currentYear = new Date().getFullYear();
 </script>
 
 <template>
@@ -25,7 +25,7 @@
           <p class="info"><a href="">Al Bukhary International University </a></p>
         </div>
       </div>
-      <hr>
+      <hr class="divider">
       <div class="links-container">
         <div class="links">
           <h2>Quick Links</h2>
@@ -88,7 +88,7 @@
           </div>
         </div>
       </div>
-      <hr>
+      <hr class="divider">
       <div class="socials-section">
         <div class="socials-container">
           <div></div>
@@ -119,7 +119,7 @@
           <div></div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; Copyright <a href="">Albukhary International University 2023</a> </p>
+          <p>&copy; Copyright <a href="">Albukhary International University {{ currentYear }}</a> </p>
         </div>
       </div>
     </div>
@@ -179,9 +179,14 @@
   color: var(--main-color);
 }
 
+.divider{
+  margin: 1rem 0;
+  border: 1px solid var(--main-color);
+}
+
 .links,
 .others-links-section{
-  margin: 0 50px ;
+  margin: 0 5rem ;
 }
 
 .links h2,
@@ -202,12 +207,12 @@
 .others-links-section li a span
 {
   color: var(--main-color);
-  margin: 0 10px ;
+  margin-right: .5rem;
 }
 
 .subscribe-section {
-  text-align: center;
-  padding: 20px;
+  text-align: start;
+  padding: 2rem;
 }
 
 .container-form {
@@ -233,15 +238,16 @@
 }
 
 .subscribe-input input {
-  padding: 10px;
-  font-size: 16px;
-  width: 200px;
+  padding: .5rem;
+  font-size: 1rem;
+  width: 12rem;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
 .subscribe-button button {
-  padding: 10px 20px;
+  padding: .5rem;
+  font-size: 1rem;
   background-color: var(--main-color);
   color: white;
   border: none;
@@ -277,18 +283,24 @@
 }
 
 .social-icons ul li:hover{
-  border:none ;
   transition: 0.4s;
+  color: var(--text-hovor-color);
+  border:2px solid var(--text-hovor-color) ;
 }
 
 .footer-bottom{
   text-align: center;
-  font-size: 16px;
+  font-size: 1.2rem;
   color: var(--text-color);
 }
 
 .footer-bottom a{
+  color: var(--main-color);
+}
+
+a:hover{
   color: var(--text-hovor-color);
 }
+
 
 </style>
