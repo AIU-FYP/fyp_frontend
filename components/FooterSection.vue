@@ -288,6 +288,15 @@ const currentYear = new Date().getFullYear();
   border:2px solid var(--text-hovor-color) ;
 }
 
+@media (max-width: 1200px) {
+  .links ul li span{
+    display: none;
+  }
+  .others-links-section ul li span{
+    display: none;
+  }
+}
+
 .footer-bottom{
   text-align: center;
   font-size: 1.2rem;

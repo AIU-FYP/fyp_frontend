@@ -96,17 +96,18 @@ const toggleFaq = (index) => {
 <style scoped>
 
 .faq-section {
-  padding: 5em;
+  padding: 1rem 0;
   margin: 0 10rem ;
   align-items: center;
 }
 
 .faq-section h2 {
   text-align: center;
-  font-size: 2.5rem;
-  font-weight: bold;
+  font-size: 2rem;
+  font-weight: normal;
   color: var(--main-color);
   padding: 2rem;
+  margin: 2rem 0;
 }
 
 @media (max-width: 820px) {
@@ -114,7 +115,7 @@ const toggleFaq = (index) => {
     text-align: center;
     font-size: 1.5rem;
   }
-  .faq-section {
+  .faq-item {
     padding: 1em;
     margin: 0 1rem ;
   }
@@ -125,7 +126,6 @@ const toggleFaq = (index) => {
   color: var(--main-color);
   margin-bottom: 1.5rem;
   border-radius: 8px;
-  box-shadow: rgba(103, 103, 115, 0.28) 0 7px 29px 0;
 }
 
 .info {
@@ -148,4 +148,12 @@ const toggleFaq = (index) => {
   text-align: justify;
 }
 
+@media (max-width: 800px) {
+  .title {
+    font-size: 1rem;
+  }
+  .description{
+    font-size: .8rem;
+  }
+}
 </style>

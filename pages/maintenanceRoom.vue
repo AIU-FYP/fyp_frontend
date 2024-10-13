@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <HeaderSection/>
+  <ProcessMaintenanceRoom/>
   <MaintenanceRoom/>
   <FooterSection/>
 </template>

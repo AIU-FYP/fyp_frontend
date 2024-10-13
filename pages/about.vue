@@ -3,6 +3,8 @@
 </script>
 
 <template>
+  <HeaderSection/>
+  <StudentInfoPopup/>
   <AboutSection/>
   <HostelsSecrion/>
   <TeamSection/>

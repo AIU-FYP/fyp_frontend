@@ -1,24 +1,17 @@
 <template>
   <div class="header-section">
     <div class="container">
-
       <div class="image-logo">
         <img src="/images/AIU-Official-Logo.png" alt="aiu-logo"/>
       </div>
-
       <div class="title">
         <h2>Smart AIU Management System</h2>
       </div>
+      <div class="links-box">
+        <ul> <span><UIcon name="fluent-list-bar-20-filled"/></span>
 
-      <div class="bar-icon" @click="toggleNav">
-        <UIcon name="fluent-list-bar-20-filled"/>
-      </div>
-
-      <div class="links-box" :class="{ 'show-nav': isNavVisible }">
-        <ul>
-          <li><a href=""><span class="icon"><UIcon name="material-symbols-contact-page"/></span>Home</a></li>
+          <li><a href=""><span class="icon" ><UIcon name="material-symbols-contact-page"/></span>Home</a></li>
           <li><a href=""><span class="icon"><UIcon name="la-university"/></span> About</a></li>
-
           <li class="dropdown">
             <span @click="toggleDropdown('students')" class="dropbtn">
               <span class="icon"><UIcon name="ph-student-light"/>
@@ -44,18 +37,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-
-const isNavVisible = ref(false);
+import {onMounted, ref} from 'vue';
 
 const dropdowns = ref({
   students: false,
   learnMore: false,
 });
-
-const toggleNav = () => {
-  isNavVisible.value = !isNavVisible.value;
-};
 
 const toggleDropdown = (dropdown) => {
   dropdowns.value[dropdown] = !dropdowns.value[dropdown];
@@ -71,20 +58,26 @@ const closeDropdown = (event) => {
 onMounted(() => {
   window.addEventListener('click', closeDropdown);
 });
+
 </script>
 
 <style scoped>
 .header-section {
   background-color: #eeeeee;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  padding: 1rem;
 }
 
 .container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+}
+
+.image-logo {
+  flex: 10%;
+  margin: .5rem 1.5rem;
 }
 
 .image-logo img {
@@ -93,7 +86,8 @@ onMounted(() => {
 }
 
 .title {
-  flex: 1;
+  flex: 40%;
+  margin: 0.5rem;
   text-align: start;
 }
 
@@ -105,30 +99,41 @@ onMounted(() => {
   color: var(--main-color);
 }
 
-.bar-icon {
-  display: none;
-  cursor: pointer;
-  font-size: 2rem;
-  color: var(--main-color);
-}
-
 .links-box {
-  flex: 1;
+  flex: 40%;
+  margin: 0.5rem;
   display: flex;
-  justify-content: end;
+  justify-content:end;
+  font-size: 1.2rem;
 }
 
-.links-box ul {
+.links-box .icon{
+  font-weight: bold;
+  margin: 0.5rem ;
+}
+
+.links-box > ul {
   display: flex;
+  justify-content: space-between;
   list-style: none;
-  margin: 0;
-  padding: 0;
+  margin: .5rem;
 }
 
-.links-box ul li {
-  margin-left: 1.5rem;
+.links-box > ul li {
   font-size: 1rem;
   color: var(--main-color);
+  margin: 0 0.5rem;
+}
+
+@media (max-width: 820px) {
+  .image-logo img {
+    width: 60px !important;
+    height: 50px !important;
+  }
+
+  .title {
+    display: none;
+  }
 }
 
 .dropdown-content {
@@ -147,7 +152,7 @@ onMounted(() => {
   color: var(--main-color);
 }
 
-.dropdown-content ul {
+.dropdown-content li a {
   display: block;
   color: var(--main-color);
   padding: .5rem 0;
@@ -166,49 +171,4 @@ onMounted(() => {
 
 }
 
-@media (max-width: 800px) {
-
-  .container {
-    display: block;
-    flex-direction: column;
-  }
-
-  .bar-icon{
-    display: block;
-  }
-
-  .title {
-    display: block;
-    padding: 1rem 0;
-  }
-
-  .links-box {
-    display: none;
-    width: 100%;
-    text-align: start;
-    margin: 1rem 0;
-    padding: 0;
-  }
-
-  .links-box.show-nav {
-    display: block;
-  }
-
-  .links-box > ul {
-    flex-direction: column;
-  }
-
-  .links-box > ul li {
-    margin: .5rem 1rem;
-  }
-
-  .image-logo {
-    display: none;
-  }
-
-  .dropdown-content {
-    width: 100%;
-    box-shadow: none;
-  }
-}
 </style>

@@ -1,5 +1,8 @@
 <script setup>
-const members = [
+
+import { ref, onMounted } from 'vue';
+
+const members = ref([
   {
     name: "Nidhoil Mohamed Ibrahim",
     position: "DIRECTOR OF STUDENT AFFAIRS",
@@ -79,7 +82,31 @@ const members = [
     alt: "Nadia Affiqa Abdul Nasir"
   },
 
-];
+]);
+
+const slideIndex = ref(1);
+
+// Show the initial slide when the component is mounted
+onMounted(() => {
+  showSlides(slideIndex.value);
+});
+
+const plusSlides = (n) => {
+  showSlides((slideIndex.value += n));
+};
+
+const currentSlide = (n) => {
+  showSlides((slideIndex.value = n));
+};
+
+const showSlides = (n) => {
+  if (n > members.value.length) {
+    slideIndex.value = 1;
+  }
+  if (n < 1) {
+    slideIndex.value = members.value.length;
+  }
+};
 
 </script>
 
@@ -90,12 +117,21 @@ const members = [
       <h2>Members of Staff</h2>
       <hr class="divider">
       <div class="team-content">
-        <div class="team-member" v-for="member in members" :key="member.photoURL">
+        <div class="team-member fade " v-for="member in members" :key="member.photoURL">
           <img :src="member.photoURL" :alt="member.alt">
           <div class="info">
             <h3>{{ member.name }}</h3>
             <h5>{{ member.position }}</h5>
           </div>
+        </div>
+        <div class="balls">
+          <a class="prev" onclick="plusSlides(-1)">❮</a>
+          <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+        <div style="text-align:center">
+          <span class="dot" onclick="currentSlide(1)"></span>
+          <span class="dot" onclick="currentSlide(2)"></span>
+          <span class="dot" onclick="currentSlide(3)"></span>
         </div>
       </div>
     </div>
@@ -140,7 +176,6 @@ const members = [
   padding: 1.5em 0;
   text-align: center;
   max-width: 20%;
-  text-align: center;
 }
 
 @media (max-width: 800px){
@@ -184,7 +219,64 @@ const members = [
   }
 }
 
+.balls{
+  display: none;
+}
 
+.prev, .next {
+  display: none;
+}
+
+.dot {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -22px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+  }
+
+  .next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+  }
+
+  .prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+  }
+
+  .dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+
+  .fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+  }
+
+  @keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+  }
+}
 
 
 </style>

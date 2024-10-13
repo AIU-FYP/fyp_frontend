@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
-import PolicySection from "~/components/PolicySection.vue";
 </script>
 
 <template>
+  <HeaderSection/>
   <PolicySection/>
   <FooterSection/>
 </template>

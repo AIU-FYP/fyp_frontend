@@ -1,4 +1,30 @@
 <script setup lang="ts">
+
+import {reactive} from "vue";
+import {nationalities, roomIssues} from "~/utils/nationalities";
+
+
+const userNationalityInput = ref('');
+const filteredNationalities = computed(() => {
+  if (!userNationalityInput.value) {
+
+    return nationalities;
+  }
+  return nationalities.filter(n =>
+      n.toLowerCase().startsWith(userNationalityInput.value.toLowerCase())
+  );
+});
+
+const userRoomIssuesInput = ref('');
+const filteredRoomIssues = computed(() => {
+  if (!userRoomIssuesInput.value) {
+    return roomIssues;
+  }
+  return roomIssues.filter(n =>
+      n.toLowerCase().startsWith(userRoomIssuesInput.value.toLowerCase())
+  );
+});
+
 const previousQuestions = [
   {
     label: "Name",
@@ -32,6 +58,7 @@ const previousQuestions = [
   {
     label: "Gender",
     type: "select",
+    id:"gender",
     options: ["Male", "Female"],
     required: true,
     placeholder: "Enter your gender",
@@ -39,9 +66,17 @@ const previousQuestions = [
   {
     label: "Type of damage",
     type: "select",
-    options: ["Room", "Bathroom", "Hangout Room", "TV Room", "Laundry Area", "Pest"],
+    id:"type-of-damage",
+    options: filteredRoomIssues.value,
     required: true,
     placeholder: "Enter type of damage",
+  },
+  {
+    label: "Enter your Nationality",
+    type: "select",
+    id: "nationality",
+    options: filteredNationalities.value,
+    placeholder: "selectNationality",
   },
   {
     label: "How frequent the damages occur?",
@@ -58,6 +93,43 @@ const previousQuestions = [
   },
 ];
 
+const errors = ref<string[]>(Array(previousQuestions.length).fill(''));
+
+type FormData = {
+  name: string;
+  studentId: string;
+  roomNumber: string;
+  phoneNumber: string;
+  email: string;
+  gender: string;
+  damageType: string;
+  damageFrequency: string;
+  photoEvidence: File | null;
+  detailedDescription: string;
+};
+
+const formData = reactive({
+  name: '',
+  studentId: '',
+  roomNumber: '',
+  phoneNumber: '',
+  email: '',
+  gender: '',
+  damageType: '',
+  damageFrequency: '',
+  photoEvidence: null,
+  detailedDescription: '',
+});
+
+const handleSubmit = () => {
+  console.log("asasas");
+  console.log("Form Data:", formData);
+  console.log(formData);
+};
+
+const camelizeLabel = (label: string): keyof FormData => {
+  return label.replace(/\s(.)/g, (match, group1) => group1.toUpperCase()).replace(/\s/g, '').replace(/^(.)/, (match) => match.toLowerCase()) as keyof FormData;
+};
 
 </script>
 
@@ -80,7 +152,7 @@ const previousQuestions = [
       <div class="maintenance-room-form">
         <h2>Please fill this Form </h2>
         <div class="form-group">
-          <form action="">
+          <form @submit.prevent="handleSubmit">
             <div class="maintenance-form">
               <div class="info" v-for="(question, index) in previousQuestions" :key="index">
                 <h2 class="lable">{{ question.label }}</h2>
@@ -91,13 +163,16 @@ const previousQuestions = [
                         :type="question.type"
                         :name="question.label"
                         :placeholder="question.placeholder"
+                        v-model="formData[camelizeLabel(question.label)]"
                         :required="question.required"
                     >
+                    <p v-if="errors[index]" class="error">{{ errors[index] }}</p>
                   </template>
                   <template v-else-if="question.type === 'select'">
                     <select
                         :name="question.label"
                         :required="question.required"
+                        v-model="formData[camelizeLabel(question.label)]"
                     >
                       <option disabled selected>Select {{ question.placeholder }}</option>
                       <option v-for="option in question.options" :key="option" :value="option">
@@ -111,23 +186,20 @@ const previousQuestions = [
                         :name="question.label"
                         :placeholder="question.placeholder"
                         :required="question.required"
-                        rows="5"
                     />
                   </template>
                 </div>
               </div>
               <template>
                 <h2 class="lable">Explain in detail the damage in mention above</h2>
-                    <textarea
-                        name="Explain in detail the damage in mention above"
-                        placeholder="Please describe the maintenance issue ?"
-                    />
+                <textarea
+                    name="Explain in detail the damage in mention above"
+                    placeholder="Please describe the maintenance issue ?"
+                />
               </template>
 
             </div>
-            <UButton style="background-color: rgb(28, 100, 188)" type="submit">
-              Submit
-            </UButton>
+            <button type="submit" class="submit-maintence-form"> Submit </button>
           </form>
         </div>
       </div>
@@ -166,6 +238,16 @@ const previousQuestions = [
 .container .maintenance-room-form {
   flex: 60%;
   padding: 2.5rem;
+}
+
+@media (max-width: 1200px) {
+  .container div {
+    display: block;
+  }
+
+  .container .description {
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 800px) {
@@ -239,11 +321,31 @@ const previousQuestions = [
   outline: none;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1200px) {
   .maintenance-form textarea {
-    width: calc(100% - .5rem );
+    width: calc(100% - .5rem);
   }
 }
 
+@media (max-width: 800px) {
+  .maintenance-form textarea {
+    width: calc(100% - .5rem);
+  }
+}
+
+.submit-maintence-form{
+  margin-top: 1rem;
+  padding: .5rem;
+  display: flex;
+  font-size: 1rem;
+  border-radius: 1rem;
+  background-color: var(--text-hovor-color);
+  color: var(--text-color);
+}
+
+.submit-maintence-form:hover{
+  background-color: var(--main-color);
+  transition: .2s;
+}
 
 </style>
