@@ -16,26 +16,27 @@
 
       <div class="links-box" :class="{ 'show-nav': isNavVisible }">
         <ul>
-          <li><a href=""><span class="icon"><UIcon name="material-symbols-contact-page"/></span>Home</a></li>
-          <li><a href=""><span class="icon"><UIcon name="la-university"/></span> About</a></li>
+          <li><a href="#"><span class="icon"><UIcon name="material-symbols-contact-page"/></span>Home</a></li>
+          <li><a href="#"><span class="icon"><UIcon name="la-university"/></span>About</a></li>
 
           <li class="dropdown">
-            <span @click="toggleDropdown('students')" class="dropbtn">
-              <span class="icon"><UIcon name="ph-student-light"/>
-              </span> Students </span>
-            <ul v-show="dropdowns.students" class="dropdown-content">
-              <li><a href=""> Maintenance Room </a></li>
-            </ul>
+            <button class="dropbtn" tabindex="0">
+              <span class="icon"><UIcon name="ph-student-light"/></span>Students
+            </button>
+            <div class="dropdown-content">
+              <a href="#">Maintenance Room</a>
+            </div>
           </li>
+
           <li class="dropdown">
-            <span @click="toggleDropdown('learnMore')" class="dropbtn">
-              <span class="icon"><UIcon name="pepicons-pop-info-circle"/></span> Learn More
-            </span>
-            <ul v-show="dropdowns.learnMore" class="dropdown-content">
-              <li><a href=""> Hostel leave</a></li>
-              <li><a href=""> Policy</a></li>
-              <li><a href="">Contact</a></li>
-            </ul>
+            <button class="dropbtn" tabindex="0">
+              <span class="icon"><UIcon name="pepicons-pop-info-circle"/></span>Learn More
+            </button>
+            <div class="dropdown-content">
+              <a href="#">Hostel Leave</a>
+              <a href="#">Policy</a>
+              <a href="#">Contact</a>
+            </div>
           </li>
         </ul>
       </div>
@@ -44,39 +45,19 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import {ref} from 'vue';
 
 const isNavVisible = ref(false);
-
-const dropdowns = ref({
-  students: false,
-  learnMore: false,
-});
 
 const toggleNav = () => {
   isNavVisible.value = !isNavVisible.value;
 };
-
-const toggleDropdown = (dropdown) => {
-  dropdowns.value[dropdown] = !dropdowns.value[dropdown];
-};
-
-const closeDropdown = (event) => {
-  if (!event.target.matches('.dropbtn')) {
-    dropdowns.value.students = false;
-    dropdowns.value.learnMore = false;
-  }
-};
-
-onMounted(() => {
-  window.addEventListener('click', closeDropdown);
-});
 </script>
 
 <style scoped>
 .header-section {
   background-color: #eeeeee;
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   padding: 1rem;
 }
 
@@ -115,7 +96,7 @@ onMounted(() => {
 .links-box {
   flex: 1;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .links-box ul {
@@ -127,53 +108,55 @@ onMounted(() => {
 
 .links-box ul li {
   margin-left: 1.5rem;
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: var(--main-color);
+}
+
+.links-box ul li:hover {
+  color: var(--text-hovor-color);
+  cursor: pointer;
+  transition: .2s;
+}
+
+.links-box ul .icon {
+  margin: .5rem;
 }
 
 .dropdown-content {
+  display: none;
   position: absolute;
   background-color: #f1f1f1;
-  min-width: 10rem;
-  overflow: auto;
+  min-width: 160px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   z-index: 1;
-  list-style-type: none;
-  padding: 1rem;
-  margin: 1rem 0 0 -3rem;
+  margin-top: 0;
+  margin-left: -2rem;
 }
 
-.dropdown-content li {
-  color: var(--main-color);
-}
-
-.dropdown-content ul {
+.dropdown:hover .dropdown-content {
   display: block;
-  color: var(--main-color);
-  padding: .5rem 0;
+  background-color: #eeeeee;
+  padding: 1rem;
 }
 
-.dropdown-content li a:hover {
+.dropdown-content a {
+  color: var(--main-color);
+  text-decoration: none;
+  display: block;
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-content a:hover {
   background-color: #ddd;
 }
 
 @media (max-width: 800px) {
-  .dropdown-content {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    margin: 0;
-  }
-
-}
-
-@media (max-width: 800px) {
-
   .container {
     display: block;
     flex-direction: column;
   }
 
-  .bar-icon{
+  .bar-icon {
     display: block;
   }
 
@@ -199,7 +182,7 @@ onMounted(() => {
   }
 
   .links-box > ul li {
-    margin: .5rem 1rem;
+    margin: 0.5rem 1rem;
   }
 
   .image-logo {
@@ -211,4 +194,5 @@ onMounted(() => {
     box-shadow: none;
   }
 }
+
 </style>

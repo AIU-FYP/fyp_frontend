@@ -1,12 +1,13 @@
 <script setup lang="ts">
 
+import RandomPics from "~/components/RandomPics.vue";
 </script>
 
 <template>
   <HeaderSection/>
-  <StudentInfoPopup/>
   <AboutSection/>
-  <HostelsSecrion/>
+  <RandomPics/>
+  <NEW/>
   <TeamSection/>
   <FooterSection/>
 </template>

@@ -1,16 +1,16 @@
 <script setup lang="ts">
   const items =[
     {
-      label:"aiu hostles",
-      photoURL:"/images/aiu-hostel.jpg"
+      label:"AIU RANDOM",
+      photoURL:"/images/aiu%20random%201.jpg"
     },
     {
-      label:"aiu hostles",
-      photoURL:"/images/aiu-hostel.jpg"
+      label:"AIU RANDOM",
+      photoURL:"/images/aiu%20random%202.jpg"
     },
     {
-      label:"aiu hostles",
-      photoURL:"/images/aiu-hostel.jpg"
+      label:"AIU RANDOM",
+      photoURL:"/images/aiu%20random%205.jpg"
     }
 
   ]
@@ -18,6 +18,7 @@
 
 <template>
   <div class="hostels-secrion">
+    <h2 class="title">Random Photos </h2>
     <div class="container">
       <div class="box" v-for="(item, index) in items" :key="index">
         <img :src="item.photoURL" :alt="item.label">
@@ -31,6 +32,13 @@
 
 .hostels-secrion{
   margin: 5rem 2rem;
+}
+
+.hostels-secrion .title{
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color);
 }
 
 .container {
@@ -51,7 +59,7 @@
   max-width: 100%;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1200px) {
   .container {
     flex-direction: column;
   }

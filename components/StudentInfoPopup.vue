@@ -78,13 +78,6 @@ const closePopup = () => {
   background-color: #eeeeee;
 }
 
-.student-info-content {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
-
 .student-info-content div {
   flex: 1 1 50%;
 }

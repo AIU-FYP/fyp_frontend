@@ -8,21 +8,21 @@ const currentYear = new Date().getFullYear();
       <div class="info-container">
         <div class="box">
           <span class="icon"><UIcon name="mdi-location"/></span>
-          <p class="info"><a href="">Jalan Tun Abdul Razak,
+          <p class="info"><a href="https://www.google.com/maps/place/Albukhary+International+University+(AIU)/@6.1336498,100.3863971,15z/data=!4m6!3m5!1s0x304b5ac489a998b9:0x3fa53e13f07fbb01!8m2!3d6.1336498!4d100.3863971!16s%2Fg%2F1216lnq4?entry=ttu&g_ep=EgoyMDI0MTAwOS4wIKXMDSoASAFQAw%3D%3D">Jalan Tun Abdul Razak,
             05200, Alor Setar,
             Kedah Darul Aman, Malaysia.</a></p>
         </div>
         <div class="box">
           <span class="icon"><UIcon name="ic-baseline-email" /></span>
-          <p class="info"><a href="">(60) 4774 7300</a></p>
+          <p class="info"><a href="tel:+604774 7300">(60) 4774 7300</a></p>
         </div>
         <div class="box">
           <span class="icon"><UIcon name="ic-baseline-email" /></span>
-          <p class="info"><a href="">info@aiu.edu.my</a></p>
+          <p class="info"><a href="mailto:info@aiu.edu.my">info@aiu.edu.my</a></p>
         </div>
         <div class="box">
           <span class="icon"><UIcon name="mdi-university" /></span>
-          <p class="info"><a href="">Al Bukhary International University </a></p>
+          <p class="info"><a href="https://aiu.edu.my/">Al Bukhary International University </a></p>
         </div>
       </div>
       <hr class="divider">
@@ -95,22 +95,22 @@ const currentYear = new Date().getFullYear();
           <div class="social-icons">
             <ul>
               <li>
-                <a href="https://facebook.com" target="_blank" rel="noopener">
+                <a href="https://www.facebook.com/AIUedu/" target="_blank" rel="noopener">
                   <UIcon name="ic-baseline-facebook"/>
                 </a>
               </li>
               <li>
-                <a href="https://twitter.com" target="_blank" rel="noopener">
+                <a href="https://x.com/aiu_edu?mx=2" target="_blank" rel="noopener">
                   <UIcon name="mdi-twitter"/>
                 </a>
               </li>
               <li>
-                <a href="https://youtube.com" target="_blank" rel="noopener">
+                <a href="https://www.youtube.com/channel/UCsQmePdrH9GHXEf-afj_Tng" target="_blank" rel="noopener">
                   <UIcon name="mdi-youtube"/>
                 </a>
               </li>
               <li>
-                <a href="https://instagram.com" target="_blank" rel="noopener">
+                <a href="https://www.instagram.com/aiuedu/" target="_blank" rel="noopener">
                   <UIcon name="mdi-instagram"/>
                 </a>
               </li>
@@ -119,7 +119,7 @@ const currentYear = new Date().getFullYear();
           <div></div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; Copyright <a href="">Albukhary International University {{ currentYear }}</a> </p>
+          <p>&copy; Copyright <a href="https://aiu.edu.my/">Albukhary International University {{ currentYear }}</a> </p>
         </div>
       </div>
     </div>
@@ -252,7 +252,6 @@ const currentYear = new Date().getFullYear();
   color: white;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
   cursor: pointer;
 }
 

@@ -7,6 +7,7 @@ import AdminHeader from "~/components/AdminHeader.vue";
 
 <template>
   <AdminHeader/>
+  <NEW/>
   <MaintenanceRoomDashborad/>
   <AdminFooter/>
 </template>
