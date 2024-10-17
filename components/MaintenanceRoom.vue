@@ -1,7 +1,16 @@
 <script setup lang="ts">
 
 import {reactive} from "vue";
+import { z } from "zod";
 import {nationalities, locationIssues, roomMaintenanceIssues} from "~/utils/nationalities";
+
+const formSchema = z.object({
+  name: z.string().min(1, "Name is required"), // Required and non-empty
+  studentID: z.string().regex(/^AIU\d{8}$/, "Invalid Student ID format (e.g., AIU21011234)"),
+  roomNumber: z.string().regex(/^\d{1,3}[a-zA-Z]-\d-\d{1,2}$/, "Invalid Room Number format (e.g., 25i-3-10)"),
+  phoneNumber: z.string().regex(/^\+?6?01[0-46-9]-*\d{7,8}$/, "Invalid local phone number format"),
+  emailAddress: z.string().email("Invalid email format").regex(/@student\.aiu\.edu$/, "Must be a student email"),
+});
 
 const userNationalityInput = ref('');
 
@@ -13,7 +22,6 @@ const filteredNationalities = computed(() => {
       n.toLowerCase().startsWith(userNationalityInput.value.toLowerCase())
   );
 });
-
 
 const userLocationInput = ref('');
 const filteredLocations = computed(() => {
@@ -141,10 +149,21 @@ const formData = reactive({
   detailedDescription: '',
 });
 
-const handleSubmit = () => {
-  console.log("Form Data:", JSON.stringify(formData, null, 2));
+const questionKey = (label) => {
+  return label.toLowerCase().replace(/ /g, '');
 };
 
+const handleSubmit = () => {
+  const validationResult = formSchema.safeParse(formData);
+
+  if (!validationResult.success) {
+    errors.value = validationResult.error.errors.map(error => error.message);
+    console.log("Validation Errors:", errors.value);
+  } else {
+    errors.value = [];
+    console.log("Form Data:", JSON.stringify(formData, null, 2));
+  }
+};
 
 const camelizeLabel = (label: string): keyof FormData => {
   return label.replace(/\s(.)/g, (match, group1) => group1.toUpperCase()).replace(/\s/g, '').replace(/^(.)/, (match) => match.toLowerCase()) as keyof FormData;
@@ -184,7 +203,7 @@ const camelizeLabel = (label: string): keyof FormData => {
                         v-model="formData[camelizeLabel(question.label)]"
                         :required="question.required"
                     >
-                    <p v-if="errors[index]" class="error">{{ errors[index] }}</p>
+                    <span v-if="errors[questionKey(question.label)]">{{ errors[questionKey(question.label)] }}</span>
                   </template>
                   <template v-else-if="question.type === 'select'">
                     <select
@@ -338,6 +357,11 @@ const camelizeLabel = (label: string): keyof FormData => {
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
+}
+
+.error{
+  color: red;
+  font-size: 1rem;
 }
 
 @media (max-width: 1200px) {

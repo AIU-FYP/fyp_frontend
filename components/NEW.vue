@@ -27,8 +27,8 @@
             @click="goToSlide(index - 1)"
         ></span>
         <div>
-          <button class="carousel-btn prev-btn" @click="prevSlide">‹</button>
-          <button class="carousel-btn next-btn" @click="nextSlide">›</button>
+          <button class="carousel-btn prev-btn" @click="prevSlide">.</button>
+          <button class="carousel-btn next-btn" @click="nextSlide">.</button>
         </div>
       </div>
     </div>
@@ -99,7 +99,7 @@ const items: CarouselItem[] = [
 ];
 
 const currentIndex = ref(0);
-const slidesToShow = 1; // Number of slides to show at a time
+const slidesToShow = 1;
 
 const totalSlides = computed(() => Math.ceil(items.length / slidesToShow));
 
@@ -158,6 +158,16 @@ const goToSlide = (index: number) => {
   align-items: center;
 }
 
+@media (max-width: 800px ) {
+
+  .carousel-track {
+    flex-direction: row;
+  }
+  .box p {
+    display: none;
+  }
+}
+
 .box img {
   width: 100%;
   height: auto;
@@ -166,17 +176,29 @@ const goToSlide = (index: number) => {
 
 .carousel-btn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  transform: translate(0);
   border: none;
-  color: white;
-  font-size: 3rem;
+  color: var(--main-color);
+  font-size:10rem;
   cursor: pointer;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
+  margin: 20px;
   z-index: 10;
+}
+
+@media (max-width: 800px ) {
+  .carousel-btn {
+    display: block;
+    top: 0;
+    transform: translate(0);
+    border: none;
+    color: var(--main-color);
+    font-size:10rem;
+    cursor: pointer;
+    margin: 20px;
+    border-radius: 50%;
+    z-index: 10;
+  }
 }
 
 .prev-btn {
