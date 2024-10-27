@@ -277,8 +277,9 @@ const currentYear = new Date().getFullYear();
   text-align: center;
   font-size: 1.5rem;
   padding: 5px;
-  border:2px solid var(--text-color) ;
+  border:2px solid var(--main-color) ;
   border-radius: 50%;
+  color: var(--main-color);
 }
 
 .social-icons ul li:hover{

@@ -5,9 +5,8 @@ import RandomPics from "~/components/RandomPics.vue";
 
 <template>
   <HeaderSection/>
+  <LandingSection/>
   <AboutSection/>
-  <RandomPics/>
-  <NEW/>
   <TeamSection/>
   <FooterSection/>
 </template>

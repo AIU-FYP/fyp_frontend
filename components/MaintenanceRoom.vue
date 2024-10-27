@@ -1,19 +1,9 @@
-<script setup lang="ts">
-
-import {reactive} from "vue";
-import { z } from "zod";
-import {nationalities, locationIssues, roomMaintenanceIssues} from "~/utils/nationalities";
-
-const formSchema = z.object({
-  name: z.string().min(1, "Name is required"), // Required and non-empty
-  studentID: z.string().regex(/^AIU\d{8}$/, "Invalid Student ID format (e.g., AIU21011234)"),
-  roomNumber: z.string().regex(/^\d{1,3}[a-zA-Z]-\d-\d{1,2}$/, "Invalid Room Number format (e.g., 25i-3-10)"),
-  phoneNumber: z.string().regex(/^\+?6?01[0-46-9]-*\d{7,8}$/, "Invalid local phone number format"),
-  emailAddress: z.string().email("Invalid email format").regex(/@student\.aiu\.edu$/, "Must be a student email"),
-});
+<script setup>
+import {computed, reactive, ref, watch} from 'vue';
+import {z} from 'zod';
+import { nationalities, locationIssues, roomMaintenanceIssues } from "~/utils/nationalities";
 
 const userNationalityInput = ref('');
-
 const filteredNationalities = computed(() => {
   if (!userNationalityInput.value) {
     return nationalities;
@@ -48,198 +38,210 @@ const previousQuestions = [
     label: "Name",
     type: "text",
     placeholder: "Enter your name",
-    required: true,
+    required: true
   },
   {
     label: "Student ID Number",
-    type: "text",
-    placeholder: "Enter your student ID(E.g, AIU21011234)",
-    required: true,
+    type: "text", placeholder: "Enter your student ID (e.g., AIU21011234)",
+    required: true
   },
   {
     label: "Room Number",
     type: "text",
-    placeholder: "Enter your room number (E.g, 25i-3-10)",
-    required: true,
+    placeholder: "Enter your room number (e.g., 25i-3-10)",
+    required: true
   },
   {
     label: "Phone Number (Local Number Only)",
     type: "text",
     placeholder: "Enter your phone number",
-    required: true,
+    required: true
+  },
+  {
+    label: "WhatsApp Number ",
+    type: "text",
+    placeholder: "Enter your whatsapp number",
+    required: true
   },
   {
     label: "Email Address (Student Email Only)",
     type: "text",
     placeholder: "Enter your email address",
-    required: true,
+    required: true
   },
   {
     label: "Gender",
     type: "select",
-    id:"gender",
     options: ["Male", "Female"],
     required: true,
-    placeholder: "Enter your gender",
+    placeholder: "Enter your gender"
   },
   {
     label: "Location in the Room",
     type: "select",
-    id: "location",
     options: filteredLocations.value,
     required: true,
-    placeholder: "Select the location in the room",
+    placeholder: "Select the location in the room"
   },
   {
     label: "Location-specific Issue",
     type: "select",
-    id: "location-issue",
     options: filteredLocationsSpecificIssues.value,
     required: true,
-    placeholder: "Select the issue related to the selected location",
+    placeholder: "Select the issue related to the selected location"
   },
   {
     label: "Enter your Nationality",
     type: "select",
-    id: "nationality",
     options: filteredNationalities.value,
-    placeholder: "selectNationality",
+    placeholder: "Select nationality"
   },
   {
     label: "How frequent the damages occur?",
     type: "select",
     options: ["1 time", "2 times", "3 times", "4 times", "5 times", "More than 5 times"],
     required: true,
-    placeholder: "How frequent the damages occur?",
+    placeholder: "How frequent the damages occur?"
   },
   {
-    label: "Please provide photo evidence?",
+    label: "Please provide photo evidence",
     type: "file",
     required: true,
-    placeholder: "Please describe the maintenance issue?",
+    placeholder: "Please provide photo evidence"
   },
+  {
+    label: "Explain in detail the damage?",
+    type: "textarea",
+    required: true,
+    placeholder: "Explain in detail the damage in mention above"
+  }
 ];
 
-const errors = ref<string[]>(Array(previousQuestions.length).fill(''));
-
-type FormData = {
-  name: string;
-  studentId: string;
-  roomNumber: string;
-  phoneNumber: string;
-  email: string;
-  gender: string;
-  damageType: string;
-  damageFrequency: string;
-  photoEvidence: File | null;
-  detailedDescription: string;
-};
-
-const formData = reactive({
-  name: '',
-  studentId: '',
-  roomNumber: '',
-  phoneNumber: '',
-  email: '',
-  gender: '',
-  nationality:'' || filteredNationalities.value[0],
-  damageType: '',
-  damageFrequency: '',
-  photoEvidence:null,
-  detailedDescription: '',
+const formSchema = z.object({
+  "Name":
+      z.string().min(8, "Name must be at least 8 characters long")
+          .nonempty("Name is required"),
+  "Student ID Number":
+      z.string()
+          .regex(/^AIU\d{8}$/, "Invalid Student ID format")
+          .nonempty("Student ID is required"),
+  "Room Number":
+      z.string().regex(/^\d+[A-Za-z]*-\d-\d+$/, "Invalid Room Number format")
+          .nonempty("Room Number is required"),
+  "Phone Number (Local Number Only)":
+      z.string().regex(/^\d{8,15}$/, "Invalid phone number")
+          .nonempty("Phone Number is required"),
+  "Email Address (Student Email Only)":
+      z.string()
+          .email("Invalid email format")
+          .regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'"),
+  "Gender":
+      z.string()
+          .nonempty("Gender is required"),
+  "Location in the Room":
+      z.string()
+          .nonempty("Location is required"),
+  "Location-specific Issue":
+      z.string()
+          .nonempty("Location-specific Issue is required"),
+  "Enter your Nationality":
+      z.string()
+          .optional(),
+  "How frequent the damages occur?":
+      z.string()
+          .nonempty("Frequency of damages is required"),
+  "Please provide photo evidence":
+      z.any()
+          .optional(),
+  "Explain in detail the damage":
+      z.string().min(20, "Name must be at least 20 characters long")
+          .nonempty("Name is required"),
 });
 
-const questionKey = (label) => {
-  return label.toLowerCase().replace(/ /g, '');
-};
+const form = reactive({});
+const errors = reactive({});
 
-const handleSubmit = () => {
-  const validationResult = formSchema.safeParse(formData);
+previousQuestions.forEach((question) => {
+  form[question.label] = "";
+  errors[question.label] = "";
+});
 
-  if (!validationResult.success) {
-    errors.value = validationResult.error.errors.map(error => error.message);
-    console.log("Validation Errors:", errors.value);
-  } else {
-    errors.value = [];
-    console.log("Form Data:", JSON.stringify(formData, null, 2));
+function validateField(field) {
+  try {
+    formSchema.shape[field].parse(form[field]);
+    errors[field] = "";
+  } catch (error) {
+    errors[field] = error.errors ? error.errors[0].message : error.message;
   }
-};
+}
 
-const camelizeLabel = (label: string): keyof FormData => {
-  return label.replace(/\s(.)/g, (match, group1) => group1.toUpperCase()).replace(/\s/g, '').replace(/^(.)/, (match) => match.toLowerCase()) as keyof FormData;
-};
+previousQuestions.forEach((question) => {
+  watch(() => form[question.label], (newValue) => validateField(question.label, newValue));
+});
 
+function handleSubmit() {
+  const validationResults = formSchema.safeParse(form);
+  if (validationResults.success) {
+    console.log("Form Data:", {...form});
+    alert("Form submitted successfully!");
+  } else {
+    alert("Please correct the errors in the form.");
+  }
+}
 </script>
 
 <template>
   <div class="maintenance-room-section">
     <div class="container">
       <div class="description">
-        <img src="/images/AIU-Official-Logo.png" alt="AIU">
+        <img src="/images/AIU-Official-Logo.png" alt="AIU"/>
         <h2 class="title-maintenance-form">Form For Maintenance Room Issues</h2>
-        <p class="description-maintenance-form">If you're experiencing any problems with your room, please fill out this
-          form to let us know. This will help us quickly identify and address the issue, ensuring your living space
-          remains comfortable and safe. Your detailed report will assist the maintenance team in resolving the problem
-          as soon as possible.
+        <p class="description-maintenance-form">
+          If you're experiencing any problems with your room, please fill out this form to let us know. This will help
+          us quickly identify and address the issue, ensuring your living space remains comfortable and safe.
         </p>
-        <p>
-          Note: Before registering to the system please make sure you have your student email .
-        </p>
+        <p>Note: Before registering to the system, please make sure you have your student email.</p>
       </div>
       <div class="maintenance-room-form">
-        <h2>Please fill this Form </h2>
-        <div class="form-group">
-          <form @submit.prevent="handleSubmit">
-            <div class="maintenance-form">
-              <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-                <h2 class="lable">{{ question.label }}</h2>
-                <div class="input-container">
-                  <UIcon class="input-icon" name="heroicons-search"/>
-                  <template v-if="question.type === 'text'">
-                    <input
-                        :type="question.type"
-                        :name="question.label"
-                        :placeholder="question.placeholder"
-                        v-model="formData[camelizeLabel(question.label)]"
-                        :required="question.required"
-                    >
-                    <span v-if="errors[questionKey(question.label)]">{{ errors[questionKey(question.label)] }}</span>
-                  </template>
-                  <template v-else-if="question.type === 'select'">
-                    <select
-                        :name="question.label"
-                        :required="question.required"
-                        v-model="formData[camelizeLabel(question.label)]"
-                    >
-                      <option disabled selected>Select {{ question.placeholder }}</option>
-                      <option v-for="option in question.options" :key="option" :value="option">
-                        {{ option }}
-                      </option>
-                    </select>
-                  </template>
-                  <template v-else-if="question.type === 'file'">
-                    <input
-                        :type="question.type"
-                        :name="question.label"
-                        :placeholder="question.placeholder"
-                        :required="question.required"
-                    />
-                  </template>
-                </div>
-              </div>
-              <template>
-                <h2 class="lable">Explain in detail the damage in mention above</h2>
-                <textarea
-                    name="Explain in detail the damage in mention above"
-                    placeholder="Please describe the maintenance issue ?"
-                    v-model="formData.detailedDescription"
-                />
-              </template>
+        <h2>Please fill this Form</h2>
+        <form @submit.prevent="handleSubmit">
+          <div class="maintenance-form">
+            <div class="info" v-for="(question, index) in previousQuestions" :key="index">
+              <label class="question-title" :for="question.label">{{ question.label }}:</label>
+
+              <input
+                  v-if="question.type === 'text' || question.type === 'file'"
+                  :type="question.type"
+                  v-model="form[question.label]"
+                  :placeholder="question.placeholder"
+                  :id="question.label"
+                  @input="validateField(question.label)"
+              />
+
+              <select
+                  v-if="question.type === 'select'"
+                  v-model="form[question.label]"
+                  :id="question.label"
+                  @change="validateField(question.label)"
+              >
+                <option value="" disabled>{{ question.placeholder }}</option>
+                <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
+              </select>
+              <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+
+              <textarea
+                  v-if="question.type === 'textarea'"
+                  :id="question.label"
+                  :name="question.label"
+                  :placeholder="question.placeholder"
+                  v-model="form[question.label]"
+              />
 
             </div>
-            <button type="submit" class="submit-maintence-form"> Submit </button>
-          </form>
-        </div>
+          </div>
+
+          <button class="maintenance-submit" type="submit">Submit</button>
+        </form>
       </div>
     </div>
   </div>
@@ -248,7 +250,7 @@ const camelizeLabel = (label: string): keyof FormData => {
 <style scoped>
 
 .maintenance-room-section {
-  margin: 5rem;
+  margin: 7rem;
   border: 2px solid #eeeeee;
   border-radius: 0 30px 30px 0;
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
@@ -282,14 +284,10 @@ const camelizeLabel = (label: string): keyof FormData => {
   .container div {
     display: block;
   }
-
-  .container .description {
-    padding: 1rem;
-  }
 }
 
 @media (max-width: 1200px) {
-  .container div {
+  .container  {
     display: block;
   }
 
@@ -325,7 +323,8 @@ const camelizeLabel = (label: string): keyof FormData => {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  gap: 10px;
+  gap: 1rem;
+  margin-top: 0.5rem !important;
 }
 
 .info {
@@ -334,10 +333,9 @@ const camelizeLabel = (label: string): keyof FormData => {
   display: block;
 }
 
-.maintenance-form .lable {
+.maintenance-form .question-title {
   font-size: 1rem;
   color: var(--text-color);
-  padding: .5rem 0;
 }
 
 .maintenance-form input,
@@ -350,16 +348,16 @@ const camelizeLabel = (label: string): keyof FormData => {
 }
 
 .maintenance-form textarea {
-  width: 200%;
-  height: 5rem;
-  max-height: 5rem;
+  width: 205%;
+  min-height: 4rem;
+  max-height: 4rem;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
 }
 
-.error{
+.error {
   color: red;
   font-size: 1rem;
 }
@@ -376,18 +374,18 @@ const camelizeLabel = (label: string): keyof FormData => {
   }
 }
 
-.submit-maintence-form{
+.maintenance-submit {
   margin-top: 1rem;
   padding: .5rem;
   display: flex;
   font-size: 1rem;
   border-radius: 1rem;
-  background-color: var(--text-hovor-color);
+  background-color: var(--main-color);
   color: var(--text-color);
 }
 
-.submit-maintence-form:hover{
-  background-color: var(--main-color);
+.maintenance-submit:hover {
+  background-color: var(--text-hovor-color);
   transition: .2s;
 }
 

@@ -161,7 +161,7 @@ const toggleNav = () => {
   }
 
   .title {
-    display: block;
+    display: none;
     padding: 1rem 0;
   }
 

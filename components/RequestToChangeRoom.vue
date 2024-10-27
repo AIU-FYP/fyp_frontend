@@ -1,13 +1,11 @@
-<script setup lang="ts">
-
-import {reactive} from "vue";
-import {nationalities, roomIssues} from "~/utils/nationalities";
-
+<script setup>
+import {computed, reactive, ref, watch} from 'vue';
+import {z} from 'zod';
+import { nationalities, } from "~/utils/nationalities";
 
 const userNationalityInput = ref('');
 const filteredNationalities = computed(() => {
   if (!userNationalityInput.value) {
-
     return nationalities;
   }
   return nationalities.filter(n =>
@@ -15,107 +13,125 @@ const filteredNationalities = computed(() => {
   );
 });
 
-const userRoomIssuesInput = ref('');
-computed(() => {
-  if (!userRoomIssuesInput.value) {
-    return roomIssues;
-  }
-  return roomIssues.filter(n =>
-      n.toLowerCase().startsWith(userRoomIssuesInput.value.toLowerCase())
-  );
-});
 const previousQuestions = [
   {
     label: "Name",
     type: "text",
     placeholder: "Enter your name",
-    required: true,
+    required: true
   },
   {
     label: "Student ID Number",
-    type: "text",
-    placeholder: "Enter your student ID(E.g, AIU21011234)",
-    required: true,
+    type: "text", placeholder: "Enter your student ID (e.g., AIU21011234)",
+    required: true
   },
   {
     label: "Room Number",
     type: "text",
-    placeholder: "Enter your room number (E.g, 25i-3-10)",
-    required: true,
+    placeholder: "Enter your room number (e.g., 25i-3-10)",
+    required: true
   },
   {
     label: "Phone Number (Local Number Only)",
     type: "text",
     placeholder: "Enter your phone number",
-    required: true,
+    required: true
   },
   {
     label: "Email Address (Student Email Only)",
     type: "text",
     placeholder: "Enter your email address",
-    required: true,
+    required: true
   },
   {
     label: "Gender",
     type: "select",
-    id: "gender",
     options: ["Male", "Female"],
     required: true,
-    placeholder: "Enter your gender",
+    placeholder: "Enter your gender"
   },
   {
     label: "Enter your Nationality",
     type: "select",
-    id: "nationality",
     options: filteredNationalities.value,
-    placeholder: "selectNationality",
+    placeholder: "Select nationality"
   },
   {
-    label: "Please provide photo evidence?",
+    label: "Please provide photo evidence",
     type: "file",
     required: true,
-    placeholder: "Please describe the maintenance issue?",
+    placeholder: "Please provide photo evidence"
   },
+  {
+    label: "Explain your reason for room change?",
+    type: "textarea",
+    required: true,
+    placeholder: "Explain in detail the reason for room change?"
+  }
 ];
 
-const errors = ref<string[]>(Array(previousQuestions.length).fill(''));
-
-type FormData = {
-  name: string;
-  studentId: string;
-  roomNumber: string;
-  phoneNumber: string;
-  email: string;
-  gender: string;
-  damageType: string;
-  damageFrequency: string;
-  photoEvidence: File | null;
-  detailedDescription: string;
-};
-
-const formData = reactive({
-  name: '',
-  studentId: '',
-  roomNumber: '',
-  phoneNumber: '',
-  email: '',
-  gender: '',
-  damageType: '',
-  damageFrequency: '',
-  photoEvidence: null,
-  detailedDescription: '',
+const formSchema = z.object({
+  "Name":
+      z.string().min(8, "Name must be at least 8 characters long")
+          .nonempty("Name is required"),
+  "Student ID Number":
+      z.string()
+          .regex(/^AIU\d{8}$/, "Invalid Student ID format")
+          .nonempty("Student ID is required"),
+  "Room Number":
+      z.string().regex(/^\d+[A-Za-z]*-\d-\d+$/, "Invalid Room Number format")
+          .nonempty("Room Number is required"),
+  "Phone Number (Local Number Only)":
+      z.string().regex(/^\d{8,15}$/, "Invalid phone number")
+          .nonempty("Phone Number is required"),
+  "Email Address (Student Email Only)":
+      z.string()
+          .email("Invalid email format")
+          .regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'"),
+  "Gender":
+      z.string()
+          .nonempty("Gender is required"),
+  "Enter your Nationality":
+      z.string()
+          .optional(),
+  "Please provide photo evidence":
+      z.any()
+          .optional(),
+  "Explain your reason for room change?":
+      z.string().min(20, "Name must be at least 20 characters long")
+          .nonempty("Name is required"),
 });
 
-const handleSubmit = () => {
-  console.log("asasas");
-  console.log("Form Data:", formData);
-  console.log(formData);
-};
+const form = reactive({});
+const errors = reactive({});
 
-const camelizeLabel = (label: string): keyof FormData => {
-  return label.replace(/\s(.)/g, (match, group1) => group1.toUpperCase()).replace(/\s/g, '').replace(/^(.)/, (match) => match.toLowerCase()) as keyof FormData;
-};
+previousQuestions.forEach((question) => {
+  form[question.label] = "";
+  errors[question.label] = "";
+});
 
+function validateField(field) {
+  try {
+    formSchema.shape[field].parse(form[field]);
+    errors[field] = "";
+  } catch (error) {
+    errors[field] = error.errors ? error.errors[0].message : error.message;
+  }
+}
+
+previousQuestions.forEach((question) => {
+  watch(() => form[question.label], (newValue) => validateField(question.label, newValue));
+});
+
+function handleSubmit() {
+  const validationResults = formSchema.safeParse(form);
+  if (validationResults.success) {
+    console.log("Form Data:", {...form});
+    alert("Form submitted successfully!");
+  } else {
+    alert("Please correct the errors in the form.");
+  }
+}
 </script>
 
 <template>
@@ -131,68 +147,49 @@ const camelizeLabel = (label: string): keyof FormData => {
         </p>
         <p> Note: For medical reasons, attach an official medical report.</p>
       </div>
+
       <div class="maintenance-room-form">
-        <h2>Please fill this Form </h2>
-        <div class="form-group">
-          <form @submit.prevent="handleSubmit">
-            <div class="maintenance-form">
-              <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-                <h2 class="lable">{{ question.label }}</h2>
-                <div class="input-container">
-                  <UIcon class="input-icon" name="heroicons-search"/>
-                  <template v-if="question.type === 'text'">
-                    <input
-                        :type="question.type"
-                        :name="question.label"
-                        :placeholder="question.placeholder"
-                        v-model="formData[camelizeLabel(question.label)]"
-                        :required="question.required"
-                    >
-                    <p v-if="errors[index]" class="error">{{ errors[index] }}</p>
-                  </template>
-                  <template v-else-if="question.type === 'select'">
-                    <select
-                        :name="question.label"
-                        :required="question.required"
-                        v-model="formData[camelizeLabel(question.label)]"
-                    >
-                      <option disabled selected>Select {{ question.placeholder }}</option>
-                      <option v-for="option in question.options" :key="option" :value="option">
-                        {{ option }}
-                      </option>
-                    </select>
-                  </template>
-                  <template v-else-if="question.type === 'file'">
-                    <input
-                        :type="question.type"
-                        :name="question.label"
-                        :placeholder="question.placeholder"
-                        :required="question.required"
-                    />
-                  </template>
-                </div>
-              </div>
-              <div>
-                <h2 class="lable">Explain in detail the reason for room change request ?</h2>
-                <textarea
-                    placeholder="Explain in detail the reason for room change request ?"
-                />
-              </div>
-              <div class="acknowledgment-section">
-                <p>
-                  I acknowledge that the room change request is contingent upon approval and room availability.
-                  I commit to complying with all hostel policies and procedures. Furthermore, I recognize that
-                  the approval of my request is dependent on the necessity and availability of rooms.
-                </p>
-                <div class="checkbox-container">
-                  <input type="checkbox" id="acknowledgment">
-                  <label for="acknowledgment">I agree</label>
-                </div>
-              </div>
+        <h2>Please fill this Form</h2>
+        <form @submit.prevent.once="handleSubmit">
+          <div class="maintenance-form">
+            <div class="info" v-for="(question, index) in previousQuestions" :key="index">
+              <label class="question-title" :for="question.label">{{ question.label }}:</label>
+
+              <input
+                  v-if="question.type === 'text' || question.type === 'file'"
+                  :type="question.type"
+                  v-model="form[question.label]"
+                  :placeholder="question.placeholder"
+                  :id="question.label"
+                  @input="validateField(question.label)"
+              />
+
+              <select
+                  v-if="question.type === 'select'"
+                  v-model="form[question.label]"
+                  :id="question.label"
+                  @change="validateField(question.label)"
+              >
+                <option value="" disabled>{{ question.placeholder }}</option>
+                <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
+              </select>
+              <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+
+              <textarea
+                  v-if="question.type === 'textarea'"
+                  :id="question.label"
+                  :name="question.label"
+                  :placeholder="question.placeholder"
+                  v-model="form[question.label]"
+                  @input="validateField(question.label)"
+              />
+
+
             </div>
-            <button type="submit" class="submit-maintence-form"> Submit</button>
-          </form>
-        </div>
+          </div>
+
+          <button class="maintenance-submit" type="submit">Submit</button>
+        </form>
       </div>
     </div>
   </div>
@@ -201,7 +198,7 @@ const camelizeLabel = (label: string): keyof FormData => {
 <style scoped>
 
 .maintenance-room-section {
-  margin: 5rem;
+  margin: 7rem;
   border: 2px solid #eeeeee;
   border-radius: 0 30px 30px 0;
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
@@ -235,14 +232,10 @@ const camelizeLabel = (label: string): keyof FormData => {
   .container div {
     display: block;
   }
-
-  .container .description {
-    padding: 1rem;
-  }
 }
 
 @media (max-width: 1200px) {
-  .container div {
+  .container  {
     display: block;
   }
 
@@ -282,12 +275,12 @@ const camelizeLabel = (label: string): keyof FormData => {
 }
 
 .info {
-  flex-basis: calc(50% - 10px);
+  flex-basis: calc(100% - 10px);
   box-sizing: border-box;
   display: block;
 }
 
-.maintenance-form .lable {
+.maintenance-form .question-title {
   font-size: 1rem;
   color: var(--text-color);
   padding: .5rem 0;
@@ -303,13 +296,18 @@ const camelizeLabel = (label: string): keyof FormData => {
 }
 
 .maintenance-form textarea {
-  width: 165%;
-  height: 5rem;
-  max-height: 5rem;
+  width: 100%;
+  height: 4rem;
+  max-height: 4rem;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;
+}
+
+.error {
+  color: red;
+  font-size: 1rem;
 }
 
 @media (max-width: 1200px) {
@@ -324,50 +322,18 @@ const camelizeLabel = (label: string): keyof FormData => {
   }
 }
 
-.acknowledgment-section {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin: 20px 0;
-}
-
-.acknowledgment-section p {
-  font-size: .9rem;
-  text-align: justify;
-  line-height: 1.6;
-  color: var(--text-color);
-  margin-bottom: 10px;
-}
-
-.checkbox-container {
-  display: flex;
-  align-items: center;
-}
-
-.checkbox-container input[type="checkbox"] {
-  margin-right: 10px;
-  width: 1rem;
-  height: 1rem;
-}
-
-.checkbox-container label {
-  font-size: 1rem;
-  color: var(--text-color);
-}
-
-
-.submit-maintence-form {
+.maintenance-submit {
   margin-top: 1rem;
   padding: .5rem;
   display: flex;
   font-size: 1rem;
   border-radius: 1rem;
-  background-color: var(--text-hovor-color);
+  background-color: var(--main-color);
   color: var(--text-color);
 }
 
-.submit-maintence-form:hover {
-  background-color: var(--main-color);
+.maintenance-submit:hover {
+  background-color: var(--text-hovor-color);
   transition: .2s;
 }
 

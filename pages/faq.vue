@@ -5,6 +5,7 @@
 <template>
   <HeaderSection/>
   <PolicySection/>
+  <Shape/>
   <FooterSection/>
 </template>
 
