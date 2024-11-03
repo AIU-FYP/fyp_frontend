@@ -1,24 +1,30 @@
 <script setup>
 import {defineEmits, defineProps} from 'vue'
 
-const student = [{
-  studentName: "student name",
-  StudentIDNumber: "Student ID Number",
-  RoomNumber: "Room Number",
-  PhoneNumber: "Phone Number",
-  WhatsAppNumber: "WhatsApp Number",
-  EmailAddress: "Email Address ",
-  Gender: "Gender",
-  EnterYourNationality: "Enter your Nationality",
-  PleaseProvidePhotoEvidence: "Please provide photo evidence",
-  ExplainYourReasonForRoomChange: "Explain your reason for room change"
-
-}]
 
 const props = defineProps({
-  show: Boolean
-})
+  show: Boolean,
+  student: Object
+});
+
 const emit = defineEmits(['update:show'])
+
+const studentFields = [
+  {label: 'ID ', key: 'id'},
+  {label: 'Name ', key: 'name'},
+  {label: 'Student ID Number ', key: 'studentIdNumber'},
+  {label: 'Room Number ', key: 'roomNumber'},
+  {label: 'phone Number ', key: 'phoneNumber'},
+  {label: 'WhatsApp Number ', key: 'whatsappNumber'},
+  {label: 'Email Address ', key: 'emailAddress'},
+  {label: 'Gender ', key: 'gender'},
+  {label: 'Location in the Room ', key: 'locationInTheRoom'},
+  {label: 'Location specific Issue ', key: 'locationSpecificIssue'},
+  {label: 'Student Nationality ', key: 'studentNationality'},
+  {label: 'Frequent the damages occur ', key: 'frequentTheDamagesOccur'},
+  {label: 'Photo evidence damages ', key: 'photoEvidenceDamages'},
+  {label: 'Detail the damage ', key: 'detailTheDamage'},
+];
 
 const closePopup = () => {
   emit('update:show', false)
@@ -29,7 +35,7 @@ const closePopup = () => {
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
       <div class="popup-header">
-        <span style="font-size: 1.5rem">Welcome Back!</span>
+        <span style="font-size: 1.5rem">Welcome to {{props.student.name}}</span>
         <span @click="closePopup" class="close-btn">
           <UIcon
               name="fontisto-close"
@@ -38,18 +44,30 @@ const closePopup = () => {
       </div>
       <hr class="divider">
       <div class="popup-content">
-        <div class="container" v-for="label in Object.values(student[0])" :key="label">
-          <div>
-            <h2 class="student-info">{{ label}}</h2>
-          </div>
-          <div></div>
+        <div class="box" v-for="field in studentFields" :key="field.key">
+          <span class="student-label-info">
+            <span>
+              <UIcon
+                  style="color: var(--main-color)"
+                  name="ph-student"
+              />
+            </span>
+            {{ field.label }}:</span>
+          <span class="student-key-info">
+            <span>
+              <UIcon
+                  style="color: var(--main-color)"
+                  name="bx-data"
+              />
+            </span>
+            {{ student[field.key] }}</span>
         </div>
       </div>
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="accept" id="accept">Accept request</button>
-          <button class="reject" id="reject">Reject request</button>
+          <button class="accept" id="acceptMaintenance ">Accept request</button>
+          <button class="reject" id="rejectMaintenance ">Reject request</button>
         </div>
         <div>
           <h2>Thank you </h2>
@@ -66,7 +84,7 @@ const closePopup = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.12);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,15 +92,33 @@ const closePopup = () => {
 
 .popup-container {
   background: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  padding: 2rem;
+  width: 60%;
   max-width: 60%;
-  width: 80%;
   scroll-behavior: smooth;
   text-align: center;
   max-height: 90vh;
   position: relative;
   overflow-y: auto;
+  border: 3px solid var(--main-color);
+  border-radius: 3rem 0;
+}
+
+@media (max-width: 1200px) {
+  .popup-container {
+    width: 90%;
+    max-width: 100%;
+    border-radius: 3rem 0;
+  }
+}
+
+
+@media (max-width: 800px) {
+  .popup-container {
+    width: 100%;
+    max-width: 100%;
+    border-radius:  0;
+  }
 }
 
 .popup-header {
@@ -112,24 +148,41 @@ span {
 }
 
 .divider {
-  margin: 5% 3%;
-  border: 1px solid var(--text-color);;
+  margin: 3% 2%;
+  border: 2px solid var(--main-color);;
 }
 
 .popup-content {
-  padding: 0 20px ;
+  padding: 0 20px;
 }
 
-.student-info{
+.box {
+  display: flex;
+}
+
+.student-label-info,
+.student-key-info {
   text-align: start;
   text-transform: capitalize;
   color: var(--text-color);
   font-size: 1.2rem;
   width: 50%;
-  padding: .5rem ;
-  border-radius: .5rem 0 ;
+  padding: .5rem;
+  border-radius: .5rem 0;
   background-color: #eeeeee;
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
+}
+
+@media (max-width: 800px){
+  .box{
+    display: flex;
+    flex-direction: column ;
+  }
+  .student-label-info,
+  .student-key-info {
+    width: 100%;
+    font-size: .9rem;
+  }
 }
 
 .popup-bts {
@@ -145,7 +198,7 @@ span {
 }
 
 .popup-bts .accept {
-  border-radius: 1rem;
+  border-radius: 0 1rem;
   border: 2px solid var(--main-color);
 }
 
@@ -154,9 +207,8 @@ span {
   transition: .4s ease-in-out;
 }
 
-
 .popup-bts .reject {
-  border-radius: 1rem;
+  border-radius: 0 1rem;
   border: 2px solid red;
 }
 
@@ -165,5 +217,18 @@ span {
   transition: .4s ease-in-out;
 }
 
+@media (max-width: 800px){
+  .popup-bts button {
+    padding: .5rem;
+    margin: 1rem 0;
+    font-size: 1rem;
+  }
+}
+
+h2 {
+  font-size: 1.5rem;
+  text-align: center;
+  text-transform: capitalize;
+}
 
 </style>

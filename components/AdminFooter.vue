@@ -13,15 +13,15 @@ const currentYear = new Date().getFullYear();
 </template>
 
 <style scoped>
-
-.footer {
-  padding: 1em 0;
-  background-color: #f5f5f5;
-}
-
 .container {
   display: block;
   padding: 0 100px;
+}
+
+.footer {
+  margin-bottom: auto;
+  padding: 1em 0;
+  background-color: var(--bg-color);
 }
 
 .footer-bottom {
@@ -38,5 +38,12 @@ a:hover {
   color: var(--text-hovor-color);
 }
 
-
+@media (max-width: 1200px) {
+  .container{
+    padding:5px;
+  }
+  .container P{
+    font-size: .8rem;
+  }
+}
 </style>

@@ -1,5 +1,6 @@
 <script setup>
 import {computed, reactive, ref, watch} from 'vue';
+import  Popup from '~/components/PopupSubmit.vue'
 import {z} from 'zod';
 import { nationalities, locationIssues, roomMaintenanceIssues } from "~/utils/nationalities";
 
@@ -58,7 +59,7 @@ const previousQuestions = [
     required: true
   },
   {
-    label: "WhatsApp Number ",
+    label: "WhatsApp Number",
     type: "text",
     placeholder: "Enter your whatsapp number",
     required: true
@@ -131,6 +132,9 @@ const formSchema = z.object({
   "Phone Number (Local Number Only)":
       z.string().regex(/^\d{8,15}$/, "Invalid phone number")
           .nonempty("Phone Number is required"),
+  "WhatsApp Number":
+      z.string().regex(/^\d{8,15}$/, "Invalid phone number")
+          .nonempty("Phone Number is required"),
   "Email Address (Student Email Only)":
       z.string()
           .email("Invalid email format")
@@ -153,7 +157,7 @@ const formSchema = z.object({
   "Please provide photo evidence":
       z.any()
           .optional(),
-  "Explain in detail the damage":
+  "Explain in detail the damage?":
       z.string().min(20, "Name must be at least 20 characters long")
           .nonempty("Name is required"),
 });
@@ -179,7 +183,10 @@ previousQuestions.forEach((question) => {
   watch(() => form[question.label], (newValue) => validateField(question.label, newValue));
 });
 
+const isPopupVisible = ref(false)
+
 function handleSubmit() {
+  form.Date = new Date().toLocaleDateString("en-GB");
   const validationResults = formSchema.safeParse(form);
   if (validationResults.success) {
     console.log("Form Data:", {...form});
@@ -240,7 +247,12 @@ function handleSubmit() {
             </div>
           </div>
 
-          <button class="maintenance-submit" type="submit">Submit</button>
+          <div>
+            <button @click="isPopupVisible = true" class="maintenance-submit" type="submit">Submit</button>
+            <Popup :show="isPopupVisible" @update:show="isPopupVisible = $event">
+            </Popup>
+          </div>
+
         </form>
       </div>
     </div>

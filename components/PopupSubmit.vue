@@ -31,8 +31,16 @@ const closePopup = () => {
       <div class="notification">
         <div class="notification-icon">
           <UIcon
-              name="arcticons-simplethankyou"
+           name="ep-success-filled"
           />
+        </div>
+        <div class="thank-info">
+          <p>
+            Dear Student, Thank you for submitting your room maintenance request. We have successfully received your
+            application, and our team will review it within the next 7 days. We will keep you informed about the
+            progress and let you know if any further information is needed.
+          </p>
+          <h2>Thank you for your patience.</h2>
         </div>
       </div>
       <hr class="divider">
@@ -63,7 +71,7 @@ const closePopup = () => {
   text-align: center;
 }
 
-.notification-icon{
+.notification-icon {
   font-size: 15rem !important;
   color: var(--main-color);
 }
@@ -72,13 +80,27 @@ span {
   margin: 0 5px;
 }
 
+.thank-info{
+  margin-top: -5rem;
+}
+
+h2{
+  font-size: 1.5rem;
+  color: var(--main-color);
+  line-height: 2.5rem;
+}
+
+p{
+  font-size: 1.2rem;
+  line-height: 2rem;
+  color: var(--text-color);
+  text-align: justify;
+}
 
 .divider {
   margin: 5% 3%;
   border: 1px solid var(--text-color);;
 }
-
-
 
 
 </style>

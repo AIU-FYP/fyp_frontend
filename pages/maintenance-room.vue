@@ -5,7 +5,6 @@
 <template>
   <HeaderSection/>
   <ProcessMaintenanceRoom/>
-  <TextCoed/>
   <Shape/>
   <MaintenanceRoom/>
   <FooterSection/>

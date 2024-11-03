@@ -1,42 +1,109 @@
 <script setup lang="ts">
-const currentYear = new Date().getFullYear();
+import { ref } from 'vue'
+
+const isMenuVisible = ref(false)
+
 </script>
 
 <template>
-  <div class="footer">
-    <div class="container">
-      <div class="footer-bottom">
+  <div class="header-admin-section">
+    <div class="header-container">
+      <div class="image-logo">
+        <img src="/images/AIU-Official-Logo.png" alt="image-logo">
+      </div>
+      <div class="title">
         <p>Albukhary International University Admin Dashboard </p>
       </div>
+      <button class="setting-btn" @click="isMenuVisible = !isMenuVisible">
+        Setting
+      </button>
+      <ul v-if="isMenuVisible" class="submenu">
+        <li><a>Sing Out</a></li>
+        <li><a>Change Password </a></li>
+      </ul>
     </div>
   </div>
 </template>
 
 <style scoped>
-
-.footer {
-  padding: 1em 0;
+.header-admin-section {
   background-color: #f5f5f5;
+  margin: auto;
 }
 
-.container {
-  display: block;
-  padding: 0 100px;
+.header-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: .5rem 1rem;
+  text-align: center;
 }
 
-.footer-bottom {
+.header-container .image-logo {
+  flex: 15%;
+  margin: 0;
+}
+
+.header-container .image-logo img {
+  width: 60px;
+  height: 50px;
+}
+
+.header-container .title {
+  flex: 70%;
   text-align: center;
   font-size: 1.2rem;
   color: var(--text-color);
 }
 
-.footer-bottom a {
+.header-container .setting-btn {
+  flex: 15%;
+  padding: 0.5em;
+  font-size: 1.2rem;
   color: var(--main-color);
+  border: none;
+  cursor: pointer;
 }
 
-a:hover {
-  color: var(--text-hovor-color);
+@media (max-width: 1200px) {
+  .title{
+    display: none;
+  }
 }
 
+.header-container .setting-btn {
+  background-color: var(--main-color);
+  color: var(--bg-color);
+  transition: 0.3s ease-in-out;
+  border-radius: 1rem 0;
+}
 
+.header-container .setting-btn:hover {
+  background-color: var(--text-hovor-color);
+}
+
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0.5em 1em;
+  min-width: 15rem;
+  max-width: 15rem;
+}
+
+.submenu li {
+  margin: 0.3em 0;
+  text-align: left;
+}
+
+.submenu a {
+  color: var(--main-color);
+  text-transform: capitalize;
+  text-align: start;
+  text-decoration: none;
+}
+
+.submenu a:hover {
+  text-decoration: underline;
+}
 </style>

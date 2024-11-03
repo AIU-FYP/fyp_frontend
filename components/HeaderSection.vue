@@ -11,47 +11,52 @@
       </div>
 
       <div class="bar-icon" @click="toggleNav">
-        <UIcon name="fluent-list-bar-20-filled"/>
+        ☰
       </div>
-
-      <div class="links-box" :class="{ 'show-nav': isNavVisible }">
-        <ul>
-          <li><a href="#"><span class="icon"><UIcon name="material-symbols-contact-page"/></span>Home</a></li>
-          <li><a href="#"><span class="icon"><UIcon name="la-university"/></span>About</a></li>
-
-          <li class="dropdown">
-            <button class="dropbtn" tabindex="0">
-              <span class="icon"><UIcon name="ph-student-light"/></span>Students
-            </button>
+      <div class="menu">
+        <div class="menu-links">
+          <a href="#"><span class="icon"><UIcon class="bar-icon-links" name="material-symbols-contact-page"/></span>Home</a>
+          <a href="#"><span class="icon"><UIcon class="bar-icon-links" name="la-university"/></span>About</a>
+          <div class="dropdown" @click="toggleDropdown('student')">
+            <span class="dropbtn">
+              <UIcon name="ph-student-light"/>
+              Student
+            </span>
             <div class="dropdown-content">
               <a href="#">Maintenance Room</a>
+              <a href="#">Requested to Change Room</a>
             </div>
-          </li>
-
-          <li class="dropdown">
-            <button class="dropbtn" tabindex="0">
-              <span class="icon"><UIcon name="pepicons-pop-info-circle"/></span>Learn More
-            </button>
+          </div>
+          <div class="dropdown" @click="toggleDropdown('learnMore')">
+            <span class="dropbtn">
+              <UIcon class="bar-icon-links" name="ph-student-light"/>
+              Learn More
+            </span>
             <div class="dropdown-content">
               <a href="#">Hostel Leave</a>
               <a href="#">Policy</a>
               <a href="#">Contact</a>
             </div>
-          </li>
-        </ul>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref} from 'vue';
 
-const isNavVisible = ref(false);
+// const isNavVisible = ref(false);
+// const activeDropdown = ref(null);
 
-const toggleNav = () => {
-  isNavVisible.value = !isNavVisible.value;
-};
+// const toggleNav = () => {
+//   isNavVisible.value = !isNavVisible.value;
+// };
+
+// const toggleDropdown = (dropdown) => {
+//   activeDropdown.value = activeDropdown.value === dropdown ? null : dropdown;
+// };
 </script>
 
 <style scoped>
@@ -64,8 +69,8 @@ const toggleNav = () => {
 .container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .image-logo img {
@@ -73,10 +78,6 @@ const toggleNav = () => {
   height: 50px !important;
 }
 
-.title {
-  flex: 1;
-  text-align: start;
-}
 
 .title h2 {
   font-size: 1.5rem;
@@ -93,106 +94,113 @@ const toggleNav = () => {
   color: var(--main-color);
 }
 
-.links-box {
-  flex: 1;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.links-box ul {
-  display: flex;
+.menu-links {
+  display: inline-flex;
+  justify-content: space-between;
   list-style: none;
-  margin: 0;
-  padding: 0;
 }
 
-.links-box ul li {
-  margin-left: 1.5rem;
-  font-size: 1.2rem;
+.bar-icon-links {
+  display: flex;
+  justify-content: center;
+  margin: .2rem;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-links a,
+.dropbtn {
   color: var(--main-color);
-}
-
-.links-box ul li:hover {
-  color: var(--text-hovor-color);
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
   cursor: pointer;
-  transition: .2s;
-}
-
-.links-box ul .icon {
-  margin: .5rem;
+  display: flex;
+  align-items: center;
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
+  background-color: #eeeeee;
+  margin-left: -3rem;
+  margin-top: 0.2rem;
   min-width: 160px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   z-index: 1;
-  margin-top: 0;
-  margin-left: -2rem;
-}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-  background-color: #eeeeee;
-  padding: 1rem;
 }
 
 .dropdown-content a {
   color: var(--main-color);
+  margin: .5rem;
+  font-size: 1rem;
   text-decoration: none;
   display: block;
-  padding: 0.5rem 1rem;
+}
+
+@media (max-width: 1200px) {
+  .dropdown-content {
+    margin: 0 0 0 1.5rem;
+    padding: 0;
+    min-width: 100%;
+    color: var(--main-color);
+  }
+
+  .dropdown-content a {
+    color: var(--main-color);
+    margin: 0;
+  }
 }
 
 .dropdown-content a:hover {
   background-color: #ddd;
 }
 
-@media (max-width: 800px) {
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+  color: white;
+}
+
+@media (max-width: 1200px) {
+
   .container {
     display: block;
-    flex-direction: column;
+  }
+
+  .image-logo {
+    display: block;
+  }
+
+  .title h2 {
+    display: none;
+    font-size: 1rem;
+    margin: 1rem 3.5rem;
   }
 
   .bar-icon {
     display: block;
   }
 
-  .title {
-    display: none;
-    padding: 1rem 0;
-  }
-
-  .links-box {
-    display: none;
-    width: 100%;
-    text-align: start;
-    margin: 1rem 0;
-    padding: 0;
-  }
-
-  .links-box.show-nav {
+  .menu {
     display: block;
   }
 
-  .links-box > ul {
-    flex-direction: column;
-  }
-
-  .links-box > ul li {
-    margin: 0.5rem 1rem;
-  }
-
-  .image-logo {
-    display: none;
+  .menu-links,
+  .menu-links div {
+    display: block;
   }
 
   .dropdown-content {
     width: 100%;
+    position: relative;
     box-shadow: none;
   }
 }
-
 </style>
