@@ -156,7 +156,7 @@ const items = [
 .admin-section-container {
   display: flex;
   flex-direction: row;
-  margin: 0;
+  margin: 1rem;
   background-color: #eeeeee;
 }
 
