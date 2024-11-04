@@ -67,6 +67,7 @@ const currentYear = new Date().getFullYear();
               <span><UIcon name="la-university"/>
               </span>
                 Hostel leave</a></li>
+
             <li>
               <router-link to="/faq">
               <span><UIcon name="material-symbols-policy-outline"/>
