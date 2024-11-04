@@ -20,7 +20,7 @@ const closePopup = () => {
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
       <div class="popup-header">
-        <span style="font-size: 1.5rem">Welcome to {{props.student.name}}</span>
+        <span style="font-size: 1.5rem">Welcome  to {{props.student.name}}</span>
         <span @click="closePopup" class="close-btn">
           <UIcon
               name="fontisto-close"
