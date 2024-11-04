@@ -10,7 +10,9 @@ const isPopupVisible = ref(false)
   <div class="header-admin-section">
     <div class="header-container">
       <div class="image-logo">
-        <img src="/images/AIU-Official-Logo.png" alt="image-logo">
+        <a href="https://aiu.edu.my/">
+          <img src="/images/AIU-Official-Logo.png" alt="image-logo">
+        </a>
       </div>
       <div class="title">
         <p>Al bukhary International University Admin Dashboard </p>

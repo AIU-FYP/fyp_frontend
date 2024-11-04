@@ -122,26 +122,17 @@ body {
   flex-wrap: wrap;
   width: 80%;
   height: 60vh;
-  margin: 10% auto;
-  align-items: center;
+  padding: 3rem 0;
 }
 
 .container .image-box {
   flex: 70%;
-  padding: 3rem 1rem;
-}
-
-.container .image-box img {
-  width: 100%;
-  max-width: 50%;
-  height: 100%;
-  max-height: 70%;
-  display: block;
 }
 
 .container .log-in-form {
   flex: 30%;
-  padding: 3rem 1rem;
+  margin-top: -4rem;
+  padding: 2rem 1rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   background-color: var(--main-color);
 }
@@ -159,12 +150,11 @@ body {
   display: flex;
   padding: 1rem;
   width: fit-content;
-  margin: -7rem auto 3rem auto;
+  margin: -6rem auto 1rem auto;
   text-align: center;
   font-size: 5rem;
   background-color: var(--bg-color);
   color: var(--main-color);
-  border: .3rem solid var(--main-color);
   border-radius: 50%;
 }
 

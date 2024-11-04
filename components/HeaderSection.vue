@@ -3,7 +3,9 @@
     <div class="container">
 
       <div class="image-logo">
-        <img src="/images/AIU-Official-Logo.png" alt="aiu-logo"/>
+        <a href="https://aiu.edu.my/">
+          <img src="/images/AIU-Official-Logo.png" alt="aiu-logo"/>
+        </a>
       </div>
 
       <div class="title">

@@ -18,12 +18,9 @@ const studentFields = [
   {label: 'WhatsApp Number ', key: 'whatsappNumber'},
   {label: 'Email Address ', key: 'emailAddress'},
   {label: 'Gender ', key: 'gender'},
-  {label: 'Location in the Room ', key: 'locationInTheRoom'},
-  {label: 'Location specific Issue ', key: 'locationSpecificIssue'},
   {label: 'Student Nationality ', key: 'studentNationality'},
-  {label: 'Frequent the damages occur ', key: 'frequentTheDamagesOccur'},
   {label: 'Photo evidence damages ', key: 'photoEvidenceDamages'},
-  {label: 'Detail the damage ', key: 'detailTheDamage'},
+  {label: 'Reason for room change', key: 'detailTheDamage'},
 ];
 
 const closePopup = () => {
@@ -100,15 +97,12 @@ const closePopup = () => {
   max-height: 90vh;
   position: relative;
   overflow-y: auto;
-  border: 3px solid var(--main-color);
-  border-radius: 3rem 0;
 }
 
 @media (max-width: 1200px) {
   .popup-container {
     width: 90%;
     max-width: 100%;
-    border-radius: 3rem 0;
   }
 }
 
@@ -117,7 +111,6 @@ const closePopup = () => {
   .popup-container {
     width: 100%;
     max-width: 100%;
-    border-radius:  0;
   }
 }
 

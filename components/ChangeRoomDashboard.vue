@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue'
 import {useNuxtApp} from '#app'
-import Popup from '~/components/PopupStudentInfo.vue'
+import Popup from '~/components/PopupStudentChangeInfo.vue'
 
 interface Person {
   id: number

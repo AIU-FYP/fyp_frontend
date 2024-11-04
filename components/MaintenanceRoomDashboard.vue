@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue'
 import {useNuxtApp} from '#app'
-import Popup from '~/components/PopupStudentInfo.vue'
+import Popup from '~/components/PopupStudentMaintenanceInfo.vue'
 
 interface Person {
   id: number
@@ -51,7 +51,6 @@ const openPopup = (row: Person) => {
   currentStudent.value = row;
   isPopupVisible.value = true;
 };
-
 
 onMounted(fetchData)
 
