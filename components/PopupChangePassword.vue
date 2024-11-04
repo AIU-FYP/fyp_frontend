@@ -1,28 +1,56 @@
 <script setup>
+import {defineEmits, defineProps} from 'vue'
+const props = defineProps({
+  show: Boolean
+})
+const emit = defineEmits(['update:show'])
+
+const closePopup = () => {
+  emit('update:show', false)
+}
+
 import {reactive, watch} from 'vue';
 import {z} from 'zod';
 
 const previousQuestions = [
   {
-    label: "Username",
-    type: "text",
-    placeholder: "Enter your Username",
+    label: "Current Password",
+    type: "password",
+    placeholder: "Enter your Current Password",
     required: true
   },
   {
-    label: "Admin Password",
+    label: "New Password",
     type: "password",
-    placeholder: "Enter your Password",
+    placeholder: "Enter your New Password",
+    required: true
+  },
+  {
+    label: "Confirm New Password ",
+    type: "password",
+    placeholder: "Confirm New Password",
     required: true
   },
 ];
 
 const formSchema = z.object({
-  "Username":
+  "Current Password":
       z.string()
-          .regex(/^AIU\d{8}$/, "Username must start with 'AIU' followed by 8 digits")
-          .nonempty("Username is required"),
-  "Admin Password":
+          .min(12, "Password must be at least 12 characters long")
+          .max(15, "Password must not exceed 15 characters")
+          .regex(/[a-zA-Z]/, "Password must include at least one letter")
+          .regex(/\d/, "Password must include at least one number")
+          .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+          .nonempty("Password is required"),
+  "New Password":
+      z.string()
+          .min(12, "Password must be at least 12 characters long")
+          .max(15, "Password must not exceed 15 characters")
+          .regex(/[a-zA-Z]/, "Password must include at least one letter")
+          .regex(/\d/, "Password must include at least one number")
+          .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+          .nonempty("Password is required"),
+  "Confirm New Password":
       z.string()
           .min(12, "Password must be at least 12 characters long")
           .max(15, "Password must not exceed 15 characters")
@@ -70,17 +98,12 @@ function handleSubmit() {
 </script>
 
 <template>
-  <div class="log-in">
-    <div class="container">
-      <div class="image-box">
-      </div>
+  <div v-if="show" class="popup-overlay" @click="closePopup">
+    <div class="popup-container" @click.stop>
       <div class="log-in-form">
         <span class="user-icon">
-          <UIcon
-              name="mdi-user-outline"
-          />
+          <UIcon name="mdi-user-outline"/>
         </span>
-        <h2 class="form-title">Smart AIU Hostels Management System</h2>
         <div class="form-container">
           <form @submit.prevent="handleSubmit">
             <div class="login-form">
@@ -95,64 +118,53 @@ function handleSubmit() {
                 <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
               </div>
             </div>
-            <button class="maintenance-submit" type="submit">Log In</button>
+            <button class="maintenance-submit" type="submit">Save change</button>
           </form>
         </div>
       </div>
+      <hr class="divider">
     </div>
   </div>
 </template>
 
 <style scoped>
-body {
-  height: 100%;
-}
-
-.log-in {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-image: linear-gradient(var(--main-color), var(--text-hovor-color));
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 80%;
-  height: 60vh;
-  margin: 10% auto;
-  align-items: center;
-}
-
-.container .image-box {
-  flex: 70%;
-  padding: 3rem 1rem;
-}
-
-.container .image-box img {
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 50%;
   height: 100%;
-  max-height: 70%;
-  display: block;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-.container .log-in-form {
-  flex: 30%;
-  padding: 3rem 1rem;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-  background-color: var(--main-color);
+.popup-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 40%;
+  width: 40%;
+  position: relative;
+  text-align: center;
+  z-index: 1001;
 }
 
 @media (max-width: 1200px) {
-  .container {
-    display: block;
-    width: 100%;
-    margin: 5rem auto;
+  .popup-container {
     border-radius: 0;
+    max-width: 100%;
+    width: 100%;
   }
+}
+
+.log-in-form {
+  display: block;
+  padding: 3rem 1rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  background-color: var(--main-color);
 }
 
 .log-in-form .user-icon {
@@ -164,27 +176,20 @@ body {
   font-size: 5rem;
   background-color: var(--bg-color);
   color: var(--main-color);
-  border: .3rem solid var(--main-color);
   border-radius: 50%;
-}
-
-.info-box > h2 {
-  font-size: 1.3rem;
-  text-align: center;
-  padding: .5rem;
-  color: var(--bg-color);
-}
-
-.log-in-form > h2 {
-  font-size: 1.5rem;
-  text-align: center;
-  color: var(--bg-color);
 }
 
 .login-form {
   display: block;
   width: 90%;
   margin: 3rem auto;
+}
+
+.log-in-form label{
+  display: block;
+  text-align: start;
+  padding: .5rem 0  ;
+  color: var(--text-color);
 }
 
 .login-form input,
@@ -215,5 +220,7 @@ body {
   background-color: var(--text-hovor-color);
   transition: .2s;
 }
+
+
 
 </style>

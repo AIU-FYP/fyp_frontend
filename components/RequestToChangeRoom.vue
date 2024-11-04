@@ -1,7 +1,8 @@
 <script setup>
 import {computed, reactive, ref, watch} from 'vue';
 import {z} from 'zod';
-import { nationalities, } from "~/utils/nationalities";
+import {nationalities,} from "~/utils/nationalities";
+import Popup from "~/components/PopupSubmit.vue";
 
 const userNationalityInput = ref('');
 const filteredNationalities = computed(() => {
@@ -132,6 +133,9 @@ function handleSubmit() {
     alert("Please correct the errors in the form.");
   }
 }
+
+const isPopupVisible = ref(false)
+
 </script>
 
 <template>
@@ -188,7 +192,9 @@ function handleSubmit() {
             </div>
           </div>
 
-          <button class="maintenance-submit" type="submit">Submit</button>
+          <button @click.once="isPopupVisible = true" class="maintenance-submit" type="submit">Submit</button>
+          <popup :show="isPopupVisible" @update:show="isPopupVisible = $event">
+          </popup>
         </form>
       </div>
     </div>
@@ -235,7 +241,7 @@ function handleSubmit() {
 }
 
 @media (max-width: 1200px) {
-  .container  {
+  .container {
     display: block;
   }
 

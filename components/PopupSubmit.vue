@@ -23,6 +23,8 @@ const emit = defineEmits(['update:show'])
 const closePopup = () => {
   emit('update:show', false)
 }
+const today = new Date();
+const fullDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 </script>
 
 <template>
@@ -31,14 +33,15 @@ const closePopup = () => {
       <div class="notification">
         <div class="notification-icon">
           <UIcon
-           name="ep-success-filled"
+              name="lsicon-submit-outline"
           />
         </div>
         <div class="thank-info">
           <p>
-            Dear Student, Thank you for submitting your room maintenance request. We have successfully received your
+            Dear Student, Thank you for submitting your request. We have successfully received your
             application, and our team will review it within the next 7 days. We will keep you informed about the
             progress and let you know if any further information is needed.
+            {{fullDate}}
           </p>
           <h2>Thank you for your patience.</h2>
         </div>
@@ -55,10 +58,11 @@ const closePopup = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .popup-container {
@@ -69,28 +73,38 @@ const closePopup = () => {
   width: 80%;
   position: relative;
   text-align: center;
+  z-index: 1001;
+}
+
+@media (max-width: 1200px) {
+  .popup-container {
+    border-radius: 0;
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
 .notification-icon {
-  font-size: 15rem !important;
+  font-size: 10rem;
   color: var(--main-color);
+  margin-bottom: 3rem;
 }
 
 span {
   margin: 0 5px;
 }
 
-.thank-info{
+.thank-info {
   margin-top: -5rem;
 }
 
-h2{
+h2 {
   font-size: 1.5rem;
   color: var(--main-color);
   line-height: 2.5rem;
 }
 
-p{
+p {
   font-size: 1.2rem;
   line-height: 2rem;
   color: var(--text-color);

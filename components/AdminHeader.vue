@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import {ref} from 'vue'
+import Popup from "~/components/PopupChangePassword.vue";
 
 const isMenuVisible = ref(false)
-
+const isPopupVisible = ref(false)
 </script>
 
 <template>
@@ -12,14 +13,32 @@ const isMenuVisible = ref(false)
         <img src="/images/AIU-Official-Logo.png" alt="image-logo">
       </div>
       <div class="title">
-        <p>Albukhary International University Admin Dashboard </p>
+        <p>Al bukhary International University Admin Dashboard </p>
       </div>
       <button class="setting-btn" @click="isMenuVisible = !isMenuVisible">
+        <span>
+          <UIcon
+              name="mage-user"
+          />
+        </span>
         Setting
       </button>
       <ul v-if="isMenuVisible" class="submenu">
-        <li><a>Sing Out</a></li>
-        <li><a>Change Password </a></li>
+        <li>
+          <button>
+            <span class="user-icon">
+              <UIcon name="bxs-user"/>
+            </span>Sing Out
+          </button>
+        </li>
+        <li>
+          <button @click="isPopupVisible=true">
+            <span class="user-icon">
+              <UIcon name="bxs-user"/>
+            </span>Change Password
+          </button>
+          <Popup :show="isPopupVisible" @update:show="isPopupVisible = $event"></Popup>
+        </li>
       </ul>
     </div>
   </div>
@@ -66,17 +85,12 @@ const isMenuVisible = ref(false)
   cursor: pointer;
 }
 
-@media (max-width: 1200px) {
-  .title{
-    display: none;
-  }
-}
-
 .header-container .setting-btn {
   background-color: var(--main-color);
   color: var(--bg-color);
   transition: 0.3s ease-in-out;
   border-radius: 1rem 0;
+  outline: none;
 }
 
 .header-container .setting-btn:hover {
@@ -84,11 +98,14 @@ const isMenuVisible = ref(false)
 }
 
 .submenu {
-  list-style: none;
-  padding: 0;
-  margin: 0.5em 1em;
+  display: block;
+  width: 100px;
   min-width: 15rem;
-  max-width: 15rem;
+  list-style: none;
+  padding: 1rem;
+  margin: 0.5em 1em;
+  text-align: center;
+  align-items: center;
 }
 
 .submenu li {
@@ -96,14 +113,26 @@ const isMenuVisible = ref(false)
   text-align: left;
 }
 
-.submenu a {
+.submenu button {
   color: var(--main-color);
   text-transform: capitalize;
   text-align: start;
   text-decoration: none;
+  font-size: 1.2rem;
 }
 
-.submenu a:hover {
-  text-decoration: underline;
+.user-icon {
+  margin: .5rem;
 }
+
+@media (max-width: 1200px) {
+  .submenu {
+    display: block;
+  }
+
+  .title {
+    display: none;
+  }
+}
+
 </style>

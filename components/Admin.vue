@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import {defineProps, onMounted, ref} from 'vue';
+
+const studentProps = defineProps<{
+  student: {
+    id: number;
+  }
+}>();
 
 const isMenuVisible = ref(false);
 
@@ -32,21 +39,48 @@ const items = [
     ]
   },
   {
-    title: "Room Dashboard",
+    title: "Students Dashboard",
+    studentsDashboard: [
+      {
+        subTitle: "Total students males",
+      },
+      {
+        subTitle: "Total student females",
+      }
+    ]
+  },
+  {
+    title: "Rooms Dashboard",
     rooms: [
       {
-        subTitle: "Total appending",
+        subTitle: "Total available rooms",
       },
       {
-        subTitle: "Total accepted",
-      },
-      {
-        subTitle: "Total rejected",
+        subTitle: "Total occupied rooms",
       }
     ]
   }
 ]
 
+const currentNumber = ref(0);
+const targetNumber = 400;
+const duration = 3000;
+const incrementTime = 50;
+const totalIncrements = duration / incrementTime;
+const incrementValue = targetNumber / totalIncrements;
+
+onMounted(() => {
+  let currentIncrement = 0;
+
+  const interval = setInterval(() => {
+    currentIncrement++;
+    currentNumber.value = Math.min(Math.round(currentIncrement * incrementValue), targetNumber);
+
+    if (currentIncrement >= totalIncrements) {
+      clearInterval(interval);
+    }
+  }, incrementTime);
+});
 
 </script>
 
@@ -54,24 +88,31 @@ const items = [
   <div class="admin-section">
     <div class="admin-section-container">
       <div class="side-bar">
-        <h2>Albukhary International University Admin Dashboard</h2>
-
+        <h2>
+          <span>
+            <UIcon
+                name="ic-round-home"
+                class="dashboard-icon"
+            />
+          </span>
+          Dashboard
+        </h2>
         <ul class="admin-menu">
           <li>
-            <a href="">
+            <router-link to="/maintenance-room-dashboard">
               <span class="admin-icon">
                 <UIcon name="icon-park-outline-data-switching"/>
               </span>
               Maintenance Room Dashboard
-            </a>
+            </router-link>
           </li>
           <li>
-            <a href="">
+            <router-link to="/change-room-dashboard">
               <span class="admin-icon">
                 <UIcon name="icon-park-outline-data-switching"/>
               </span>
               Change Room Dashboard
-            </a>
+            </router-link>
           </li>
           <li @click="isMenuVisible = !isMenuVisible">
             <a href="">
@@ -82,19 +123,28 @@ const items = [
             </a>
             <ul v-if="isMenuVisible" class="submenu">
               <li>
-                <a href="#">Sign Out</a>
+                <router-link to="/change-room-dashboard">
+              <span class="admin-icon">
+                <UIcon name="icon-park-outline-data-switching"/>
+              </span>
+                  Room Management Dashboard
+                </router-link>
               </li>
               <li>
-                <a href="#">Change Password</a>
+                <router-link to="/maintenance-room">
+              <span class="admin-icon">
+                <UIcon name="icon-park-outline-data-switching"/>
+              </span>
+                  Add New Student
+                </router-link>
               </li>
             </ul>
           </li>
         </ul>
       </div>
       <div class="content">
-        <h1>Admin Dashboard Page</h1>
         <div class="content-container">
-          <div class="info-analysis" v-for="item in items" >
+          <div class="info-analysis" v-for="item in items">
             <h3 class="title">{{ item.title }}</h3>
             <div class="main-box" v-if="item.maintenanceRooms">
               <div v-for="(maintenanceRoom, index) in item.maintenanceRooms" :key="index">
@@ -105,7 +155,7 @@ const items = [
                 </div>
                 <h2 class="subTitle">{{ maintenanceRoom.subTitle }}</h2>
                 <h2 class="percentage">
-
+                  <span>{{ studentProps.student?.id || 0 }}</span>
                   <span> + </span>
                 </h2>
               </div>
@@ -120,7 +170,20 @@ const items = [
                 </div>
                 <h2 class="subTitle">{{ changeRoom.subTitle }}</h2>
                 <h2 class="percentage">
-
+                  <span>{{ studentProps.student?.id || 0 }}</span>
+                  <span> + </span>
+                </h2>
+              </div>
+            </div>
+            <div class="main-box" v-if="item.studentsDashboard">
+              <div v-for="(studentsDashboard, index) in item.studentsDashboard" :key="index">
+                <div class="icon">
+                  <UIcon
+                      name="stash-arrows-switch"
+                  />
+                </div>
+                <h2 class="subTitle">{{ studentsDashboard.subTitle }}</h2>
+                <h2 class="percentage">
                   <span> + </span>
                 </h2>
               </div>
@@ -134,7 +197,7 @@ const items = [
                 </div>
                 <h2 class="subTitle">{{ room.subTitle }}</h2>
                 <h2 class="percentage">
-
+                  <span>{{ studentProps.student?.id || 0 }}</span>
                   <span> + </span>
                 </h2>
               </div>
@@ -156,19 +219,18 @@ const items = [
 .admin-section-container {
   display: flex;
   flex-direction: row;
-  margin: 1rem;
+  margin: 0;
   background-color: #eeeeee;
 }
 
 .side-bar {
-  margin: 0.5rem 2rem;
-  flex: 30%;
+  flex: 20%;
   background-color: var(--main-color);
   padding: 3rem 1rem;
 }
 
 .content {
-  flex: 1 75%;
+  flex: 80%;
 }
 
 @media (max-width: 1200px) {
@@ -179,12 +241,16 @@ const items = [
   }
 }
 
-.side-bar h2 {
+.side-bar > h2 {
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: normal;
-  color: var(--text-color);
-  padding: 1rem 0;
+  color: var(--bg-color);
+  padding: 0;
+}
+
+.side-bar > h2 > span {
+  font-size: 1.5rem;
 }
 
 .admin-menu {
@@ -279,21 +345,17 @@ const items = [
 
 @media (max-width: 1200px) {
   .info-analysis > .main-box {
-    flex-direction: column;
+    display: block;
     gap: 1rem;
     border-radius: 0;
   }
 
   .main-box div {
-    flex: 1;
-    margin: 1rem auto;
+    margin: 3rem auto;
+    padding: 0;;
   }
 }
 
-.divider {
-  margin: 1rem;
-  border: 1px solid var(--main-color);
-}
 
 .icon {
   font-size: 3rem;
@@ -303,6 +365,12 @@ const items = [
   height: 5rem;
   margin: -2.5rem auto 0 auto;
   border-radius: 50%;
+}
+
+@media (max-width: 1200px) {
+  .icon {
+    border-radius: 50%;
+  }
 }
 
 .subTitle {
@@ -318,6 +386,5 @@ const items = [
   text-align: center;
   color: var(--text-hovor-color);
   margin: .5rem auto;
-
 }
 </style>

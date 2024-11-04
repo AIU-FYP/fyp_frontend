@@ -3,7 +3,9 @@
 </script>
 
 <template>
-  <LogIn/>
+  <AdminHeader/>
+  <MaintenanceRoomDashboard/>
+  <AdminFooter/>
 </template>
 
 <style scoped>

@@ -248,7 +248,7 @@ function handleSubmit() {
           </div>
 
           <div>
-            <button @click="isPopupVisible = true" class="maintenance-submit" type="submit">Submit</button>
+            <button @click.once="isPopupVisible = true" class="maintenance-submit" type="submit">Submit</button>
             <Popup :show="isPopupVisible" @update:show="isPopupVisible = $event">
             </Popup>
           </div>

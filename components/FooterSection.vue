@@ -63,20 +63,16 @@ const currentYear = new Date().getFullYear();
           <h2>Others</h2>
           <ul>
             <li>
-              <a href="http://">
+              <a href="http://aiustudenthostelleavesystem.net">
               <span><UIcon name="la-university"/>
               </span>
                 Hostel leave</a></li>
             <li>
-              <a href="http://">
+              <router-link to="/faq">
               <span><UIcon name="material-symbols-policy-outline"/>
               </span>
-                Policy</a></li>
-            <li>
-              <a href="http://">
-              <span><UIcon name="la-university"/>
-              </span>
-                Privacy</a></li>
+                Policy
+              </router-link></li>
           </ul>
         </div>
         <div class="subscribe-section">

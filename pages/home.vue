@@ -4,7 +4,6 @@
 
 <template>
   <div>welcomw</div>
-  <NuxtWelcome />
 </template>
 
 <style scoped>

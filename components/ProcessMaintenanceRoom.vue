@@ -30,7 +30,6 @@ const toggleFaq = (index) => {
   activeIndex.value = activeIndex.value === index ? null : index
 }
 </script>
-
 <template>
   <div class="process-maintenance-room">
     <div class="container">

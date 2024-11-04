@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
-import ProcessRequestToChangeRoom from "~/components/ProcessRequestToChangeRoom.vue";
 </script>
 
 <template>
+  <HeaderSection/>
   <ProcessRequestToChangeRoom/>
   <RequestToChangeRoom/>
   <FooterSection/>

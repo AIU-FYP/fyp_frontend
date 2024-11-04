@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import RandomPics from "~/components/RandomPics.vue";
 </script>
 
 <template>
