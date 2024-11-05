@@ -7,7 +7,6 @@
   <LandingSection/>
   <RandomPics/>
   <AboutSection/>
-
   <FooterSection/>
 </template>
 
