@@ -28,9 +28,11 @@ const isPopupVisible = ref(false)
       <ul v-if="isMenuVisible" class="submenu">
         <li>
           <button>
+            <router-link to="/new-admin">
             <span class="user-icon">
               <UIcon name="bxs-user"/>
-            </span>Sing Out
+            </span>Add New Admin
+            </router-link>
           </button>
         </li>
         <li>
@@ -40,6 +42,13 @@ const isPopupVisible = ref(false)
             </span>Change Password
           </button>
           <Popup :show="isPopupVisible" @update:show="isPopupVisible = $event"></Popup>
+        </li>
+        <li>
+          <button>
+            <span class="user-icon">
+              <UIcon name="bxs-user"/>
+            </span>Sing Out
+          </button>
         </li>
       </ul>
     </div>

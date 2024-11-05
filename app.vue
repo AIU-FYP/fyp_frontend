@@ -7,10 +7,10 @@
 
 <style>
 :root{
-  --main-color:rgba(98,186,70,255);
+  --main-color:rgb(19, 62, 135);
   --hovor-color:rgb(12,44,108);
-  --text-color: black;
-  --text-hovor-color: #40d2c7;
-  --bg-color:#f5f5f5;
+  --text-color:black;
+  --text-hovor-color: rgb(96, 139, 193);
+  --bg-color:rgb(243, 243, 224);
 }
 </style>

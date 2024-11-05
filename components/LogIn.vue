@@ -131,8 +131,7 @@ body {
 
 .container .log-in-form {
   flex: 30%;
-  margin-top: -4rem;
-  padding: 2rem 1rem;
+  padding: 3rem 1rem 0 1rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   background-color: var(--main-color);
 }
@@ -150,11 +149,12 @@ body {
   display: flex;
   padding: 1rem;
   width: fit-content;
-  margin: -6rem auto 1rem auto;
+  margin: -7rem auto 1rem auto;
   text-align: center;
   font-size: 5rem;
   background-color: var(--bg-color);
   color: var(--main-color);
+  border: .3rem solid var(--main-color);
   border-radius: 50%;
 }
 

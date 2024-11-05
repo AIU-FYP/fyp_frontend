@@ -7,7 +7,6 @@ const studentProps = defineProps<{
   }
 }>();
 
-const isMenuVisible = ref(false);
 
 const items = [
   {
@@ -103,7 +102,7 @@ onMounted(() => {
               <span class="admin-icon">
                 <UIcon name="icon-park-outline-data-switching"/>
               </span>
-              Maintenance Room Dashboard
+              Maintenance Room
             </router-link>
           </li>
           <li>
@@ -111,34 +110,41 @@ onMounted(() => {
               <span class="admin-icon">
                 <UIcon name="icon-park-outline-data-switching"/>
               </span>
-              Change Room Dashboard
+              Change Room
             </router-link>
           </li>
-          <li @click="isMenuVisible = !isMenuVisible">
+          <li>
             <a href="">
               <span class="admin-icon">
                 <UIcon name="icon-park-outline-data-switching"/>
               </span>
               Room Dashboard
             </a>
-            <ul v-if="isMenuVisible" class="submenu">
-              <li>
-                <router-link to="/change-room-dashboard">
+          </li>
+        </ul>
+        <h2> <span>
+            <UIcon
+                name="ic-round-home"
+                class="dashboard-icon"
+            /></span>
+          Students
+        </h2>
+        <ul class="admin-menu">
+          <li>
+            <router-link to="/maintenance-room">
               <span class="admin-icon">
                 <UIcon name="icon-park-outline-data-switching"/>
               </span>
-                  Room Management Dashboard
-                </router-link>
-              </li>
-              <li>
-                <router-link to="/maintenance-room">
+              maintenance Form
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/request-to-change-room">
               <span class="admin-icon">
                 <UIcon name="icon-park-outline-data-switching"/>
               </span>
-                  Add New Student
-                </router-link>
-              </li>
-            </ul>
+              Change Room Form
+            </router-link>
           </li>
         </ul>
       </div>
@@ -278,11 +284,6 @@ onMounted(() => {
 
 .admin-menu li a span {
   margin-right: 0.4rem;
-}
-
-.submenu {
-  list-style: none;
-  margin: 0.5em;
 }
 
 .submenu li {

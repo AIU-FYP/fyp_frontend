@@ -1,0 +1,256 @@
+<script setup>
+
+import {computed, reactive, ref, watch} from 'vue';
+import  Popup from '~/components/PopupSubmit.vue'
+import {z} from 'zod';
+
+const previousQuestions = [
+  {
+    label: "First Name",
+    type: "text",
+    placeholder: "Enter your name",
+    required: true
+  },
+  {
+    label: "Last Name",
+    type: "text",
+    placeholder: "Enter your name",
+    required: true
+  },
+  {
+    label: "Position Name",
+    type: "text",
+    placeholder: "Enter your name",
+    required: true
+  },
+  {
+    label: "Student Affairs ID",
+    type: "text", placeholder: "Enter your student ID (e.g., AIU21011234)",
+    required: true
+  },
+  {
+    label: "Phone Number (Local Number Only)",
+    type: "text",
+    placeholder: "Enter your phone number",
+    required: true
+  },
+  {
+    label: "Email Address (Student Affairs Email Only)",
+    type: "text",
+    placeholder: "Enter your email address",
+    required: true
+  },
+  {
+    label: "New Password",
+    type: "password",
+    placeholder: "Enter your New Password",
+    required: true
+  },
+  {
+    label: "Confirm New Password ",
+    type: "password",
+    placeholder: "Confirm New Password",
+    required: true
+  },
+];
+
+const formSchema = z.object({
+  "First Name":
+      z.string().min(5, "Name must be at least 5 characters long")
+          .nonempty("Name is required"),
+  "Last Name":
+      z.string().min(5, "Name must be at least 5 characters long")
+          .nonempty("Name is required"),
+  "Position":
+      z.string().min(5, "Name must be at least 5 characters long")
+          .nonempty("Name is required"),
+  "Student Affairs ID":
+      z.string()
+          .regex(/^AIU\d{8}$/, "Invalid Student ID format")
+          .nonempty("Student ID is required"),
+  "Phone Number (Local Number Only)":
+      z.string().regex(/^\d{8,15}$/, "Invalid phone number")
+          .nonempty("Phone Number is required"),
+  "Email Address (Student Email Only)":
+      z.string()
+          .email("Invalid email format")
+          .regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'"),
+  "New Password": z.string()
+      .min(12, "Password must be at least 12 characters long")
+      .max(15, "Password must not exceed 15 characters")
+      .regex(/[a-zA-Z]/, "Password must include at least one letter")
+      .regex(/\d/, "Password must include at least one number")
+      .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+      .nonempty("Password is required"),
+  "Confirm New Password": z
+      .string()
+      .min(12, "Password must be at least 12 characters long")
+      .max(15, "Password must not exceed 15 characters")
+      .regex(/[a-zA-Z]/, "Password must include at least one letter")
+      .regex(/\d/, "Password must include at least one number")
+      .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+      .nonempty("Password is required"),
+});
+
+const form = reactive({});
+const errors = reactive({});
+
+previousQuestions.forEach((question) => {
+  form[question.label] = "";
+  errors[question.label] = "";
+});
+
+function validateField(field) {
+  try {
+    formSchema.shape[field].parse(form[field]);
+    errors[field] = "";
+  } catch (error) {
+    errors[field] = error.errors ? error.errors[0].message : error.message;
+  }
+}
+
+previousQuestions.forEach((question) => {
+  watch(() => form[question.label], (newValue) => validateField(question.label, newValue));
+});
+
+const isPopupVisible = ref(false)
+
+function handleSubmit() {
+  form.Date = new Date().toLocaleDateString("en-GB");
+  const validationResults = formSchema.safeParse(form);
+  if (validationResults.success) {
+    console.log("Form Data:", {...form});
+    alert("Form submitted successfully!");
+  } else {
+    alert("Please correct the errors in the form.");
+  }
+}
+</script>
+
+<template>
+
+  <div class="admin-profile-section">
+    <div class="admin-profile">
+      <div class="log-in-form">
+        <h2>Please fill with your details</h2>
+        <hr class="divider">
+        <div class="form-container">
+          <form @submit.prevent="handleSubmit">
+            <div class="login-form">
+              <div class="info" v-for="(question, index) in previousQuestions" :key="index">
+                <label :for="question.label">{{ question.label }}:</label>
+                <input
+                    :type="question.type"
+                    v-model="form[question.label]"
+                    :placeholder="question.placeholder"
+                    :id="question.label"
+                />
+                <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+              </div>
+            </div>
+            <button class="submit" type="submit">Save change</button>
+          </form>
+        </div>
+      </div>
+      <hr class="divider">
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.admin-profile-section {
+  display: block;
+  width: 80%;
+  margin: 5rem auto;
+}
+
+.admin-profile {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
+
+@media (max-width: 1200px) {
+  .admin-profile-section {
+    display: block;
+    width: 100%;
+    margin: 2rem auto;
+  }
+  .admin-profile {
+    border-radius: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+
+.log-in-form {
+  display: block;
+  padding: 3rem 1rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  background-color: var(--main-color);
+}
+
+.log-in-form > h2 {
+  font-size: 1.5rem;
+  text-align: start;
+  margin: 0 1rem;
+}
+
+.divider {
+  margin: 1% 2%;
+  border: 2px solid var(--bg-color);;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.login-form div {
+  flex: 45%;
+  margin: 0 1rem;
+}
+
+.log-in-form label {
+  display: block;
+  text-align: start;
+  padding: .5rem 0;
+  color: var(--text-color);
+}
+
+.login-form input,
+.login-form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+}
+
+.error {
+  color: red;
+  font-size: 1rem;
+}
+
+.submit {
+  display: block;
+  width: 50%;
+  padding: .5rem;
+  margin: 2rem auto 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+}
+
+.submit:hover {
+  background-color: var(--text-hovor-color);
+  transition: .2s;
+}
+
+
+</style>

@@ -42,22 +42,21 @@ const formSchema = z.object({
           .regex(/\d/, "Password must include at least one number")
           .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
           .nonempty("Password is required"),
-  "New Password":
-      z.string()
-          .min(12, "Password must be at least 12 characters long")
-          .max(15, "Password must not exceed 15 characters")
-          .regex(/[a-zA-Z]/, "Password must include at least one letter")
-          .regex(/\d/, "Password must include at least one number")
-          .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
-          .nonempty("Password is required"),
-  "Confirm New Password":
-      z.string()
-          .min(12, "Password must be at least 12 characters long")
-          .max(15, "Password must not exceed 15 characters")
-          .regex(/[a-zA-Z]/, "Password must include at least one letter")
-          .regex(/\d/, "Password must include at least one number")
-          .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
-          .nonempty("Password is required"),
+  "New Password": z.string()
+    .min(12, "Password must be at least 12 characters long")
+    .max(15, "Password must not exceed 15 characters")
+    .regex(/[a-zA-Z]/, "Password must include at least one letter")
+    .regex(/\d/, "Password must include at least one number")
+    .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+    .nonempty("Password is required"),
+    "Confirm New Password ": z
+    .string()
+    .min(12, "Password must be at least 12 characters long")
+    .max(15, "Password must not exceed 15 characters")
+    .regex(/[a-zA-Z]/, "Password must include at least one letter")
+    .regex(/\d/, "Password must include at least one number")
+    .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+    .nonempty("Password is required"),
 });
 
 const form = reactive({});
@@ -89,7 +88,7 @@ function handleSubmit() {
   const validationResults = formSchema.safeParse(form);
   if (validationResults.success) {
     console.log("Form Data:", {...form});
-    alert("Login successfully!");
+    alert("Password changed successfully!");
   } else {
     alert("Please correct the errors in the form.");
   }
@@ -105,7 +104,7 @@ function handleSubmit() {
           <UIcon name="mdi-user-outline"/>
         </span>
         <div class="form-container">
-          <form @submit.prevent="handleSubmit">
+          <form @submit.once="handleSubmit">
             <div class="login-form">
               <div class="info" v-for="(question, index) in previousQuestions" :key="index">
                 <label :for="question.label">{{ question.label }}:</label>
@@ -134,7 +133,7 @@ function handleSubmit() {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, .9);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -162,7 +161,7 @@ function handleSubmit() {
 
 .log-in-form {
   display: block;
-  padding: 3rem 1rem;
+  padding: 2rem 1rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   background-color: var(--main-color);
 }
@@ -171,9 +170,9 @@ function handleSubmit() {
   display: flex;
   padding: 1rem;
   width: fit-content;
-  margin: -7rem auto 3rem auto;
+  margin: -5rem auto 1rem auto;
   text-align: center;
-  font-size: 5rem;
+  font-size: 4rem;
   background-color: var(--bg-color);
   color: var(--main-color);
   border-radius: 50%;
