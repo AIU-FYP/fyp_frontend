@@ -104,9 +104,6 @@ function handleSubmit() {
 </template>
 
 <style scoped>
-body {
-  height: 100%;
-}
 
 .log-in {
   height: 100vh;
@@ -114,24 +111,25 @@ body {
   align-items: center;
   justify-content: center;
   background-image: linear-gradient(var(--main-color), var(--text-hovor-color));
+  margin: 0;
+  padding: 0;
 }
 
 .container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 80%;
-  height: 60vh;
-  padding: 3rem 0;
+  width: 85%;
 }
 
 .container .image-box {
-  flex: 70%;
+  flex: 65%;
 }
 
 .container .log-in-form {
   flex: 30%;
-  padding: 3rem 1rem 0 1rem;
+  padding: 2rem .5rem;
+  margin-top: 2rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   background-color: var(--main-color);
 }
@@ -149,7 +147,7 @@ body {
   display: flex;
   padding: 1rem;
   width: fit-content;
-  margin: -7rem auto 1rem auto;
+  margin: -5rem auto 1rem;
   text-align: center;
   font-size: 5rem;
   background-color: var(--bg-color);
@@ -159,7 +157,7 @@ body {
 }
 
 .info-box > h2 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   text-align: center;
   padding: .5rem;
   color: var(--bg-color);
@@ -177,10 +175,10 @@ body {
   margin: 3rem auto;
 }
 
-.login-form input,
-.login-form select {
+.login-form input {
   width: 100%;
   padding: 0.5rem;
+  margin: .5rem 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   outline: none;

@@ -13,7 +13,7 @@
 
       <div class="menu" :class="{ 'menu-visible': isNavVisible }">
         <ul class="menu-links">
-          <li><a href="#"><span class="icon"><UIcon class="bar-icon-links" name="material-symbols-contact-page"/></span>Home</a>
+          <li><router-link to="/home"><span class="icon"><UIcon class="bar-icon-links" name="material-symbols-contact-page"/></span>Home</router-link>
           </li>
           <li><router-link to="/about"><span class="icon"><UIcon class="bar-icon-links" name="la-university"/></span>About</router-link></li>
           <li class="dropdown" @click="toggleDropdown('student')">
@@ -57,7 +57,7 @@ const toggleDropdown = (dropdown) => {
 .header-section {
   background-color: #eeeeee;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  padding: 1rem;
+  padding: .5rem;
 }
 
 .container {

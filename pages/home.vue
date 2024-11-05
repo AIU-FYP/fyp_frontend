@@ -3,7 +3,12 @@
 </script>
 
 <template>
-  <div>welcomw</div>
+  <HeaderSection/>
+  <LandingSection/>
+  <RandomPics/>
+  <AboutSection/>
+
+  <FooterSection/>
 </template>
 
 <style scoped>

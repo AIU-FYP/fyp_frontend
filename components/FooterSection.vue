@@ -32,12 +32,12 @@ const currentYear = new Date().getFullYear();
         <div class="links">
           <h2>Quick Links</h2>
           <ul>
-            <li><a href="http://">
+            <li><router-link to="/home">
               <span>
                 <UIcon name="material-symbols-contact-page"
                 />
               </span>Home
-            </a></li>
+            </router-link></li>
             <li>
               <router-link to="/about">
                 <span class="icon"><UIcon class="bar-icon-links" name="la-university"/></span>About

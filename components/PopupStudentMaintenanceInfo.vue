@@ -1,6 +1,22 @@
 <script setup>
 import {defineEmits, defineProps} from 'vue'
 
+const studentFields = [
+  {label: 'ID ', key: 'id'},
+  {label: 'Name ', key: 'name'},
+  {label: 'Student ID Number ', key: 'studentIdNumber'},
+  {label: 'Room Number ', key: 'roomNumber'},
+  {label: 'phone Number ', key: 'phoneNumber'},
+  {label: 'WhatsApp Number ', key: 'whatsappNumber'},
+  {label: 'Email Address ', key: 'emailAddress'},
+  {label: 'Gender ', key: 'gender'},
+  {label: 'Location in the Room', key: 'locationInTheRoom'},
+  {label: 'Location specific Issue ', key: 'locationSpecificIssue'},
+  {label: 'Frequent damages occur', key: 'frequentTheDamagesOccur'},
+  {label: 'Student Nationality ', key: 'studentNationality'},
+  {label: 'Photo evidence damages ', key: 'photoEvidenceDamages'},
+  {label: 'Reason for room change', key: 'detailTheDamage'},
+];
 
 const props = defineProps({
   show: Boolean,
@@ -8,8 +24,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['update:show'])
-
-
 
 const closePopup = () => {
   emit('update:show', false)
@@ -37,7 +51,7 @@ const closePopup = () => {
                   name="ph-student"
               />
             </span>
-            {{ field.label }}:</span>
+            {{ field.label }}</span>
           <span class="student-key-info">
             <span>
               <UIcon
