@@ -36,44 +36,45 @@ const currentYear = new Date().getFullYear();
               <span>
                 <UIcon name="material-symbols-contact-page"
                 />
-              </span>
-              Home
+              </span>Home
             </a></li>
-            <li><a href="http://">
-              <span>
-                <UIcon name="la-university"
-                />
-              </span>
-              About</a></li>
-            <li><a href="http://">
+            <li>
+              <router-link to="/about">
+                <span class="icon"><UIcon class="bar-icon-links" name="la-university"/></span>About
+              </router-link>
+            </li>
+            <li>
+              <router-link to="/maintenance-room">
               <span>
                 <UIcon name="ph-student-bold"
                 />
-              </span>
-              Students</a></li>
-            <li><a href="http://">
+              </span>Maintenance Form
+              </router-link>
+            </li>
+            <li>
+              <router-link to="request-to-change-room">
               <span>
-                <UIcon name="pepicons-pop-info-circle"
+                <UIcon name="ph-student-bold"
                 />
-              </span>
-              Learn more </a></li>
+              </span>Change Room Form</router-link>
+            </li>
           </ul>
         </div>
         <div class="others-links-section">
           <h2>Others</h2>
           <ul>
             <li>
-              <a href="http://aiustudenthostelleavesystem.net">
+              <a href="https://aiustudenthostelleavesystem.net/leave_system/singup">
               <span><UIcon name="la-university"/>
               </span>
                 Hostel leave</a></li>
-
             <li>
               <router-link to="/faq">
               <span><UIcon name="material-symbols-policy-outline"/>
               </span>
                 Policy
-              </router-link></li>
+              </router-link>
+            </li>
           </ul>
         </div>
         <div class="subscribe-section">
@@ -201,7 +202,7 @@ const currentYear = new Date().getFullYear();
 .links ul li,
 .others-links-section ul li {
   list-style: none;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .links ul li a span,
@@ -234,7 +235,8 @@ const currentYear = new Date().getFullYear();
 
 .subscribe-title {
   color: var(--main-color);
-  margin-bottom: 40px;
+  margin-bottom: 10px;
+  margin-top: -20px;
   font-size: 1.5rem;
 }
 
