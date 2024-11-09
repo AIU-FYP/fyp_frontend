@@ -42,26 +42,20 @@ const previousQuestions = [
     required: true
   },
   {
-    label: "Student ID Number",
+    label: "Student ID NO",
     type: "text", placeholder: "Enter your student ID (e.g., AIU21011234)",
     required: true
   },
   {
-    label: "Room Number",
+    label: "Room NO",
     type: "text",
-    placeholder: "Enter your room number (e.g., 25i-3-10)",
+    placeholder: "Enter your room NO (e.g., 25i-3-10)",
     required: true
   },
   {
-    label: "Phone Number (Local Number Only)",
+    label: "WhatsApp NO",
     type: "text",
-    placeholder: "Enter your phone number",
-    required: true
-  },
-  {
-    label: "WhatsApp Number",
-    type: "text",
-    placeholder: "Enter your whatsapp number",
+    placeholder: "Enter your whatsapp NO",
     required: true
   },
   {
@@ -78,21 +72,14 @@ const previousQuestions = [
     placeholder: "Enter your gender"
   },
   {
-    label: "Location in the Room",
-    type: "select",
-    options: filteredLocations.value,
-    required: true,
-    placeholder: "Select the location in the room"
-  },
-  {
-    label: "Location-specific Issue",
+    label: "Common type Issues",
     type: "select",
     options: filteredLocationsSpecificIssues.value,
     required: true,
     placeholder: "Select the issue related to the selected location"
   },
   {
-    label: "Enter your Nationality",
+    label: "Nationality",
     type: "select",
     options: filteredNationalities.value,
     placeholder: "Select nationality"
@@ -122,17 +109,14 @@ const formSchema = z.object({
   "Name":
       z.string().min(8, "Name must be at least 8 characters long")
           .nonempty("Name is required"),
-  "Student ID Number":
+  "Student ID NO":
       z.string()
           .regex(/^AIU\d{8}$/, "Invalid Student ID format")
           .nonempty("Student ID is required"),
-  "Room Number":
+  "Room NO":
       z.string().regex(/^\d+[A-Za-z]*-\d-\d+$/, "Invalid Room Number format")
           .nonempty("Room Number is required"),
-  "Phone Number (Local Number Only)":
-      z.string().regex(/^\d{8,15}$/, "Invalid phone number")
-          .nonempty("Phone Number is required"),
-  "WhatsApp Number":
+  "WhatsApp NO":
       z.string().regex(/^\d{8,15}$/, "Invalid phone number")
           .nonempty("Phone Number is required"),
   "Email Address (Student Email Only)":
@@ -142,13 +126,10 @@ const formSchema = z.object({
   "Gender":
       z.string()
           .nonempty("Gender is required"),
-  "Location in the Room":
-      z.string()
-          .nonempty("Location is required"),
-  "Location-specific Issue":
+  "Common type Issues":
       z.string()
           .nonempty("Location-specific Issue is required"),
-  "Enter your Nationality":
+  "Nationality":
       z.string()
           .optional(),
   "How frequent the damages occur?":
@@ -388,7 +369,7 @@ function handleSubmit() {
 
 .maintenance-submit {
   margin-top: 1rem;
-  padding: .5rem;
+  padding: .5rem 2rem;
   display: flex;
   font-size: 1rem;
   border-radius: 1rem;

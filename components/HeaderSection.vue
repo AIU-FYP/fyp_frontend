@@ -1,6 +1,6 @@
 <template>
   <div class="header-section">
-    <div class="container">
+    <div class="main-container">
       <div class="image-logo">
         <a href="https://aiu.edu.my/">
           <img src="/images/AIU-Official-Logo.png" alt="aiu-logo"/>
@@ -13,9 +13,10 @@
 
       <div class="menu" :class="{ 'menu-visible': isNavVisible }">
         <ul class="menu-links">
-          <li><router-link to="/home"><span class="icon"><UIcon class="bar-icon-links" name="material-symbols-contact-page"/></span>Home</router-link>
+          <li><router-link to="/home"><span class="icon"><UIcon class="bar-icon-links" name="material-symbols-contact-page"/></span>Home
+          </router-link></li>
+          <li><router-link to="/about"><span class="icon"><UIcon class="bar-icon-links" name="la-university"/></span>About</router-link>
           </li>
-          <li><router-link to="/about"><span class="icon"><UIcon class="bar-icon-links" name="la-university"/></span>About</router-link></li>
           <li class="dropdown" @click="toggleDropdown('student')">
             <span class="dropbtn">
               <UIcon name="ph-student-light"/>
@@ -26,16 +27,9 @@
               <li><router-link to="request-to-change-room">Request to Change Room</router-link></li>
             </ul>
           </li>
-          <li class="dropdown" @click="toggleDropdown('learnMore')">
-            <span class="dropbtn">
-              <UIcon class="bar-icon-links" name="ph-student-light"/>
-              Learn More
-            </span>
-            <ul class="dropdown-content" :class="{ 'dropdown-visible': activeDropdown === 'learnMore' }">
-              <li><a href="https://aiustudenthostelleavesystem.net/leave_system/singup">Hostel Leave</a></li>
-              <li><router-link to="/faq">Policy</router-link></li>
-            </ul>
-          </li>
+          <li><router-link to="/login">
+            <span class="icon"><UIcon class="bar-icon-links" name="material-symbols-login"/></span>Log In
+          </router-link></li>
         </ul>
       </div>
     </div>
@@ -55,12 +49,12 @@ const toggleDropdown = (dropdown) => {
 
 <style scoped>
 .header-section {
-  background-color: #eeeeee;
+  background-color: var(--main-bg-color);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   padding: .5rem;
 }
 
-.container {
+.main-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -114,10 +108,16 @@ const toggleDropdown = (dropdown) => {
   text-decoration: none;
 }
 
+.menu-links a:hover,
+.dropbtn:hover {
+  color: var(--text-hovor-color);
+  transition: .3s ease-in-out;
+}
+
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #eeeeee;
+  background-color: var(--text-color);
   margin-top: 1rem;
   left: -2rem;
   min-width: 11rem;
@@ -158,19 +158,14 @@ const toggleDropdown = (dropdown) => {
 }
 
 .dropdown-content a {
-  color: var(--main-color);
+  color: var(--text-hovor-color);
   font-size: .9rem;
-  margin: .5rem;
   text-decoration: none;
-  display: block;
 }
 
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
 
 @media (max-width: 1200px) {
-  .container {
+  .main-container {
     display: block;
   }
 
@@ -198,4 +193,5 @@ const toggleDropdown = (dropdown) => {
     box-shadow: none;
   }
 }
+
 </style>

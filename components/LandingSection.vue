@@ -1,11 +1,17 @@
 <template>
   <section class="landing">
-    <div class="container">
-      <h2>Welcome to New Students</h2>
-      <h1>AlBUKHARY INTERNATIONAL UNIVERSITY </h1>
-      <P>SMART AIU MANAGEMENT SYSTEM</P>
-      <button class="student-handbook"><a
-          href="https://aiu.edu.my/PDF/Handbook/Student-Handbook.pdf"> Student Handbook</a></button>
+    <div class="main-container">
+      <div class="box-info">
+        <h2>Welcome Students</h2>
+        <h1>Albukhary International University</h1>
+        <div class="students-btn">
+          <button> Maintenance Room Form</button>
+          <button> Change Room Form</button>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="/images/aiu%20random%201.jpg" alt="image">
+      </div>
     </div>
   </section>
 </template>
@@ -19,21 +25,72 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url('/images/aiu random 2.jpg');
-  background-size: cover;
-  background-position: center;
-  text-align: start;
+  background-color: var(--main-bg-color);
   color: #fff;
 }
 
-.container {
-  background: rgba(0, 0, 0, 0.5);
+.main-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-image: linear-gradient(20deg, var(--text-hovor-color), var(--main-color));
   width: 100%;
   height: 100%;
-  padding: 6rem 3rem;
-  text-align: center;
 }
 
+.main-container .box-info {
+  flex: 50%;
+  margin: auto 3rem;
+}
+
+.box-info .students-btn {
+  display: inline-flex;
+}
+
+.box-info .students-btn button {
+  margin: 0 1rem;
+  padding: .5rem 1rem;
+  border-radius: 1rem;
+  background-color: var(--main-color);
+  font-size: 1.2rem;
+}
+
+.main-container .image-container {
+  flex: 35%;
+}
+
+.main-container .image-container img {
+  position: relative;
+  width: 80%;
+  height: 80%;
+  margin: 2rem auto;
+  border-radius: 1rem;
+  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
+}
+
+@media (max-width: 1200px) {
+  .main-container {
+    display: block;
+  }
+  .main-container .box-info {
+    flex: 1;
+    margin: auto 3rem;
+  }
+
+  .box-info .students-btn {
+    display: block;
+  }
+
+  .box-info .students-btn button {
+    margin: .5rem ;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+  }
+
+  .main-container .image-container {
+    flex: 1;
+  }
+}
 
 h2 {
   font-size: 3rem;
@@ -55,16 +112,18 @@ p {
 }
 
 .student-handbook {
-  padding: .5rem;
+  padding: 1rem;
   margin: 1rem;
-  border-radius: 1rem;
-  background-color: var(--main-color);
+  font-size: 1.2rem;
+  border-radius: 1rem 0;
+  background-color: var(--main-bg-color);
+  color: var(--main-color);
 }
 
 .student-handbook:hover {
-  padding: .5rem;
-  background-color: var(--text-hovor-color);
-  transition: .2s;
+  background-color: var(--main-color);
+  color: var(--main-bg-color);
+  transition: .3s ease-in-out;
 }
 
 

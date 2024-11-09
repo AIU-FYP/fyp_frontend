@@ -1,6 +1,17 @@
 <script setup lang="ts">
+import {useAuth} from "~/composables/useAuth";
 
-import ChangeRoomDashboard from "~/components/ChangeRoomDashboard.vue";
+definePageMeta({
+  middleware: 'auth'
+})
+
+const auth = useAuth()
+
+const handleLogout = () => {
+  auth.logout()
+  navigateTo('/log-in')
+}
+
 </script>
 
 <template>

@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import {ref} from 'vue'
 import Popup from "~/components/PopupChangePassword.vue";
+import {useAuth} from "~/composables/useAuth";
 
 const isMenuVisible = ref(false)
 const isPopupVisible = ref(false)
+
+const auth = useAuth()
+
+const handleLogout = () => {
+  auth.logout()
+  navigateTo('/login')
+}
+
 </script>
 
 <template>
@@ -15,7 +24,7 @@ const isPopupVisible = ref(false)
         </a>
       </div>
       <div class="title">
-        <p>Al bukhary International University Admin Dashboard </p>
+        <p>Admin Dashboard </p>
       </div>
       <button class="setting-btn" @click="isMenuVisible = !isMenuVisible">
         <span>
@@ -44,10 +53,10 @@ const isPopupVisible = ref(false)
           <Popup :show="isPopupVisible" @update:show="isPopupVisible = $event"></Popup>
         </li>
         <li>
-          <button>
+          <button @click="handleLogout">
             <span class="user-icon">
               <UIcon name="bxs-user"/>
-            </span>Sing Out
+            </span>Log Out
           </button>
         </li>
       </ul>
@@ -98,7 +107,7 @@ const isPopupVisible = ref(false)
 
 .header-container .setting-btn {
   background-color: var(--main-color);
-  color: var(--bg-color);
+  color: var(--text-hovor-color);
   transition: 0.3s ease-in-out;
   border-radius: 1rem 0;
   outline: none;
@@ -106,6 +115,7 @@ const isPopupVisible = ref(false)
 
 .header-container .setting-btn:hover {
   background-color: var(--text-hovor-color);
+  color: var(--text-color);
 }
 
 .submenu {

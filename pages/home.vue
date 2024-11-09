@@ -5,8 +5,9 @@
 <template>
   <HeaderSection/>
   <LandingSection/>
+  <ProcessMaintenanceRoom/>
+  <Shape/>
   <RandomPics/>
-  <AboutSection/>
   <FooterSection/>
 </template>
 

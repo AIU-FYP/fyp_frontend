@@ -4,7 +4,7 @@ const currentYear = new Date().getFullYear();
 
 <template>
   <div class="footer">
-    <div class="container">
+    <div class="main-container">
       <div class="info-container">
         <div class="box">
           <span class="icon"><UIcon name="mdi-location"/></span>
@@ -24,7 +24,7 @@ const currentYear = new Date().getFullYear();
         </div>
         <div class="box">
           <span class="icon"><UIcon name="mdi-university"/></span>
-          <p class="info"><a href="https://aiu.edu.my/">Al Bukhary International University </a></p>
+          <p class="info"><a href="https://aiu.edu.my/">Albukhary International University </a></p>
         </div>
       </div>
       <hr class="divider">
@@ -131,16 +131,16 @@ const currentYear = new Date().getFullYear();
 
 .footer {
   padding: 1em 0;
-  background-color: #f5f5f5;
+  background-color: var(--main-bg-color);
 }
 
-.container {
+.main-container {
   display: block;
   padding: 0 100px;
 }
 
 @media (max-width: 800px) {
-  .container {
+  .main-container {
     padding: 0;
   }
 }
@@ -181,6 +181,10 @@ const currentYear = new Date().getFullYear();
   color: var(--main-color);
 }
 
+.box > p {
+  color: var(--text-color);
+}
+
 .divider {
   margin: 1rem 0;
   border: 1px solid var(--main-color);
@@ -210,6 +214,19 @@ const currentYear = new Date().getFullYear();
   color: var(--main-color);
   margin-right: .5rem;
 }
+
+.links ul li a,
+.others-links-section li a {
+  color: var(--main-color);
+  margin-right: .5rem;
+}
+
+.links ul li a:hover,
+.others-links-section li a:hover {
+  color: var(--text-hovor-color);
+  transition: .3s ease-in-out;
+}
+
 
 .subscribe-section {
   text-align: start;
@@ -259,7 +276,9 @@ const currentYear = new Date().getFullYear();
 }
 
 .subscribe-button button:hover {
-  background-color: var(--text-hovor-color);
+  background-color: var(--text-color);
+  transition: .3s ease-in-out;
+
 }
 
 .socials-container {
@@ -286,9 +305,10 @@ const currentYear = new Date().getFullYear();
 }
 
 .social-icons ul li:hover {
-  transition: 0.4s;
   color: var(--text-hovor-color);
   border: 2px solid var(--text-hovor-color);
+  transition: .3s ease-in-out;
+
 }
 
 @media (max-width: 1200px) {

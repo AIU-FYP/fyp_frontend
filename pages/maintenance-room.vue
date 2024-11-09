@@ -4,8 +4,6 @@
 
 <template>
   <HeaderSection/>
-  <ProcessMaintenanceRoom/>
-  <Shape/>
   <MaintenanceRoom/>
   <FooterSection/>
 </template>

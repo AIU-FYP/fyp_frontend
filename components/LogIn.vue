@@ -1,10 +1,12 @@
 <script setup>
 import {reactive, watch} from 'vue';
 import {z} from 'zod';
+import {navigateTo} from '#app';
 
 const previousQuestions = [
   {
     label: "Username",
+    id: "username",
     type: "text",
     placeholder: "Enter your Username",
     required: true
@@ -12,17 +14,18 @@ const previousQuestions = [
   {
     label: "Admin Password",
     type: "password",
+    id: "password",
     placeholder: "Enter your Password",
     required: true
   },
 ];
 
 const formSchema = z.object({
-  "Username":
+  "username":
       z.string()
           .regex(/^AIU\d{8}$/, "Username must start with 'AIU' followed by 8 digits")
           .nonempty("Username is required"),
-  "Admin Password":
+  "password":
       z.string()
           .min(12, "Password must be at least 12 characters long")
           .max(15, "Password must not exceed 15 characters")
@@ -32,13 +35,17 @@ const formSchema = z.object({
           .nonempty("Password is required"),
 });
 
-const form = reactive({});
-const errors = reactive({});
-
-previousQuestions.forEach((question) => {
-  form[question.label] = "";
-  errors[question.label] = "";
+const form = reactive({
+  username: '',
+  password: ''
 });
+const errors = reactive({
+  username: '',
+  password: ''
+});
+
+const auth = useAuth();
+const errorMessage = ref('');
 
 function validateField(field) {
   try {
@@ -49,30 +56,30 @@ function validateField(field) {
   }
 }
 
-previousQuestions.forEach((question) => {
-  watch(
-      () => form[question.label],
-      () => validateField(question.label)
-  );
-});
-
-
-function handleSubmit() {
-  const validationResults = formSchema.safeParse(form);
-  if (validationResults.success) {
-    console.log("Form Data:", {...form});
-    alert("Login successfully!");
-  } else {
-    alert("Please correct the errors in the form.");
-  }
+function validateForm() {
+  validateField("username");
+  validateField("password");
 }
 
+async function handleSubmit() {
+  validateForm();
+
+  if (!errors.username && !errors.password) {
+    try {
+      await auth.login(form.username, form.password);
+      navigateTo('/admin');
+    } catch (error) {
+      errorMessage.value = error.message;
+    }
+  }
+}
 </script>
 
 <template>
   <div class="log-in">
     <div class="container">
       <div class="image-box">
+        <img src="../public/images/login.png" ALT="login pic">
       </div>
       <div class="log-in-form">
         <span class="user-icon">
@@ -80,22 +87,22 @@ function handleSubmit() {
               name="mdi-user-outline"
           />
         </span>
-        <h2 class="form-title">Smart AIU Hostels Management System</h2>
+        <h2 class="form-title">AIU Hostel Management System</h2>
         <div class="form-container">
           <form @submit.prevent="handleSubmit">
             <div class="login-form">
               <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-                <label :for="question.label">{{ question.label }}:</label>
+                <label :for="question.label">{{ question.label }}</label>
                 <input
                     :type="question.type"
-                    v-model="form[question.label]"
+                    v-model="form[question.id]"
                     :placeholder="question.placeholder"
                     :id="question.label"
                 />
-                <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+                <span v-if="errors[question.id]" class="error">{{ errors[question.id] }}</span>
               </div>
             </div>
-            <button class="maintenance-submit" type="submit">Log In</button>
+            <button class="login-submit" type="submit">Log In</button>
           </form>
         </div>
       </div>
@@ -110,7 +117,7 @@ function handleSubmit() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(var(--main-color), var(--text-hovor-color));
+  background-image: linear-gradient( 120deg ,var(--text-hovor-color), var(--main-color));
   margin: 0;
   padding: 0;
 }
@@ -124,6 +131,8 @@ function handleSubmit() {
 
 .container .image-box {
   flex: 65%;
+  width: 100%;
+  height: 100%;
 }
 
 .container .log-in-form {
@@ -131,7 +140,7 @@ function handleSubmit() {
   padding: 2rem .5rem;
   margin-top: 2rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-  background-color: var(--main-color);
+  background-color: var(--main-bg-color);
 }
 
 @media (max-width: 1200px) {
@@ -140,6 +149,12 @@ function handleSubmit() {
     width: 100%;
     margin: 5rem auto;
     border-radius: 0;
+  }
+
+  .container .log-in-form,
+  .container .image-box {
+    padding: 3rem 0;
+    margin: 3rem 0;
   }
 }
 
@@ -150,9 +165,9 @@ function handleSubmit() {
   margin: -5rem auto 1rem;
   text-align: center;
   font-size: 5rem;
-  background-color: var(--bg-color);
-  color: var(--main-color);
-  border: .3rem solid var(--main-color);
+  background-color: var(--text-color);
+  color: var(--secondary-hovor-color);
+  border: .3rem solid var(--text-color);
   border-radius: 50%;
 }
 
@@ -160,13 +175,13 @@ function handleSubmit() {
   font-size: 1.2rem;
   text-align: center;
   padding: .5rem;
-  color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .log-in-form > h2 {
   font-size: 1.5rem;
   text-align: center;
-  color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .login-form {
@@ -179,9 +194,9 @@ function handleSubmit() {
   width: 100%;
   padding: 0.5rem;
   margin: .5rem 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid var(--text-hovor-color);
   outline: none;
+  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
 }
 
 .error {
@@ -189,19 +204,21 @@ function handleSubmit() {
   font-size: 1rem;
 }
 
-.maintenance-submit {
+.login-submit {
   display: block;
   width: 90%;
   padding: .5rem;
-  margin: 0 auto;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  margin: -2rem auto 0 auto;
+  background-color: var(--text-color);
+  color: var(--secondary-hovor-color);
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  border-radius: 1rem;
 }
 
-.maintenance-submit:hover {
-  background-color: var(--text-hovor-color);
-  transition: .2s;
+.login-submit:hover {
+  background-color: var(--main-bg-color);
+  color: var(--main-color);
+  transition: .4s ease-in-out;
 }
 
 </style>

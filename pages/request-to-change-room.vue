@@ -4,7 +4,6 @@
 
 <template>
   <HeaderSection/>
-  <ProcessRequestToChangeRoom/>
   <RequestToChangeRoom/>
   <FooterSection/>
 </template>

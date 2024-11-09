@@ -1,12 +1,4 @@
 <script setup lang="ts">
-import {defineProps, onMounted, ref} from 'vue';
-
-const studentProps = defineProps<{
-  student: {
-    id: number;
-  }
-}>();
-
 
 const items = [
   {
@@ -41,45 +33,14 @@ const items = [
     title: "Students Dashboard",
     studentsDashboard: [
       {
-        subTitle: "Total students males",
+        subTitle: "available rooms",
       },
       {
-        subTitle: "Total student females",
-      }
-    ]
-  },
-  {
-    title: "Rooms Dashboard",
-    rooms: [
-      {
-        subTitle: "Total available rooms",
-      },
-      {
-        subTitle: "Total occupied rooms",
+        subTitle: "occupied rooms",
       }
     ]
   }
 ]
-
-const currentNumber = ref(0);
-const targetNumber = 400;
-const duration = 3000;
-const incrementTime = 50;
-const totalIncrements = duration / incrementTime;
-const incrementValue = targetNumber / totalIncrements;
-
-onMounted(() => {
-  let currentIncrement = 0;
-
-  const interval = setInterval(() => {
-    currentIncrement++;
-    currentNumber.value = Math.min(Math.round(currentIncrement * incrementValue), targetNumber);
-
-    if (currentIncrement >= totalIncrements) {
-      clearInterval(interval);
-    }
-  }, incrementTime);
-});
 
 </script>
 
@@ -114,28 +75,31 @@ onMounted(() => {
             </router-link>
           </li>
           <li>
-            <a href="">
+            <router-link to="/">
               <span class="admin-icon">
                 <UIcon name="icon-park-outline-data-switching"/>
               </span>
-              Room Dashboard
-            </a>
+              Rooms
+            </router-link>
           </li>
         </ul>
-        <h2> <span>
+
+        <h2>
+          <span>
             <UIcon
                 name="ic-round-home"
                 class="dashboard-icon"
-            /></span>
-          Students
+            />
+          </span>
+          Dashboard
         </h2>
         <ul class="admin-menu">
           <li>
-            <router-link to="/maintenance-room">
+            <router-link to="/maintenance -room">
               <span class="admin-icon">
                 <UIcon name="icon-park-outline-data-switching"/>
               </span>
-              maintenance Form
+              Maintenance Room
             </router-link>
           </li>
           <li>
@@ -143,10 +107,12 @@ onMounted(() => {
               <span class="admin-icon">
                 <UIcon name="icon-park-outline-data-switching"/>
               </span>
-              Change Room Form
+              Change Room
             </router-link>
           </li>
         </ul>
+
+
       </div>
       <div class="content">
         <div class="content-container">
@@ -154,14 +120,14 @@ onMounted(() => {
             <h3 class="title">{{ item.title }}</h3>
             <div class="main-box" v-if="item.maintenanceRooms">
               <div v-for="(maintenanceRoom, index) in item.maintenanceRooms" :key="index">
-                <div class="icon">
+                <div class="box-info">
+                  <h2 class="subTitle">{{ maintenanceRoom.subTitle }}</h2>
                   <UIcon
                       name="mdi-worker-outline"
+                      class="icon"
                   />
                 </div>
-                <h2 class="subTitle">{{ maintenanceRoom.subTitle }}</h2>
                 <h2 class="percentage">
-                  <span>{{ studentProps.student?.id || 0 }}</span>
                   <span> + </span>
                 </h2>
               </div>
@@ -169,41 +135,28 @@ onMounted(() => {
 
             <div class="main-box" v-if="item.changeRooms">
               <div v-for="(changeRoom, index) in item.changeRooms" :key="index">
-                <div class="icon">
+                <div class="box-info">
+                  <h2 class="subTitle">{{ changeRoom.subTitle }}</h2>
                   <UIcon
                       name="stash-arrows-switch"
+                      class="icon"
                   />
                 </div>
-                <h2 class="subTitle">{{ changeRoom.subTitle }}</h2>
                 <h2 class="percentage">
-                  <span>{{ studentProps.student?.id || 0 }}</span>
                   <span> + </span>
                 </h2>
               </div>
             </div>
             <div class="main-box" v-if="item.studentsDashboard">
               <div v-for="(studentsDashboard, index) in item.studentsDashboard" :key="index">
-                <div class="icon">
+                <div class="box-info">
+                  <h2 class="subTitle">{{ studentsDashboard.subTitle }}</h2>
                   <UIcon
                       name="stash-arrows-switch"
+                      class="icon"
                   />
                 </div>
-                <h2 class="subTitle">{{ studentsDashboard.subTitle }}</h2>
                 <h2 class="percentage">
-                  <span> + </span>
-                </h2>
-              </div>
-            </div>
-            <div class="main-box" v-if="item.rooms">
-              <div v-for="(room, index) in item.rooms" :key="index">
-                <div class="icon">
-                  <UIcon
-                      name="medical-icon-i-restrooms"
-                  />
-                </div>
-                <h2 class="subTitle">{{ room.subTitle }}</h2>
-                <h2 class="percentage">
-                  <span>{{ studentProps.student?.id || 0 }}</span>
                   <span> + </span>
                 </h2>
               </div>
@@ -219,7 +172,7 @@ onMounted(() => {
 .admin-section {
   align-items: center;
   text-align: center;
-  background-color: var(--bg-color);
+  background-color: var(--text-hovor-color);
 }
 
 .admin-section-container {
@@ -251,8 +204,9 @@ onMounted(() => {
   text-align: center;
   font-size: 1.5rem;
   font-weight: normal;
-  color: var(--bg-color);
+  color: var(--text-hovor-color);
   padding: 0;
+  margin: -1rem 0;
 }
 
 .side-bar > h2 > span {
@@ -265,40 +219,21 @@ onMounted(() => {
 
 .admin-menu li {
   list-style: none;
-  margin: 0.8rem 0;
-  padding: 0.5rem;
+  margin: 0.2rem 0;
   font-size: 1rem;
   text-align: start;
   text-transform: capitalize;
   font-weight: normal;
-  color: var(--main-color);
-  background-color: #eeeeee;
-  border-radius: 1rem 0;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.admin-menu li:hover {
-  background-color: var(--text-hovor-color);
-  color: var(--bg-color);
+  color: var(--text-hovor-color);
 }
 
 .admin-menu li a span {
   margin-right: 0.4rem;
 }
 
-.submenu li {
-  text-decoration: none;
-  display: block;
-  color: var(--main-color);
-  background-color: var(--bg-color);
-  text-align: start;
-  padding: 0.3rem 0.5rem;
-  margin: 0.5rem 1rem;
-  border-radius: 1rem 0;
-}
-
-.submenu a:hover {
-  text-decoration: none;
+.admin-menu li:hover {
+  color: var(--secondary-hovor-color);
+  transition: .3s ease-in-out;
 }
 
 .content > h1 {
@@ -318,7 +253,7 @@ onMounted(() => {
   margin: 1rem;
   padding: .5rem 0;
   font-size: 1.2rem;
-  background-color: var(--bg-color);
+  background-color: var(--main-bg-color);
   border-radius: 2rem 0;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 
@@ -344,6 +279,11 @@ onMounted(() => {
   border-radius: 1rem;
 }
 
+.box-info{
+  display: flex;
+  justify-content: space-around;
+}
+
 @media (max-width: 1200px) {
   .info-analysis > .main-box {
     display: block;
@@ -361,10 +301,8 @@ onMounted(() => {
 .icon {
   font-size: 3rem;
   background-color: var(--main-color);
-  color: var(--bg-color);
-  width: 5rem;
-  height: 5rem;
-  margin: -2.5rem auto 0 auto;
+  color: var(--text-hovor-color);
+  margin: auto 3rem;
   border-radius: 50%;
 }
 
