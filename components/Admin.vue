@@ -1,225 +1,129 @@
 <script setup lang="ts">
+import {ref} from 'vue';
 
-const items = [
+const dashboardItems = [
   {
-    title: "Maintenance Room Dashboard",
-    maintenanceRooms: [
-      {
-        subTitle: "Total appending",
-      },
-      {
-        subTitle: "Total accepted",
-      },
-      {
-        subTitle: "Total rejected",
-      }
-    ]
+    title: "Main Dashboard",
+    maintenanceStats: [
+      {subTitle: "Total Pending"},
+      {subTitle: "Total Accepted"},
+      {subTitle: "Total Rejected"},
+      {subTitle: "Available Rooms"},
+      {subTitle: "Occupied Rooms"},
+      {subTitle: "Total Pending"},
+      {subTitle: "Total Accepted"},
+      {subTitle: "Total Rejected"},
+    ],
+  },
+];
+
+const summaryDetails = [
+  {
+    title: "Total Maintenance Requests"
+  },
+  {title: "Total Room Change Requests"},
+];
+
+const visibleButtonIndex = ref<number | null>(null);
+
+const navigationButtons = [
+  {
+    name: "Student",
+    links: [
+      {text: "Register Student", url: "https://nuxt.com/docs"},
+      {text: "Manage Student", url: "https://vuejs.org"},
+    ],
   },
   {
-    title: "Change Room Dashboard",
-    changeRooms: [
-      {
-        subTitle: "Total appending",
-      },
-      {
-        subTitle: "Total accepted",
-      },
-      {
-        subTitle: "Total rejected",
-      },
-    ]
+    name: "Maintenance",
+    links: [
+      {text: "Maintenance Form", url: "https://content.nuxtjs.org"},
+      {text: "Manage Maintenance", url: "https://modules.nuxtjs.org"},
+    ],
   },
   {
-    title: "Students Dashboard",
-    studentsDashboard: [
-      {
-        subTitle: "available rooms",
-      },
-      {
-        subTitle: "occupied rooms",
-      }
-    ]
-  }
-]
+    name: "Change Room",
+    links: [
+      {text: "Change Room Form", url: "https://v3.nuxtjs.org"},
+      {text: "Manage Room Changes", url: "https://www.vuemastery.com"},
+    ],
+  },
+];
 
+function toggleLinkVisibility(index: number) {
+  visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
+}
 </script>
 
 <template>
-  <div class="admin-section">
-    <div class="admin-section-container">
-      <div class="side-bar">
-        <h2>
-          <span>
-            <UIcon
-                name="ic-round-home"
-                class="dashboard-icon"
-            />
-          </span>
-          Dashboard
-        </h2>
-        <ul class="admin-menu">
-          <li>
-            <router-link to="/maintenance-room-dashboard">
-              <span class="admin-icon">
-                <UIcon name="icon-park-outline-data-switching"/>
-              </span>
-              Maintenance Room
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/change-room-dashboard">
-              <span class="admin-icon">
-                <UIcon name="icon-park-outline-data-switching"/>
-              </span>
-              Change Room
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/">
-              <span class="admin-icon">
-                <UIcon name="icon-park-outline-data-switching"/>
-              </span>
-              Rooms
-            </router-link>
+  <div class="admin-dashboard">
+    <aside class="sidebar">
+      <div v-for="(button, index) in navigationButtons" :key="index">
+        <button
+            @click="toggleLinkVisibility(index)"
+            :aria-expanded="visibleButtonIndex === index"
+            class="sidebar-button"
+        >
+          <UIcon name="icon-park-outline-control"/>
+          {{ button.name }}
+        </button>
+        <ul v-if="visibleButtonIndex === index">
+          <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
+            <a :href="link.url" target="_blank">{{ link.text }}</a>
           </li>
         </ul>
-
-        <h2>
-          <span>
-            <UIcon
-                name="ic-round-home"
-                class="dashboard-icon"
-            />
-          </span>
-          Dashboard
-        </h2>
-        <ul class="admin-menu">
-          <li>
-            <router-link to="/maintenance -room">
-              <span class="admin-icon">
-                <UIcon name="icon-park-outline-data-switching"/>
-              </span>
-              Maintenance Room
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/request-to-change-room">
-              <span class="admin-icon">
-                <UIcon name="icon-park-outline-data-switching"/>
-              </span>
-              Change Room
-            </router-link>
-          </li>
-        </ul>
-
-
       </div>
-      <div class="content">
-        <div class="content-container">
-          <div class="info-analysis" v-for="item in items">
-            <h3 class="title">{{ item.title }}</h3>
-            <div class="main-box" v-if="item.maintenanceRooms">
-              <div v-for="(maintenanceRoom, index) in item.maintenanceRooms" :key="index">
-                <div class="box-info">
-                  <h2 class="subTitle">{{ maintenanceRoom.subTitle }}</h2>
-                  <UIcon
-                      name="mdi-worker-outline"
-                      class="icon"
-                  />
-                </div>
-                <h2 class="percentage">
-                  <span> + </span>
-                </h2>
-              </div>
-            </div>
+    </aside>
 
-            <div class="main-box" v-if="item.changeRooms">
-              <div v-for="(changeRoom, index) in item.changeRooms" :key="index">
-                <div class="box-info">
-                  <h2 class="subTitle">{{ changeRoom.subTitle }}</h2>
-                  <UIcon
-                      name="stash-arrows-switch"
-                      class="icon"
-                  />
-                </div>
-                <h2 class="percentage">
-                  <span> + </span>
-                </h2>
-              </div>
-            </div>
-            <div class="main-box" v-if="item.studentsDashboard">
-              <div v-for="(studentsDashboard, index) in item.studentsDashboard" :key="index">
-                <div class="box-info">
-                  <h2 class="subTitle">{{ studentsDashboard.subTitle }}</h2>
-                  <UIcon
-                      name="stash-arrows-switch"
-                      class="icon"
-                  />
-                </div>
-                <h2 class="percentage">
-                  <span> + </span>
-                </h2>
-              </div>
-            </div>
+    <main class="dashboard-content">
+      <section v-for="item in dashboardItems" :key="item.title" class="analysis-section">
+        <h3 class="section-title">{{ item.title }}</h3>
+        <div class="stat-cards">
+          <div v-for="(stat, index) in item.maintenanceStats" :key="index" class="stat-card">
+            <h4>{{ stat.subTitle }}</h4>
+            <UIcon name="mdi-worker-outline" class="stat-icon"/>
+            <p class="stat-value">+ <span></span></p>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+
+      <section class="dashboard-summary">
+        <div v-for="detail in summaryDetails" :key="detail.title" class="summary-card">
+          <h3>{{ detail.title }}</h3>
+        </div>
+      </section>
+    </main>
   </div>
 </template>
 
 <style scoped>
-.admin-section {
-  align-items: center;
-  text-align: center;
-  background-color: var(--text-hovor-color);
-}
-
-.admin-section-container {
+.admin-dashboard {
   display: flex;
-  flex-direction: row;
-  margin: 0;
-  background-color: #eeeeee;
 }
 
-.side-bar {
-  flex: 20%;
+.sidebar {
+  flex: 1;
   background-color: var(--main-color);
-  padding: 3rem 1rem;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.content {
-  flex: 80%;
-}
-
-@media (max-width: 1200px) {
-  .admin-section-container {
-    display: block;
-    margin: 5rem 0;
-    padding: 0;
-  }
-}
-
-.side-bar > h2 {
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: normal;
+.sidebar-button {
+  font-size: 1.2rem;
   color: var(--text-hovor-color);
-  padding: 0;
-  margin: -1rem 0;
+  margin-bottom: 0.5rem;
+  text-align: start;
+  transition: color 0.3s;
 }
 
-.side-bar > h2 > span {
-  font-size: 1.5rem;
+.sidebar-button:hover {
+  color: var(--main-bg-color);
 }
 
-.admin-menu {
-  margin: 2rem 0;
-}
-
-.admin-menu li {
+.sidebar ul li {
   list-style: none;
-  margin: 0.2rem 0;
+  margin: 0.5rem 1rem;
   font-size: 1rem;
   text-align: start;
   text-transform: capitalize;
@@ -227,103 +131,80 @@ const items = [
   color: var(--text-hovor-color);
 }
 
-.admin-menu li a span {
-  margin-right: 0.4rem;
-}
-
-.admin-menu li:hover {
+.sidebar li:hover {
   color: var(--secondary-hovor-color);
   transition: .3s ease-in-out;
 }
 
-.content > h1 {
-  text-align: center;
-  font-size: 1.2rem;
-  font-weight: normal;
-  color: var(--main-color);
-  margin: 2rem 0;
+.dashboard-content {
+  flex: 5;
+  padding: 4rem;
+  background-color: #eeeeee;
 }
 
-.content-container {
-  display: block;
+.analysis-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin: 2rem 0;
+  text-align: center;
+  color: var(--main-color);
+}
+
+.stat-cards {
+  display: flex;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
-.content-container .info-analysis {
-  margin: 1rem;
-  padding: .5rem 0;
-  font-size: 1.2rem;
-  background-color: var(--main-bg-color);
-  border-radius: 2rem 0;
-  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-
+.stat-card {
+  flex: 1 1 20%;
+  background-color: var(--secondary-hovor-color);
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.content-container .info-analysis h3 {
+.stat-card h4 {
+  font-size: 1.1rem;
+  color: var(--main-color);
+}
+
+.stat-icon {
   font-size: 2rem;
   color: var(--main-color);
+  margin: 0.5rem 0;
 }
 
-.info-analysis > .main-box {
+.dashboard-summary {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 1rem 0;
-  margin: 2rem 1rem 1rem 1rem;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
-.main-box > div {
-  flex: 30%;
-  background-color: #eeeeee;
-  border-radius: 1rem;
-}
-
-.box-info{
-  display: flex;
-  justify-content: space-around;
-}
-
-@media (max-width: 1200px) {
-  .info-analysis > .main-box {
-    display: block;
-    gap: 1rem;
-    border-radius: 0;
-  }
-
-  .main-box div {
-    margin: 3rem auto;
-    padding: 0;;
-  }
-}
-
-
-.icon {
-  font-size: 3rem;
+.summary-card {
   background-color: var(--main-color);
-  color: var(--text-hovor-color);
-  margin: auto 3rem;
-  border-radius: 50%;
-}
-
-@media (max-width: 1200px) {
-  .icon {
-    border-radius: 50%;
-  }
-}
-
-.subTitle {
-  font-size: 1.2rem;
-  text-align: center;
-  color: var(--main-color);
-  margin: 1rem 0;
-}
-
-.percentage {
   padding: 1rem;
-  font-size: 3rem;
+  border-radius: 1rem 0;
+  flex: 1 1 calc(50% - 1rem);
   text-align: center;
-  color: var(--text-hovor-color);
-  margin: .5rem auto;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    flex-basis: 100%;
+  }
+
+  .dashboard-content {
+    padding: 1rem;
+  }
+
+  .stat-cards,
+  .dashboard-summary {
+    flex-direction: column;
+  }
 }
 </style>
