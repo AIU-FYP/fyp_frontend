@@ -1,8 +1,8 @@
 <script setup>
 import {computed, reactive, ref, watch} from 'vue';
-import  Popup from '~/components/PopupStudentSubmit.vue'
+import Popup from '~/components/PopupAdminSubmit.vue'
 import {z} from 'zod';
-import { nationalities, locationIssues, roomMaintenanceIssues } from "~/utils/nationalities";
+import {nationalities, roomMaintenanceIssues} from "~/utils/nationalities";
 
 const userNationalityInput = ref('');
 const filteredNationalities = computed(() => {
@@ -35,19 +35,26 @@ const previousQuestions = [
   },
   {
     label: "Student ID NO",
-    type: "text", placeholder: "Enter your student ID (e.g., AIU21011234)",
+    type: "text",
+    placeholder: "Enter your student ID (e.g., AIU21011234)",
     required: true
   },
   {
-    label: "Room NO",
+    label: "Passport NO",
     type: "text",
-    placeholder: "Enter your room NO (e.g., 25i-3-10)",
+    placeholder: "Enter your passport NO",
     required: true
   },
   {
     label: "WhatsApp NO",
     type: "text",
-    placeholder: "Enter your whatsapp NO",
+    placeholder: "Enter your WhatsApp NO",
+    required: true
+  },
+  {
+    label: "Phone NO",
+    type: "text",
+    placeholder: "Enter your phone NO",
     required: true
   },
   {
@@ -64,36 +71,29 @@ const previousQuestions = [
     placeholder: "Enter your gender"
   },
   {
-    label: "Common type Issues",
-    type: "select",
-    options: filteredLocationsSpecificIssues.value,
-    required: true,
-    placeholder: "Select the issue related to the selected location"
-  },
-  {
     label: "Nationality",
     type: "select",
     options: filteredNationalities.value,
     placeholder: "Select nationality"
   },
   {
-    label: "How frequent the damages occur?",
+    label: "Block Name",
+    type: "text",
+    placeholder: "Enter Block Name (e.g., 25i)",
+    required: true
+  },
+  {
+    label: "Room NO",
+    type: "text",
+    placeholder: "Enter Room No (e.g., 25H-2-2)",
+    required: true
+  },
+  {
+    label: "Which Zone?",
     type: "select",
-    options: ["1 time", "2 times", "3 times", "4 times", "5 times", "More than 5 times"],
+    options: ["Zone A", "Zone B", "Zone C", "Zone C"],
     required: true,
-    placeholder: "How frequent the damages occur?"
-  },
-  {
-    label: "Please provide photo evidence",
-    type: "file",
-    required: true,
-    placeholder: "Please provide photo evidence"
-  },
-  {
-    label: "Explain in detail the damage?",
-    type: "textarea",
-    required: true,
-    placeholder: "Explain in detail the damage in mention above"
+    placeholder: "How many seats are in the room?"
   }
 ];
 
@@ -101,40 +101,57 @@ const formSchema = z.object({
   "Name":
       z.string().min(8, "Name must be at least 8 characters long")
           .nonempty("Name is required"),
+
   "Student ID NO":
       z.string()
           .regex(/^AIU\d{8}$/, "Invalid Student ID format")
           .nonempty("Student ID is required"),
-  "Room NO":
-      z.string().regex(/^\d+[A-Za-z]*-\d-\d+$/, "Invalid Room Number format")
-          .nonempty("Room Number is required"),
+
+  "Passport NO":
+      z.string()
+          .regex(/^\d{6,15}$/, "Invalid Passport Number format")
+          .nonempty("Passport Number is required"),
+
   "WhatsApp NO":
-      z.string().regex(/^\d{8,15}$/, "Invalid phone number")
-          .nonempty("Phone Number is required"),
+      z.string()
+          .regex(/^\d{8,15}$/, "Invalid WhatsApp number format")
+          .nonempty("WhatsApp number is required"),
+
+  "Phone NO":
+      z.string()
+          .regex(/^\d{8,15}$/, "Invalid phone number format")
+          .nonempty("Phone number is required"),
+
   "Email Address (Student Email Only)":
       z.string()
           .email("Invalid email format")
-          .regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'"),
+          .regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'")
+          .nonempty("Email address is required"),
+
   "Gender":
       z.string()
           .nonempty("Gender is required"),
-  "Common type Issues":
-      z.string()
-          .nonempty("Location-specific Issue is required"),
+
   "Nationality":
       z.string()
           .optional(),
-  "How frequent the damages occur?":
-      z.string()
-          .nonempty("Frequency of damages is required"),
-  "Please provide photo evidence":
-      z.any()
-          .optional(),
-  "Explain in detail the damage?":
-      z.string().min(20, "Name must be at least 20 characters long")
-          .nonempty("Name is required"),
-});
 
+  "Block Name":
+      z.string()
+          .nonempty("Block Name is required"),
+
+  "Room NO":
+      z.string()
+          .regex(/^\d+[A-Za-z]*-\d-\d+$/, "Invalid Room Number format")
+          .nonempty("Room Number is required"),
+
+  "How many Seater?":
+      z.string()
+          .nonempty("Seating capacity is required")
+          .refine((value) => ["1 Seater", "2 Seater", "3 Seater", "4 Seater"].includes(value), {
+            message: "Please select a valid seating capacity"
+          }),
+});
 const form = reactive({});
 const errors = reactive({});
 
@@ -173,55 +190,51 @@ function handleSubmit() {
 <template>
   <div class="maintenance-room-section">
     <div class="container">
-      <div class="description">
-        <img src="/images/AIU-Official-Logo.png" alt="AIU"/>
-        <h2 class="title-maintenance-form">Form For Maintenance Room Issues</h2>
-        <p class="description-maintenance-form">
-          If you're experiencing any problems with your room, please fill out this form to let us know. This will help
-          us quickly identify and address the issue, ensuring your living space remains comfortable and safe.
-        </p>
-        <p>Note: Before registering to the system, please make sure you have your student email.</p>
+      <div class="form-header">
+        <h2>Registration New Student</h2>
       </div>
       <div class="maintenance-room-form">
-        <h2>Please fill this Form</h2>
         <form @submit.prevent="handleSubmit">
           <div class="maintenance-form">
             <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-              <label class="question-title" :for="question.label">{{ question.label }}:</label>
+              <h3 v-if="question.title" class="section-title">{{ question.title }}</h3>
+              <div v-if="!question.title">
+                <label class="question-title" :for="question.label">{{ question.label }}:</label>
 
-              <input
-                  v-if="question.type === 'text' || question.type === 'file'"
-                  :type="question.type"
-                  v-model="form[question.label]"
-                  :placeholder="question.placeholder"
-                  :id="question.label"
-                  @input="validateField(question.label)"
-              />
+                <input
+                    v-if="question.type === 'text' || question.type === 'file'"
+                    :type="question.type"
+                    v-model="form[question.label]"
+                    :placeholder="question.placeholder"
+                    :id="question.label"
+                    @input="validateField(question.label)"
+                />
 
-              <select
-                  v-if="question.type === 'select'"
-                  v-model="form[question.label]"
-                  :id="question.label"
-                  @change="validateField(question.label)"
-              >
-                <option value="" disabled>{{ question.placeholder }}</option>
-                <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
-              </select>
-              <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+                <select
+                    v-if="question.type === 'select'"
+                    v-model="form[question.label]"
+                    :id="question.label"
+                    @change="validateField(question.label)"
+                >
+                  <option value="" disabled>{{ question.placeholder }}</option>
+                  <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
+                </select>
+                <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
 
-              <textarea
-                  v-if="question.type === 'textarea'"
-                  :id="question.label"
-                  :name="question.label"
-                  :placeholder="question.placeholder"
-                  v-model="form[question.label]"
-              />
+                <textarea
+                    v-if="question.type === 'textarea'"
+                    :id="question.label"
+                    :name="question.label"
+                    :placeholder="question.placeholder"
+                    v-model="form[question.label]"
+                />
+              </div>
 
             </div>
           </div>
 
           <div>
-            <button @click.once="isPopupVisible = true" class="maintenance-submit" type="submit">Submit</button>
+            <button @click.once="isPopupVisible = true" class="submit" type="submit">Submit</button>
             <Popup :show="isPopupVisible" @update:show="isPopupVisible = $event">
             </Popup>
           </div>
@@ -235,7 +248,7 @@ function handleSubmit() {
 <style scoped>
 
 .maintenance-room-section {
-  margin: 7rem;
+  margin: 5rem 10rem;
   border: 2px solid #eeeeee;
   border-radius: 0 30px 30px 0;
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
@@ -249,19 +262,26 @@ function handleSubmit() {
 
 .container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
 }
 
-.container .description {
-  flex: 30%;
-  background-color: #eeeeee;
-  padding: 2.5rem;
-  border-radius: 0;
+.form-header {
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  padding: .5rem 0;
+  border-radius: 0 1rem 0 0;
+  background-color: var(--main-color);
+}
+
+.form-header h2 {
+  font-size: 1.5rem;
+  color: var(--secondary-hovor-color);
 }
 
 .container .maintenance-room-form {
-  flex: 60%;
+  flex: 80%;
   padding: 2.5rem;
 }
 
@@ -272,13 +292,10 @@ function handleSubmit() {
 }
 
 @media (max-width: 1200px) {
-  .container  {
+  .container {
     display: block;
   }
 
-  .container .description {
-    padding: 1rem;
-  }
 }
 
 .container .description h2 {
@@ -332,16 +349,6 @@ function handleSubmit() {
   outline: none;
 }
 
-.maintenance-form textarea {
-  width: 205%;
-  min-height: 4rem;
-  max-height: 4rem;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-}
-
 .error {
   color: red;
   font-size: 1rem;
@@ -359,19 +366,20 @@ function handleSubmit() {
   }
 }
 
-.maintenance-submit {
-  margin-top: 1rem;
+.submit {
+  width: 100%;
+  text-align: center;
+  margin-top: 2rem;
   padding: .5rem 2rem;
-  display: flex;
-  font-size: 1rem;
-  border-radius: 1rem;
+  font-size: 1.2rem;
+  border-radius: 1rem 0;
   background-color: var(--main-color);
-  color: var(--text-color);
+  color: var(--secondary-hovor-color);
 }
 
-.maintenance-submit:hover {
-  background-color: var(--text-hovor-color);
-  transition: .2s;
+.submit:hover {
+  background-color: var(--text-color);
+  transition: .3s ease-in-out;
 }
 
 </style>

@@ -31,17 +31,13 @@ const fullDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
       <div class="notification">
-        <div class="notification-icon">
-          <UIcon
-              name="lsicon-submit-outline"
-          />
+        <div class="logo-box">
+          <img src="/images/AIU-Official-Logo.png" alt="aiu-logo">
         </div>
         <div class="thank-info">
           <p>
-            Dear Student, Thank you for submitting your request. We have successfully received your
-            application, and our team will review it within the next 7 days. We will keep you informed about the
-            progress and let you know if any further information is needed.
-            {{fullDate}}
+            Dear Student Affairs, you have successfully registered a new student at Albukhary International University
+            on {{ fullDate }}.
           </p>
           <h2>Thank you for your patience.</h2>
         </div>
@@ -84,10 +80,9 @@ const fullDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate
   }
 }
 
-.notification-icon {
-  font-size: 10rem;
-  color: var(--main-color);
-  margin-bottom: 3rem;
+.logo-box {
+  width: 200px;
+  margin: 0 auto 5rem auto;
 }
 
 span {

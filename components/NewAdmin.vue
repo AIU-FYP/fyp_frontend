@@ -1,7 +1,7 @@
 <script setup>
 
 import {computed, reactive, ref, watch} from 'vue';
-import  Popup from '~/components/PopupSubmit.vue'
+import  Popup from '~/components/PopupStudentSubmit.vue'
 import {z} from 'zod';
 
 const previousQuestions = [
