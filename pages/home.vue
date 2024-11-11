@@ -7,6 +7,8 @@
   <LandingSection/>
   <ProcessMaintenanceRoom/>
   <Shape/>
+  <ProcessRequestToChangeRoom/>
+  <Shape/>
   <RandomPics/>
   <FooterSection/>
 </template>
