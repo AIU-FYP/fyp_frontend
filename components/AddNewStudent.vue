@@ -2,7 +2,10 @@
 import {computed, reactive, ref, watch} from 'vue';
 import Popup from '~/components/PopupAdminSubmit.vue'
 import {z} from 'zod';
-import {nationalities, roomMaintenanceIssues} from "~/utils/nationalities";
+import {nationalities,} from "~/utils/nationalities";
+
+const form = reactive({});
+const errors = reactive({});
 
 const userNationalityInput = ref('');
 const filteredNationalities = computed(() => {
@@ -14,17 +17,16 @@ const filteredNationalities = computed(() => {
   );
 });
 
-const userLocationInput = ref('');
 
-const userFilteredLocationsSpecificIssues = ref('');
-computed(() => {
-  if (!userLocationInput.value) {
-    return roomMaintenanceIssues;
-  }
-  return roomMaintenanceIssues.filter(n =>
-      n.toLowerCase().startsWith(userFilteredLocationsSpecificIssues.value.toLowerCase())
-  );
+const isPopupVisible = ref(false);
+
+const gender = ref('');
+
+const blockOptions = ref([]); // To hold options for Block Name
+watch(gender, () => {
+  form["Block Name"] = "";
 });
+
 const previousQuestions = [
   {
     label: "Name",
@@ -73,7 +75,7 @@ const previousQuestions = [
     type: "select",
     options: ["Male", "Female"],
     required: true,
-    placeholder: "Enter your gender"
+    placeholder: "Enter your gender",
   },
   {
     label: "Nationality",
@@ -111,7 +113,7 @@ const previousQuestions = [
   {
     label: "Block Name",
     type: "select",
-    options: ["12","122","1212"],
+    options: blockOptions.value,
     placeholder: "Enter Block Name (e.g., 25i)",
     required: true
   },
@@ -132,76 +134,24 @@ const previousQuestions = [
 ];
 
 const formSchema = z.object({
-  "Name":
-      z.string().min(8, "Name must be at least 8 characters long")
-          .nonempty("Name is required"),
-
-  "Student ID NO":
-      z.string()
-          .regex(/^AIU\d{8}$/, "Invalid Student ID format")
-          .nonempty("Student ID is required"),
-
-  "Passport NO":
-      z.string()
-          .regex(/^\d{6,15}$/, "Invalid Passport Number format")
-          .nonempty("Passport Number is required"),
-
-  "Date of Birth": z.string()
-      .nonempty("Date of Birth is required"),
-
-  "WhatsApp NO":
-      z.string()
-          .regex(/^\d{8,15}$/, "Invalid WhatsApp number format")
-          .nonempty("WhatsApp number is required"),
-
-  "Phone NO":
-      z.string()
-          .regex(/^\d{8,15}$/, "Invalid phone number format")
-          .nonempty("Phone number is required"),
-
-  "Email Address (Student Email Only)":
-      z.string()
-          .email("Invalid email format")
-          .regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'")
-          .nonempty("Email address is required"),
-
-  "Gender":
-      z.string()
-          .nonempty("Gender is required"),
-  "Nationality":
-      z.string()
-          .optional(),
-  "Country of Residence":
-      z.string()
-          .optional(),
-  "Current Level of Education":
-      z.string()
-          .optional(),
-  "Program/Major":
-  z.string()
-      .optional(),
-  "Expected Graduation Year":
-      z.string()
-          .regex(/^\d{4,4}$/, "Invalid Passport Number format")
-          .nonempty("Passport Number is required"),
-  "Block Name":
-      z.string()
-          .nonempty("Block Name is required"),
-
-  "Room NO":
-      z.string()
-          .regex(/^\d+[A-Za-z]*-\d-\d+$/, "Invalid Room Number format")
-          .nonempty("Room Number is required"),
-
-  "How many Seater?":
-      z.string()
-          .nonempty("Seating capacity is required")
-          .refine((value) => ["1 Seater", "2 Seater", "3 Seater", "4 Seater"].includes(value), {
-            message: "Please select a valid seating capacity"
-          }),
+  "Name": z.string().min(8, "Name must be at least 8 characters long").nonempty("Name is required"),
+  "Student ID NO": z.string().regex(/^AIU\d{8}$/, "Invalid Student ID format").nonempty("Student ID is required"),
+  "Passport NO": z.string().regex(/^\d{6,15}$/, "Invalid Passport Number format").nonempty("Passport Number is required"),
+  "Date of Birth": z.string().nonempty("Date of Birth is required"),
+  "WhatsApp NO": z.string().regex(/^\d{8,15}$/, "Invalid WhatsApp number format").nonempty("WhatsApp number is required"),
+  "Phone NO": z.string().regex(/^\d{8,15}$/, "Invalid phone number format").nonempty("Phone number is required"),
+  "Email Address (Student Email Only)": z.string().email("Invalid email format").regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'").nonempty("Email address is required"),
+  "Gender": z.string().nonempty("Gender is required"),
+  "Nationality": z.string().optional(),
+  "Country of Residence": z.string().optional(),
+  "Current Level of Education": z.string().optional(),
+  "Program/Major": z.string().optional(),
+  "Expected Graduation Year": z.string().regex(/^\d{4,4}$/, "Invalid Passport Number format").nonempty("Passport Number is required"),
+  "Block Name": z.string().nonempty("Block Name is required"),
+  "Room NO": z.string().optional(),
+  "Which Zone?": z.string().optional(),
+  "How many Seater?": z.string().nonempty("Seating capacity is required").refine((value) => ["1 Seater", "2 Seater", "3 Seater", "4 Seater"].includes(value), {message: "Please select a valid seating capacity"}),
 });
-const form = reactive({});
-const errors = reactive({});
 
 previousQuestions.forEach((question) => {
   form[question.label] = "";
@@ -218,10 +168,8 @@ function validateField(field) {
 }
 
 previousQuestions.forEach((question) => {
-  watch(() => form[question.label], (newValue) => validateField(question.label, newValue));
+  watch(() => form[question.label], () => validateField(question.label));
 });
-
-const isPopupVisible = ref(false)
 
 function handleSubmit() {
   form.Date = new Date().toLocaleDateString("en-GB");

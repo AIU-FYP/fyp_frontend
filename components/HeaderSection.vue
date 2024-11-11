@@ -1,50 +1,62 @@
 <template>
   <div class="header-section">
     <div class="main-container">
-      <div class="image-logo">
-        <a href="https://aiu.edu.my/">
-          <img src="/images/AIU-Official-Logo.png" alt="aiu-logo"/>
-        </a>
+
+      <div class="container-box">
+        <div class="image-logo">
+          <a href="https://aiu.edu.my/">
+            <img src="/images/AIU-Official-Logo.png" alt="aiu-logo"/>
+          </a>
+        </div>
+        <div>
+          <button @click="toggleLinksVisibility" class="bar-btn" v-if="isMobile">
+            <UIcon
+                name="uil-bars"
+            />
+          </button>
+        </div>
       </div>
 
       <div class="title">
         <h2>Smart AIU Management System</h2>
       </div>
 
-      <div class="menu" :class="{ 'menu-visible': isNavVisible }">
+      <nav class="menu" v-if="isLinksVisible || !isMobile">
         <ul class="menu-links">
-          <li><router-link to="/home"><span class="icon"><UIcon class="bar-icon-links" name="material-symbols-contact-page"/></span>Home
-          </router-link></li>
-          <li><router-link to="/about"><span class="icon"><UIcon class="bar-icon-links" name="la-university"/></span>About</router-link>
+          <li>
+            <router-link to="/home">Home</router-link>
           </li>
-          <li class="dropdown" @click="toggleDropdown('student')">
-            <span class="dropbtn">
-              <UIcon name="ph-student-light"/>
-              Student
-            </span>
-            <ul class="dropdown-content" :class="{ 'dropdown-visible': activeDropdown === 'student' }">
-              <li><router-link to="/maintenance-room">Maintenance Room</router-link></li>
-              <li><router-link to="request-to-change-room">Request to Change Room</router-link></li>
-            </ul>
+          <li><router-link to="/about">About</router-link>
           </li>
-          <li><router-link to="/login">
-            <span class="icon"><UIcon class="bar-icon-links" name="material-symbols-login"/></span>Log In
-          </router-link></li>
+          <li><router-link to="/maintenance-room">Maintenance Room</router-link></li>
+          <li><router-link to="request-to-change-room">Request to Change Room</router-link></li>
+
+          <li><router-link to="/login">Log In</router-link></li>
+
         </ul>
-      </div>
+      </nav>
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref} from 'vue';
+import {onMounted, ref} from 'vue';
 
-const isNavVisible = ref(false);
-const activeDropdown = ref(null);
+const isLinksVisible = ref(false);
 
-const toggleDropdown = (dropdown) => {
-  activeDropdown.value = activeDropdown.value === dropdown ? null : dropdown;
-};
+function toggleLinksVisibility() {
+  isLinksVisible.value = !isLinksVisible.value;
+  console.log("Links visibility toggled:", isLinksVisible.value);
+}
+
+const isMobile = ref(false);
+
+onMounted(() => {
+  isMobile.value = window.innerWidth <= 1200;
+  window.addEventListener('resize', () => {
+    isMobile.value = window.innerWidth <= 1200;
+  });
+});
 </script>
 
 <style scoped>
@@ -52,6 +64,10 @@ const toggleDropdown = (dropdown) => {
   background-color: var(--main-bg-color);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   padding: .5rem;
+}
+
+.container-box > button {
+  display: none;
 }
 
 .main-container {
@@ -83,21 +99,10 @@ const toggleDropdown = (dropdown) => {
 
 .menu-links li {
   display: inline-block;
-  margin-right: 1rem;
+  margin-right: .5rem;
 }
 
-.bar-icon-links {
-  display: flex;
-  justify-content: center;
-  margin: .2rem;
-}
-
-.dropdown {
-  position: relative;
-}
-
-.menu-links a,
-.dropbtn {
+.menu-links a {
   color: var(--main-color);
   padding: 10px;
   font-size: 1rem;
@@ -108,26 +113,11 @@ const toggleDropdown = (dropdown) => {
   text-decoration: none;
 }
 
-.menu-links a:hover,
-.dropbtn:hover {
+.menu-links a:hover {
   color: var(--text-hovor-color);
   transition: .3s ease-in-out;
 }
 
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: var(--text-color);
-  margin-top: 1rem;
-  left: -2rem;
-  min-width: 11rem;
-  box-shadow: 0 1rem 2rem 0 rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-.dropdown-content.dropdown-visible {
-  display: block;
-}
 
 .dropdown-content li {
   display: block;
@@ -139,59 +129,39 @@ const toggleDropdown = (dropdown) => {
   padding: .5rem;
 }
 
-@media (max-width: 1200px) {
-  .dropdown-content.dropdown-visible {
-    display: block;
-    margin: 0;
-  }
+@media (max-width: 1200px ) {
 
-  .dropdown-content li {
-    display: block;
-    margin: 0;
-  }
-
-  .dropdown-content li > a {
-    margin: 0 4rem;
-    padding: .3rem 0;
-  }
-
-}
-
-.dropdown-content a {
-  color: var(--text-hovor-color);
-  font-size: .9rem;
-  text-decoration: none;
-}
-
-
-@media (max-width: 1200px) {
   .main-container {
     display: block;
   }
 
+
   .title h2 {
     display: none;
-    font-size: 1rem;
-    margin: 1rem 3.5rem;
   }
 
-  .menu {
-    display: block;
+  .container-box {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .bar-btn {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0 1rem;
   }
 
   .menu-links {
     display: block;
+    margin: 1rem 0;
   }
 
   .menu-links li {
     display: block;
+    margin-left: .5rem;
+    border-bottom: 2px solid var(--main-hovor-color);
   }
 
-  .dropdown-content {
-    width: 100%;
-    position: relative;
-    box-shadow: none;
-  }
 }
 
 </style>

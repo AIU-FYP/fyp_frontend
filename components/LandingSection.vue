@@ -24,7 +24,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-color: var(--main-bg-color);
   color: #fff;
 }
@@ -111,24 +111,8 @@ p {
   margin-top: -3.3rem;
 }
 
-.student-handbook {
-  padding: 1rem;
-  margin: 1rem;
-  font-size: 1.2rem;
-  border-radius: 1rem 0;
-  background-color: var(--main-bg-color);
-  color: var(--main-color);
-}
-
-.student-handbook:hover {
-  background-color: var(--main-color);
-  color: var(--main-bg-color);
-  transition: .3s ease-in-out;
-}
-
-
 @media screen and (max-width: 800px) {
-  .container {
+  .main-container {
     padding: 10rem 1rem;
     text-align: start;
   }
