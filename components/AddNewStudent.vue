@@ -17,7 +17,7 @@ const filteredNationalities = computed(() => {
 const userLocationInput = ref('');
 
 const userFilteredLocationsSpecificIssues = ref('');
-const filteredLocationsSpecificIssues = computed(() => {
+computed(() => {
   if (!userLocationInput.value) {
     return roomMaintenanceIssues;
   }
@@ -25,7 +25,6 @@ const filteredLocationsSpecificIssues = computed(() => {
       n.toLowerCase().startsWith(userFilteredLocationsSpecificIssues.value.toLowerCase())
   );
 });
-
 const previousQuestions = [
   {
     label: "Name",
@@ -43,6 +42,12 @@ const previousQuestions = [
     label: "Passport NO",
     type: "text",
     placeholder: "Enter your passport NO",
+    required: true
+  },
+  {
+    label: "Date of Birth",
+    type: "date",
+    placeholder: "Select your date of birth",
     required: true
   },
   {
@@ -77,14 +82,43 @@ const previousQuestions = [
     placeholder: "Select nationality"
   },
   {
-    label: "Block Name",
+    label: "Country of Residence",
+    type: "select",
+    options: filteredNationalities.value,
+    placeholder: "Enter your country of residence",
+    required: true
+  },
+  {
+    label: "Current Level of Education",
+    type: "select",
+    options: ["Freshman", "Sophomore", "Junior", "Senior"],
+    required: true,
+    placeholder: "Select your level of education"
+  },
+  {
+    label: "Program/Major",
+    type: "select",
+    options: ["Freshman", "Sophomore", "Junior", "Senior"],
+    placeholder: "Enter your program or major",
+    required: true
+  },
+  {
+    label: "Expected Graduation Year",
     type: "text",
+    placeholder: "Enter your expected graduation year",
+    required: true
+  },
+  {
+    label: "Block Name",
+    type: "select",
+    options: ["12","122","1212"],
     placeholder: "Enter Block Name (e.g., 25i)",
     required: true
   },
   {
     label: "Room NO",
-    type: "text",
+    type: "select",
+    options: ["01", "02"],
     placeholder: "Enter Room No (e.g., 25H-2-2)",
     required: true
   },
@@ -94,7 +128,7 @@ const previousQuestions = [
     options: ["Zone A", "Zone B", "Zone C", "Zone C"],
     required: true,
     placeholder: "How many seats are in the room?"
-  }
+  },
 ];
 
 const formSchema = z.object({
@@ -111,6 +145,9 @@ const formSchema = z.object({
       z.string()
           .regex(/^\d{6,15}$/, "Invalid Passport Number format")
           .nonempty("Passport Number is required"),
+
+  "Date of Birth": z.string()
+      .nonempty("Date of Birth is required"),
 
   "WhatsApp NO":
       z.string()
@@ -131,11 +168,22 @@ const formSchema = z.object({
   "Gender":
       z.string()
           .nonempty("Gender is required"),
-
   "Nationality":
       z.string()
           .optional(),
-
+  "Country of Residence":
+      z.string()
+          .optional(),
+  "Current Level of Education":
+      z.string()
+          .optional(),
+  "Program/Major":
+  z.string()
+      .optional(),
+  "Expected Graduation Year":
+      z.string()
+          .regex(/^\d{4,4}$/, "Invalid Passport Number format")
+          .nonempty("Passport Number is required"),
   "Block Name":
       z.string()
           .nonempty("Block Name is required"),
@@ -197,38 +245,35 @@ function handleSubmit() {
         <form @submit.prevent="handleSubmit">
           <div class="maintenance-form">
             <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-              <h3 v-if="question.title" class="section-title">{{ question.title }}</h3>
-              <div v-if="!question.title">
-                <label class="question-title" :for="question.label">{{ question.label }}:</label>
+              <label class="question-title" :for="question.label">{{ question.label }}:</label>
 
-                <input
-                    v-if="question.type === 'text' || question.type === 'file'"
-                    :type="question.type"
-                    v-model="form[question.label]"
-                    :placeholder="question.placeholder"
-                    :id="question.label"
-                    @input="validateField(question.label)"
-                />
+              <input
+                  v-if="question.type === 'text' || question.type === 'file' ||question.type==='date'"
+                  :type="question.type"
+                  v-model="form[question.label]"
+                  :placeholder="question.placeholder"
+                  :id="question.label"
+                  @input="validateField(question.label)"
+              />
 
-                <select
-                    v-if="question.type === 'select'"
-                    v-model="form[question.label]"
-                    :id="question.label"
-                    @change="validateField(question.label)"
-                >
-                  <option value="" disabled>{{ question.placeholder }}</option>
-                  <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
-                </select>
-                <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+              <select
+                  v-if="question.type === 'select'"
+                  v-model="form[question.label]"
+                  :id="question.label"
+                  @change="validateField(question.label)"
+              >
+                <option value="" disabled>{{ question.placeholder }}</option>
+                <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
+              </select>
+              <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
 
-                <textarea
-                    v-if="question.type === 'textarea'"
-                    :id="question.label"
-                    :name="question.label"
-                    :placeholder="question.placeholder"
-                    v-model="form[question.label]"
-                />
-              </div>
+              <textarea
+                  v-if="question.type === 'textarea'"
+                  :id="question.label"
+                  :name="question.label"
+                  :placeholder="question.placeholder"
+                  v-model="form[question.label]"
+              />
 
             </div>
           </div>
@@ -240,6 +285,7 @@ function handleSubmit() {
           </div>
 
         </form>
+
       </div>
     </div>
   </div>
