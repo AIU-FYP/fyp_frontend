@@ -17,65 +17,50 @@ const filteredNationalities = computed(() => {
   );
 });
 
-
 const isPopupVisible = ref(false);
-
-const gender = ref('');
-
-const blockOptions = ref([]); // To hold options for Block Name
-watch(gender, () => {
-  form["Block Name"] = "";
-});
 
 const previousQuestions = [
   {
     label: "Name",
     type: "text",
     placeholder: "Enter your name",
-    required: true
   },
   {
     label: "Student ID NO",
     type: "text",
     placeholder: "Enter your student ID (e.g., AIU21011234)",
-    required: true
   },
   {
     label: "Passport NO",
     type: "text",
     placeholder: "Enter your passport NO",
-    required: true
   },
   {
     label: "Date of Birth",
     type: "date",
     placeholder: "Select your date of birth",
-    required: true
   },
   {
     label: "WhatsApp NO",
     type: "text",
     placeholder: "Enter your WhatsApp NO",
-    required: true
   },
   {
     label: "Phone NO",
     type: "text",
     placeholder: "Enter your phone NO",
-    required: true
   },
   {
     label: "Email Address (Student Email Only)",
     type: "text",
     placeholder: "Enter your email address",
-    required: true
   },
   {
     label: "Gender",
     type: "select",
     options: ["Male", "Female"],
-    required: true,
     placeholder: "Enter your gender",
+    model: ref(""),
   },
   {
     label: "Nationality",
@@ -88,13 +73,11 @@ const previousQuestions = [
     type: "select",
     options: filteredNationalities.value,
     placeholder: "Enter your country of residence",
-    required: true
   },
   {
     label: "Current Level of Education",
     type: "select",
     options: ["Freshman", "Sophomore", "Junior", "Senior"],
-    required: true,
     placeholder: "Select your level of education"
   },
   {
@@ -102,36 +85,82 @@ const previousQuestions = [
     type: "select",
     options: ["Freshman", "Sophomore", "Junior", "Senior"],
     placeholder: "Enter your program or major",
-    required: true
   },
   {
     label: "Expected Graduation Year",
     type: "text",
     placeholder: "Enter your expected graduation year",
-    required: true
   },
   {
     label: "Block Name",
     type: "select",
-    options: blockOptions.value,
+    options: [],
     placeholder: "Enter Block Name (e.g., 25i)",
-    required: true
+    model: ref("")
+  },
+  {
+    label: "Level No",
+    type: "select",
+    options: ["Level one", "Level two", "Level three", "Level four"],
+    placeholder: "Enter Level No (e.g., Level one)",
+    model: ref("")
   },
   {
     label: "Room NO",
     type: "select",
-    options: ["01", "02"],
+    options: [],
     placeholder: "Enter Room No (e.g., 25H-2-2)",
-    required: true
+    model: ref("")
+
   },
   {
     label: "Which Zone?",
     type: "select",
     options: ["Zone A", "Zone B", "Zone C", "Zone C"],
-    required: true,
     placeholder: "How many seats are in the room?"
   },
 ];
+
+const maleBlockOptions = ["Block M1", "Block M2", "Block M3"];
+const femaleBlockOptions = ["Block F1", "Block F2", "Block F3"];
+
+const levelOne = ["01", "02", "03"]
+const levelTwo = ["01", "02", "03", "04"]
+const levelThree = ["01", "02", "03", "04", "05"]
+const levelFour = ["01", "02", "03", "04", "05", "06"]
+
+
+watch(
+    () => form["Level No"],
+    (newLevel) => {
+      const LevelsQuestion = previousQuestions.find(q => q.label === "Room NO");
+      if (newLevel === "Level one") {
+        LevelsQuestion.options = levelOne;
+      } else if (newLevel === "Level two") {
+        LevelsQuestion.options = levelTwo;
+      } else if (newLevel === "Level three") {
+        LevelsQuestion.options = levelThree;
+      } else if (newLevel === "Level four") {
+        LevelsQuestion.options = levelFour;
+      } else {
+        LevelsQuestion.options = [];
+      }
+    }
+);
+
+watch(
+    () => form["Gender"],
+    (newGender) => {
+      const blockNameQuestion = previousQuestions.find(q => q.label === "Block Name");
+      if (newGender === "Male") {
+        blockNameQuestion.options = maleBlockOptions;
+      } else if (newGender === "Female") {
+        blockNameQuestion.options = femaleBlockOptions;
+      } else {
+        blockNameQuestion.options = [];
+      }
+    }
+);
 
 const formSchema = z.object({
   "Name": z.string().min(8, "Name must be at least 8 characters long").nonempty("Name is required"),
@@ -149,8 +178,8 @@ const formSchema = z.object({
   "Expected Graduation Year": z.string().regex(/^\d{4,4}$/, "Invalid Passport Number format").nonempty("Passport Number is required"),
   "Block Name": z.string().nonempty("Block Name is required"),
   "Room NO": z.string().optional(),
+  "Level No": z.string().optional(),
   "Which Zone?": z.string().optional(),
-  "How many Seater?": z.string().nonempty("Seating capacity is required").refine((value) => ["1 Seater", "2 Seater", "3 Seater", "4 Seater"].includes(value), {message: "Please select a valid seating capacity"}),
 });
 
 previousQuestions.forEach((question) => {
@@ -193,7 +222,7 @@ function handleSubmit() {
         <form @submit.prevent="handleSubmit">
           <div class="maintenance-form">
             <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-              <label class="question-title" :for="question.label">{{ question.label }}:</label>
+              <label class="question-title" :for="question.label">{{ question.label }} :</label>
 
               <input
                   v-if="question.type === 'text' || question.type === 'file' ||question.type==='date'"

@@ -1,0 +1,43 @@
+
+the info that we need
+1. how many hostels and its name for each one
+2. how many levels
+3. how many room each level
+4. how many zone each room
+
+const previousQuestions = [
+  {
+    label: "Name",
+    type: "text",
+    placeholder: "Enter your name",
+    required: true
+  },
+  {
+    label: "Student ID NO",
+    type: "text",
+    placeholder: "Enter your student ID (e.g., AIU21011234)",
+    required: true
+  },
+  {
+    label: "Gender",
+    type: "select",
+    options: ["Male", "Female"],
+    required: true,
+    placeholder: "Enter your gender",
+  },
+
+  {
+    label: "Block Name",
+    type: "select",
+    options: blockOptions.value,
+    placeholder: "Enter Block Name (e.g., 25i)",
+    required: true
+  },
+  {
+    label: "Room NO",
+    type: "select",
+    options: ["01", "02"],
+    placeholder: "Enter Room No (e.g., 25H-2-2)",
+    required: true
+  }
+];
