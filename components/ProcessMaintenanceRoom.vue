@@ -58,6 +58,11 @@ const toggleFaq = (index) => {
           </div>
           <p class="description" v-if="activeIndex === index">{{ item.content }}</p>
         </div>
+        <a class="link-btn">
+          <router-link to="/maintenance-room">
+            Maintenance Room Form
+          </router-link>
+        </a>
       </div>
       <div></div>
     </div>
@@ -126,6 +131,13 @@ const toggleFaq = (index) => {
   .description{
     font-size: .8rem;
   }
+}
+
+.link-btn{
+  display: flex;
+  font-size: 1.2rem;
+  color: var(--main-color);
+  margin: 1rem 0;
 }
 
 </style>

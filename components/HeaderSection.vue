@@ -62,11 +62,10 @@ onMounted(() => {
 <style scoped>
 .header-section {
   background-color: var(--main-bg-color);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  padding: .5rem;
+  padding: .5rem 1rem ;
 }
 
-.container-box > button {
+.container-box button {
   display: none;
 }
 
@@ -86,7 +85,6 @@ onMounted(() => {
   font-size: 1.5rem;
   font-weight: normal;
   text-transform: uppercase;
-  text-align: center;
   color: var(--main-color);
 }
 
@@ -104,12 +102,10 @@ onMounted(() => {
 
 .menu-links a {
   color: var(--main-color);
-  padding: 10px;
+  padding: 0 .5rem;
   font-size: 1rem;
   border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
   text-decoration: none;
 }
 
