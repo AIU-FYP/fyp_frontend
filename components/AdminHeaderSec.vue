@@ -1,10 +1,22 @@
 <script setup lang="ts">
-import {ref} from 'vue'
-import Popup from "~/components/PopupChangePassword.vue";
-import {useAuth} from "~/composables/useAuth";
+import {onMounted, ref} from 'vue';
 
-const isMenuVisible = ref(false)
-const isPopupVisible = ref(false)
+const isLinksVisible = ref(false);
+
+function toggleLinksVisibility() {
+  isLinksVisible.value = !isLinksVisible.value;
+  console.log("Links visibility toggled:", isLinksVisible.value);
+}
+
+const isMobile = ref(false);
+
+onMounted(() => {
+  isMobile.value = window.innerWidth <= 1200;
+  window.addEventListener('resize', () => {
+    isMobile.value = window.innerWidth <= 1200;
+  });
+});
+
 
 const auth = useAuth()
 
@@ -18,69 +30,65 @@ const handleLogout = () => {
 <template>
   <div class="header-admin-section">
     <div class="header-container">
-      <div class="image-logo">
-        <a href="https://aiu.edu.my/">
-          <img src="/images/AIU-Official-Logo.png" alt="image-logo">
-        </a>
+
+      <div class="container-box">
+        <div class="image-logo">
+          <a href="https://aiu.edu.my/">
+            <img src="/images/AIU-Official-Logo.png" alt="image-logo">
+          </a>
+        </div>
+        <div class="bar-btn">
+          <button @click="toggleLinksVisibility" v-if="isMobile">
+            Setting
+          </button>
+        </div>
       </div>
+
       <div class="title">
-        <p>Admin Dashboard </p>
+        <h1>Admin Dashboard </h1>
       </div>
-      <button class="setting-btn" @click="isMenuVisible = !isMenuVisible">
-        <span>
-          <UIcon
-              name="mage-user"
-          />
-        </span>
-        Setting
-      </button>
-      <ul v-if="isMenuVisible" class="submenu">
-        <li>
-          <button>
-            <router-link to="/new-admin">
-            <span class="user-icon">
-              <UIcon name="bxs-user"/>
-            </span>Add New Admin
-            </router-link>
-          </button>
-        </li>
-        <li>
-          <button @click="isPopupVisible=true">
-            <span class="user-icon">
-              <UIcon name="bxs-user"/>
-            </span>Change Password
-          </button>
-          <Popup :show="isPopupVisible" @update:show="isPopupVisible = $event"></Popup>
-        </li>
-        <li>
-          <button @click="handleLogout">
-            <span class="user-icon">
-              <UIcon name="bxs-user"/>
-            </span>Log Out
-          </button>
-        </li>
-      </ul>
+      <div class="menu-container">
+        <ul class="submenu" v-if="isLinksVisible || !isMobile">
+          <li>
+            <a>
+              <router-link to="/new-admin">Add New Admin</router-link>
+            </a>
+          </li>
+          <li>
+            <a>
+              <router-link to="/new-admin">Change Password</router-link>
+            </a>
+          </li>
+          <li>
+            <a @click="handleLogout">
+              <router-link to="/">Log Out</router-link>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
 .header-admin-section {
-  background-color: #f5f5f5;
+  background-color: var(--main-bg-color);
   margin: auto;
+}
+
+.container-box .bar-btn {
+  display: none;
 }
 
 .header-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  flex-direction: row;
-  flex-wrap: wrap;
   margin: .5rem 1rem;
   text-align: center;
 }
 
 .header-container .image-logo {
-  flex: 15%;
   margin: 0;
 }
 
@@ -89,70 +97,63 @@ const handleLogout = () => {
   height: 50px;
 }
 
-.header-container .title {
-  flex: 70%;
-  text-align: center;
-  font-size: 1.2rem;
-  color: var(--text-color);
-}
-
-.header-container .setting-btn {
-  flex: 15%;
-  padding: 0.5em;
-  font-size: 1.2rem;
+.title {
+  font-size: 1.5rem;
   color: var(--main-color);
-  border: none;
-  cursor: pointer;
-}
-
-.header-container .setting-btn {
-  background-color: var(--main-color);
-  color: var(--text-hovor-color);
-  transition: 0.3s ease-in-out;
-  border-radius: 1rem 0;
-  outline: none;
-}
-
-.header-container .setting-btn:hover {
-  background-color: var(--text-hovor-color);
-  color: var(--text-color);
 }
 
 .submenu {
-  display: block;
-  width: 100px;
-  min-width: 15rem;
-  list-style: none;
-  padding: 1rem;
-  margin: 0.5em 1em;
-  text-align: center;
-  align-items: center;
+  display: flex;
 }
 
-.submenu li {
-  margin: 0.3em 0;
-  text-align: left;
-}
-
-.submenu button {
-  color: var(--main-color);
-  text-transform: capitalize;
-  text-align: start;
-  text-decoration: none;
+.submenu li a {
+  margin-left: .5rem;
   font-size: 1.2rem;
+  color: var(--main-color);
 }
 
-.user-icon {
-  margin: .5rem;
+.submenu li a:hover {
+  color: var(--text-hovor-color);
 }
+
 
 @media (max-width: 1200px) {
-  .submenu {
+  .header-container {
     display: block;
   }
 
   .title {
     display: none;
+  }
+
+  .container-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .container-box .bar-btn {
+    display: flex;
+    font-size: 1.2rem;
+    padding: .5rem;
+    border-radius: .5rem;
+    background-color: var(--main-color);
+    color: var(--text-hovor-color);
+  }
+
+  .submenu {
+    display: block;
+    text-align: start;
+  }
+
+  .submenu li {
+    color: var(--main-color);
+    margin: .5rem 0;
+    padding-bottom: .2rem;
+  }
+
+  .submenu li a {
+    color: var(--main-color);
   }
 }
 
