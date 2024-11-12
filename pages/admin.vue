@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AdminFooter from "~/components/AdminFooter.vue";
-import AdminHeader from "~/components/AdminHeader.vue";
+import AdminFooter from "~/components/AdminFooterSec.vue";
+import AdminHeader from "~/components/AdminHeaderSec.vue";
 
 import { useAuth } from '~/composables/useAuth'
 
