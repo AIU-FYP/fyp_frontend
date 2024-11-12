@@ -1,5 +1,5 @@
 <script setup>
-import {reactive, watch} from 'vue';
+import {reactive,} from 'vue';
 import {z} from 'zod';
 import {navigateTo} from '#app';
 

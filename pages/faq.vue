@@ -3,10 +3,10 @@
 </script>
 
 <template>
-  <HeaderSection/>
-  <PolicySection/>
+  <HeaderSec/>
+  <PolicySec/>
   <Shape/>
-  <FooterSection/>
+  <FooterSec/>
 </template>
 
 <style scoped>

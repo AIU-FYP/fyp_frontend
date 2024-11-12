@@ -101,7 +101,7 @@ const previousQuestions = [
   {
     label: "Level No",
     type: "select",
-    options: ["Level one", "Level two", "Level three", "Level four"],
+    options: [],
     placeholder: "Enter Level No (e.g., Level one)",
     model: ref("")
   },
@@ -109,7 +109,7 @@ const previousQuestions = [
     label: "Room NO",
     type: "select",
     options: [],
-    placeholder: "Enter Room No (e.g., 25H-2-2)",
+    placeholder: "Enter Room No (e.g., 02)",
     model: ref("")
 
   },
@@ -124,29 +124,33 @@ const previousQuestions = [
 const maleBlockOptions = ["Block M1", "Block M2", "Block M3"];
 const femaleBlockOptions = ["Block F1", "Block F2", "Block F3"];
 
-const levelOne = ["01", "02", "03"]
-const levelTwo = ["01", "02", "03", "04"]
-const levelThree = ["01", "02", "03", "04", "05"]
-const levelFour = ["01", "02", "03", "04", "05", "06"]
-
-
-watch(
-    () => form["Level No"],
-    (newLevel) => {
-      const LevelsQuestion = previousQuestions.find(q => q.label === "Room NO");
-      if (newLevel === "Level one") {
-        LevelsQuestion.options = levelOne;
-      } else if (newLevel === "Level two") {
-        LevelsQuestion.options = levelTwo;
-      } else if (newLevel === "Level three") {
-        LevelsQuestion.options = levelThree;
-      } else if (newLevel === "Level four") {
-        LevelsQuestion.options = levelFour;
-      } else {
-        LevelsQuestion.options = [];
-      }
-    }
-);
+// Block data with levels and room numbers
+const blockData = {
+  "Block M1": {
+    levelOne: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"],
+    levelTwo: ["03", "04", "05", "06", "07", "08", "09", "10"],
+  },
+  "Block M2": {
+    levelOne: ["01", "02", "03"],
+    levelTwo: ["01", "02", "03", "04"],
+  },
+  "Block M3": {
+    levelOne: ["01", "02"],
+    levelTwo: ["01", "02", "03"],
+  },
+  "Block F1": {
+    levelOne: ["01", "02", "03"],
+    levelTwo: ["01", "02", "03", "04"],
+  },
+  "Block F2": {
+    levelOne: ["01", "02"],
+    levelTwo: ["01", "02", "03", "04", "05"],
+  },
+  "Block F3": {
+    levelOne: ["01", "02", "03"],
+    levelTwo: ["01", "02", "03", "04", "05", "06"],
+  }
+};
 
 watch(
     () => form["Gender"],
@@ -158,6 +162,31 @@ watch(
         blockNameQuestion.options = femaleBlockOptions;
       } else {
         blockNameQuestion.options = [];
+      }
+    }
+);
+
+watch(
+    () => form["Block Name"],
+    (newBlock) => {
+      const levelQuestion = previousQuestions.find(q => q.label === "Level No");
+      if (blockData[newBlock]) {
+        levelQuestion.options = Object.keys(blockData[newBlock]);
+      } else {
+        levelQuestion.options = [];
+      }
+    }
+);
+
+watch(
+    () => form["Level No"],
+    (newLevel) => {
+      const roomQuestion = previousQuestions.find(q => q.label === "Room NO");
+      const selectedBlock = form["Block Name"];
+      if (blockData[selectedBlock] && blockData[selectedBlock][newLevel]) {
+        roomQuestion.options = blockData[selectedBlock][newLevel];
+      } else {
+        roomQuestion.options = [];
       }
     }
 );
@@ -213,14 +242,14 @@ function handleSubmit() {
 </script>
 
 <template>
-  <div class="maintenance-room-section">
+  <div class="new-student-sec">
     <div class="container">
       <div class="form-header">
         <h2>Registration New Student</h2>
       </div>
-      <div class="maintenance-room-form">
+      <div class="box-form">
         <form @submit.prevent="handleSubmit">
-          <div class="maintenance-form">
+          <div class="form-container">
             <div class="info" v-for="(question, index) in previousQuestions" :key="index">
               <label class="question-title" :for="question.label">{{ question.label }} :</label>
 
@@ -270,23 +299,17 @@ function handleSubmit() {
 
 <style scoped>
 
-.maintenance-room-section {
-  margin: 5rem 10rem;
-  border: 2px solid #eeeeee;
-  border-radius: 0 30px 30px 0;
-  box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
-}
-
-@media (max-width: 800px) {
-  .maintenance-room-section {
-    margin: 0.5rem;
-  }
+.new-student-sec {
+  display: block;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  display: block;
+  margin: 5rem auto;
+  width: 80%;
+  max-width: 1200px;
+  box-shadow: rgba(149, 157, 165, 0.3) 0 8px 24px;
+  border-radius: 0 1rem 1rem 0;
 }
 
 .form-header {
@@ -303,48 +326,19 @@ function handleSubmit() {
   color: var(--secondary-hovor-color);
 }
 
-.container .maintenance-room-form {
-  flex: 80%;
-  padding: 2.5rem;
+.container .box-form {
+  width: 90%;
+  margin: 0 auto;
+  padding: 1rem 0;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1200px) {
   .container div {
     display: block;
   }
 }
 
-@media (max-width: 1200px) {
-  .container {
-    display: block;
-  }
-
-}
-
-.container .description h2 {
-  font-size: 1.2rem;
-  padding: .5rem 0;
-  font-weight: bold;
-  color: var(--text-color);
-  text-align: center;
-}
-
-.container .description p {
-  font-size: 1rem;
-  padding: 1rem 0;
-  font-weight: normal;
-  color: black;
-  text-align: justify;
-}
-
-.maintenance-room-form > h2 {
-  font-size: 1.5rem;
-  color: var(--text-color);
-  text-align: center;
-  padding: 1rem 0;
-}
-
-.maintenance-form {
+.form-container {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -358,16 +352,16 @@ function handleSubmit() {
   display: block;
 }
 
-.maintenance-form .question-title {
+.form-container .question-title {
   font-size: 1rem;
   color: var(--text-color);
 }
 
-.maintenance-form input,
-.maintenance-form select {
+.form-container input,
+.form-container select {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
+  padding: .5rem 1rem;
+  border: 1px solid var(--main-color);
   border-radius: 5px;
   outline: none;
 }
@@ -375,18 +369,6 @@ function handleSubmit() {
 .error {
   color: red;
   font-size: 1rem;
-}
-
-@media (max-width: 1200px) {
-  .maintenance-form textarea {
-    width: calc(100% - .5rem);
-  }
-}
-
-@media (max-width: 800px) {
-  .maintenance-form textarea {
-    width: calc(100% - .5rem);
-  }
 }
 
 .submit {

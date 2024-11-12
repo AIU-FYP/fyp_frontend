@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <AddNewStudent/>
+  <AddNewStudentSec/>
 </template>
 
 <style scoped>

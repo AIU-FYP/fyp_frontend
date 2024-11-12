@@ -1,7 +1,6 @@
 <script setup>
 
-import {computed, reactive, ref, watch} from 'vue';
-import  Popup from '~/components/PopupStudentSubmit.vue'
+import {reactive, ref, watch} from 'vue';
 import {z} from 'zod';
 
 const previousQuestions = [
@@ -202,7 +201,7 @@ function handleSubmit() {
 
 .divider {
   margin: 1% 2%;
-  border: 2px solid var(--bg-color);;
+  border: 2px solid var(--main-color);;
 }
 
 .login-form {
@@ -242,7 +241,7 @@ function handleSubmit() {
   width: 50%;
   padding: .5rem;
   margin: 2rem auto 0;
-  background-color: var(--bg-color);
+  background-color: var(--main-hovor-color);
   color: var(--text-color);
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }

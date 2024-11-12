@@ -3,14 +3,14 @@
 </script>
 
 <template>
-  <HeaderSection/>
-  <LandingSection/>
+  <HeaderSec/>
+  <LandingSec/>
   <ProcessMaintenanceRoom/>
   <Shape/>
   <ProcessRequestToChangeRoom/>
   <Shape/>
-  <RandomPics/>
-  <FooterSection/>
+  <CarouselRandomPicSec/>
+  <FooterSec/>
 </template>
 
 <style scoped>

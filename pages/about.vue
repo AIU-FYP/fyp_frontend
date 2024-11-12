@@ -3,11 +3,11 @@
 </script>
 
 <template>
-  <HeaderSection/>
-  <LandingSection/>
-  <AboutSection/>
-  <TeamSection/>
-  <FooterSection/>
+  <HeaderSec/>
+  <LandingSec/>
+  <AboutSec/>
+  <TeamSec/>
+  <FooterSec/>
 </template>
 
 <style scoped>

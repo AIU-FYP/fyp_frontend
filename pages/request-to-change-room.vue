@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <HeaderSection/>
+  <HeaderSec/>
   <RequestToChangeRoom/>
-  <FooterSection/>
+  <FooterSec/>
 </template>
 
 <style scoped>

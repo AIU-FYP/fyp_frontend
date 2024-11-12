@@ -2,7 +2,7 @@
 import {computed, reactive, ref, watch} from 'vue';
 import  Popup from '~/components/PopupStudentSubmit.vue'
 import {z} from 'zod';
-import { nationalities, locationIssues, roomMaintenanceIssues } from "~/utils/nationalities";
+import { nationalities, roomMaintenanceIssues } from "~/utils/nationalities";
 
 const userNationalityInput = ref('');
 const filteredNationalities = computed(() => {
