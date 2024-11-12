@@ -2,7 +2,7 @@
 import {computed, reactive, ref, watch} from 'vue';
 import Popup from '~/components/PopupAdminSubmit.vue'
 import {z} from 'zod';
-import {nationalities,} from "~/utils/nationalities";
+import {countries, femaleBlockOptions, maleBlockOptions, nationalities} from "~/utils/nationalities";
 
 const form = reactive({});
 const errors = reactive({});
@@ -14,6 +14,16 @@ const filteredNationalities = computed(() => {
   }
   return nationalities.filter(n =>
       n.toLowerCase().startsWith(userNationalityInput.value.toLowerCase())
+  );
+});
+
+const userCountryInput = ref('');
+const filteredCountryInput = computed(() => {
+  if (!userCountryInput.value) {
+    return countries;
+  }
+  return countries.filter(n =>
+      n.toLowerCase().startsWith(userCountryInput.value.toLowerCase())
   );
 });
 
@@ -59,20 +69,20 @@ const previousQuestions = [
     label: "Gender",
     type: "select",
     options: ["Male", "Female"],
-    placeholder: "Enter your gender",
+    placeholder: "Select your gender",
     model: ref(""),
   },
   {
     label: "Nationality",
     type: "select",
     options: filteredNationalities.value,
-    placeholder: "Select nationality"
+    placeholder: "Select Your nationality"
   },
   {
     label: "Country of Residence",
     type: "select",
-    options: filteredNationalities.value,
-    placeholder: "Enter your country of residence",
+    options: filteredCountryInput.value,
+    placeholder: "Select your country of residence",
   },
   {
     label: "Current Level of Education",
@@ -84,32 +94,32 @@ const previousQuestions = [
     label: "Program/Major",
     type: "select",
     options: ["Freshman", "Sophomore", "Junior", "Senior"],
-    placeholder: "Enter your program or major",
+    placeholder: "Select your program or major",
   },
   {
     label: "Expected Graduation Year",
     type: "text",
-    placeholder: "Enter your expected graduation year",
+    placeholder: "Select your expected graduation year",
   },
   {
     label: "Block Name",
     type: "select",
     options: [],
-    placeholder: "Enter Block Name (e.g., 25i)",
+    placeholder: "Select Block Name (e.g., 25i)",
     model: ref("")
   },
   {
     label: "Level No",
     type: "select",
     options: [],
-    placeholder: "Enter Level No (e.g., Level one)",
+    placeholder: "Select Level No (e.g., Level one)",
     model: ref("")
   },
   {
     label: "Room NO",
     type: "select",
     options: [],
-    placeholder: "Enter Room No (e.g., 02)",
+    placeholder: "Select Room No (e.g., 02)",
     model: ref("")
 
   },
@@ -121,10 +131,6 @@ const previousQuestions = [
   },
 ];
 
-const maleBlockOptions = ["Block M1", "Block M2", "Block M3"];
-const femaleBlockOptions = ["Block F1", "Block F2", "Block F3"];
-
-// Block data with levels and room numbers
 const blockData = {
   "Block M1": {
     levelOne: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"],
@@ -151,6 +157,7 @@ const blockData = {
     levelTwo: ["01", "02", "03", "04", "05", "06"],
   }
 };
+
 
 watch(
     () => form["Gender"],
@@ -342,8 +349,7 @@ function handleSubmit() {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  gap: 1rem;
-  margin-top: 0.5rem !important;
+  gap: 0.5rem 1rem;
 }
 
 .info {

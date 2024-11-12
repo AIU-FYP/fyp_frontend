@@ -35,11 +35,49 @@ export const nationalities = [
     "Venezuelan", "Vietnamese", "Yemeni", "Zambian", "Zimbabwean"
 ];
 
+export const countries = [
+    "Afghanistan", "Albania", "Algeria", "United States", "Andorra", "Angola",
+    "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+    "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium",
+    "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana",
+    "Brazil", "United Kingdom", "Brunei", "Bulgaria", "Burkina Faso", "Myanmar",
+    "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde",
+    "Central African Republic", "Chad", "Chile", "China", "Colombia",
+    "Comoros", "Democratic Republic of the Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus",
+    "Czech Republic", "Denmark", "Djibouti", "Dominican Republic", "Netherlands", "Timor-Leste",
+    "Ecuador", "Egypt", "United Arab Emirates", "Equatorial Guinea", "Eritrea",
+    "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon",
+    "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada",
+    "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti",
+    "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran",
+    "Iraq", "Ireland", "Italy", "Ivory Coast", "Jamaica", "Japan",
+    "Jordan", "Kazakhstan", "Kenya", "Saint Kitts and Nevis", "Kuwait",
+    "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Liberia", "Libya",
+    "Liechtenstein", "Lithuania", "Luxembourg", "North Macedonia", "Madagascar",
+    "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands",
+    "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova",
+    "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique",
+    "Namibia", "Nauru", "Nepal", "New Zealand", "Nicaragua",
+    "Niger", "Nigeria", "Norway", "Oman", "Pakistan", "Palestine", "Palau",
+    "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines",
+    "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda",
+    "Saint Lucia", "El Salvador", "Samoa", "San Marino", "Sao Tome and Principe",
+    "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone",
+    "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia",
+    "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka",
+    "Sudan", "Suriname", "Eswatini", "Sweden", "Switzerland", "Syria",
+    "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Togo", "Tonga",
+    "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan",
+    "Tuvalu", "Uganda", "Ukraine", "Uruguay", "Uzbekistan", "Vanuatu",
+    "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+];
+
+export const maleBlockOptions = ["Block M1", "Block M2", "Block M3"];
+export const femaleBlockOptions = ["Block F1", "Block F2", "Block F3"];
 
 export const locationIssues = [
     "Location Issue","Room", "Bathroom", "Hangout Room", "TV Room", "Laundry Area", "Pest",
 ]
-
 
 export const roomMaintenanceIssues = [
     "Room Maintenance Issues",

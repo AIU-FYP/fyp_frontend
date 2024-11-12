@@ -76,8 +76,17 @@ function toggleLinkVisibility(index: number) {
     </aside>
 
     <main class="dashboard-content">
+
+      <section class="dashboard-info-content">
+        <div class="welcome-info">
+          <h2>Welcome back </h2>
+        </div>
+        <div class="image-container">
+          <img src="/images/login.webp" alt="welcome-image">
+        </div>
+      </section>
+
       <section v-for="item in dashboardItems" :key="item.title" class="analysis-section">
-        <h3 class="section-title">{{ item.title }}</h3>
         <div class="stat-cards">
           <div v-for="(stat, index) in item.maintenanceStats" :key="index" class="stat-card">
             <h4>{{ stat.subTitle }}</h4>
@@ -101,12 +110,24 @@ function toggleLinkVisibility(index: number) {
   display: flex;
 }
 
+
 .sidebar {
   flex: 1;
   background-color: var(--main-color);
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+@media (max-width: 1200px) {
+  .admin-dashboard {
+    display: block;
+  }
+
+  .sidebar {
+    min-height: 30vh;
+  }
 }
 
 .sidebar-button {
@@ -142,20 +163,42 @@ function toggleLinkVisibility(index: number) {
   background-color: #eeeeee;
 }
 
-.analysis-section {
-  margin-bottom: 2rem;
+.dashboard-info-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  border: 2px solid var(--main-color);
+  border-radius: 1rem;
 }
 
-.section-title {
-  font-size: 2rem;
-  margin: 2rem 0;
-  text-align: center;
+@media (max-width: 1200px) {
+  .dashboard-info-content {
+    display: block;
+  }
+}
+
+.dashboard-info-content div {
+  margin: 1rem;
+}
+
+.welcome-info h2 {
+  font-size: 1.5rem;
   color: var(--main-color);
+}
+
+.dashboard-info-content .image-container {
+  width: 120px;
+  height: 120px;
+}
+
+.analysis-section {
+  margin-bottom: 2rem;
 }
 
 .stat-cards {
   display: flex;
   gap: 1rem;
+  margin: 2rem 0;
   flex-wrap: wrap;
 }
 
