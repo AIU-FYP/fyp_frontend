@@ -1,5 +1,5 @@
 <template>
-  <div class="header-section">
+  <div class="header-sec">
     <div class="main-container">
 
       <div class="container-box">
@@ -60,9 +60,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.header-section {
-  background-color: var(--main-bg-color);
+.header-sec {
+  background-color: var(--main-color);
   padding: .5rem 1rem ;
+  max-height: 500px;
 }
 
 .container-box button {
@@ -85,7 +86,7 @@ onMounted(() => {
   font-size: 1.5rem;
   font-weight: normal;
   text-transform: uppercase;
-  color: var(--main-color);
+  color: var(--text-color);
 }
 
 .menu-links {
@@ -101,7 +102,7 @@ onMounted(() => {
 }
 
 .menu-links a {
-  color: var(--main-color);
+  color: var(--text-color);
   padding: 0 .5rem;
   font-size: 1rem;
   border: none;
@@ -145,6 +146,7 @@ onMounted(() => {
     font-size: 2rem;
     font-weight: bold;
     margin: 0 1rem;
+    color: var(--text-hovor-color);
   }
 
   .menu-links {
@@ -155,7 +157,7 @@ onMounted(() => {
   .menu-links li {
     display: block;
     margin-left: .5rem;
-    border-bottom: 2px solid var(--main-hovor-color);
+    border-bottom: 2px solid var(--text-hovor-color);
   }
 
 }

@@ -27,7 +27,7 @@ const images=[
 <template>
   <div class="about-section">
     <div class="container">
-      <h2>About Albukhary International University</h2>
+      <h1>About Albukhary International University</h1>
       <hr class="divider">
       <div class="content">
         <div v-for="info in information" :key="info.title" class="info">
@@ -48,10 +48,10 @@ const images=[
   margin: 1em auto;
 }
 
-.container h2 {
+.container h1 {
   font-size: 2.5rem;
   margin-left: 20px;
-  color: var(--text-color);
+  color: var(--main-hovor-color);
 }
 
 @media (max-width: 800px) {
@@ -59,7 +59,7 @@ const images=[
     padding: 2rem 1rem;
   }
 
-  .container h2 {
+  .container h1 {
     font-size: 1.2rem;
   }
 }
@@ -93,7 +93,7 @@ h3 {
 
 p {
   font-size: 1rem;
-  color: var(--text-color);
+  color: var(--main-hovor-color);
   text-align: justify;
 }
 

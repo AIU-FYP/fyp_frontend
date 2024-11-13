@@ -153,7 +153,7 @@ const showSlides = (n) => {
 .team h2 {
   font-size: 1.5rem;
   font-weight: bold;
-  color: var(--text-color);
+  color: var(--main-color);
   padding: 0 2rem;
 }
 
@@ -206,7 +206,7 @@ const showSlides = (n) => {
 
 .team-member h5 {
   font-size: 1rem;
-  color: var(--text-color);
+  color: var(--main-color);
 }
 
 @media (max-width: 800px) {

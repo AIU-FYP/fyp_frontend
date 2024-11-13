@@ -25,8 +25,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: var(--main-bg-color);
-  color: #fff;
+  color: var(--text-hovor-color);
 }
 
 .main-container {
@@ -40,7 +39,7 @@
 
 .main-container .box-info {
   flex: 50%;
-  margin: auto 3rem;
+  margin: auto;
 }
 
 .box-info .students-btn {

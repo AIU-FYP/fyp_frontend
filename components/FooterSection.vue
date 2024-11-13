@@ -32,12 +32,14 @@ const currentYear = new Date().getFullYear();
         <div class="links">
           <h2>Quick Links</h2>
           <ul>
-            <li><router-link to="/home">
+            <li>
+              <router-link to="/home">
               <span>
                 <UIcon name="material-symbols-contact-page"
                 />
               </span>Home
-            </router-link></li>
+              </router-link>
+            </li>
             <li>
               <router-link to="/about">
                 <span class="icon"><UIcon class="bar-icon-links" name="la-university"/></span>About
@@ -56,7 +58,8 @@ const currentYear = new Date().getFullYear();
               <span>
                 <UIcon name="ph-student-bold"
                 />
-              </span>Change Room Form</router-link>
+              </span>Change Room Form
+              </router-link>
             </li>
           </ul>
         </div>
@@ -131,7 +134,7 @@ const currentYear = new Date().getFullYear();
 
 .footer {
   padding: 1em 0;
-  background-color: var(--main-bg-color);
+  background-color: var(--main-color);
 }
 
 .main-container {
@@ -178,7 +181,7 @@ const currentYear = new Date().getFullYear();
 
 .box span {
   font-size: 3rem;
-  color: var(--main-color);
+  color: var(--text-color);
 }
 
 .box > p {
@@ -187,7 +190,7 @@ const currentYear = new Date().getFullYear();
 
 .divider {
   margin: 1rem 0;
-  border: 1px solid var(--main-color);
+  border: 2px solid var(--text-hovor-color);
 }
 
 .links,
@@ -198,7 +201,7 @@ const currentYear = new Date().getFullYear();
 .links h2,
 .subscribe-section h2,
 .others-links-section h2 {
-  color: var(--main-color);
+  color: var(--text-color);
   font-size: 1.5rem;
   margin: 15px 0;
 }
@@ -211,13 +214,13 @@ const currentYear = new Date().getFullYear();
 
 .links ul li a span,
 .others-links-section li a span {
-  color: var(--main-color);
+  color: var(--text-color);
   margin-right: .5rem;
 }
 
 .links ul li a,
 .others-links-section li a {
-  color: var(--main-color);
+  color: var(--text-color);
   margin-right: .5rem;
 }
 
@@ -251,7 +254,7 @@ const currentYear = new Date().getFullYear();
 }
 
 .subscribe-title {
-  color: var(--main-color);
+  color: var(--text-color);
   margin-bottom: 10px;
   margin-top: -20px;
   font-size: 1.5rem;
@@ -261,15 +264,15 @@ const currentYear = new Date().getFullYear();
   padding: .5rem;
   font-size: 1rem;
   width: 12rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--text-color);
   border-radius: 5px;
 }
 
 .subscribe-button button {
   padding: .5rem;
   font-size: 1rem;
-  background-color: var(--main-color);
-  color: white;
+  background-color: var(--text-color);
+  color: var(--main-color);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -299,9 +302,9 @@ const currentYear = new Date().getFullYear();
   text-align: center;
   font-size: 1.5rem;
   padding: 5px;
-  border: 2px solid var(--main-color);
+  border: 2px solid var(--text-color);
   border-radius: 50%;
-  color: var(--main-color);
+  color: var(--text-color);
 }
 
 .social-icons ul li:hover {
@@ -329,7 +332,7 @@ const currentYear = new Date().getFullYear();
 }
 
 .footer-bottom a {
-  color: var(--main-color);
+  color: var(--text-color);
 }
 
 a:hover {
