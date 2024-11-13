@@ -1,12 +1,14 @@
 <script setup lang="ts">
 
+import ShapeSection from "~/components/ShapeSection.vue";
+import PolicySection from "~/components/PolicySection.vue";
 </script>
 
 <template>
-  <HeaderSec/>
-  <PolicySec/>
-  <Shape/>
-  <FooterSec/>
+  <HeaderSection/>
+  <PolicySection/>
+  <ShapeSection/>
+  <FooterSection/>
 </template>
 
 <style scoped>
