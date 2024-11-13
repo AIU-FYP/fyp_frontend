@@ -1,9 +1,10 @@
 <script setup lang="ts">
 
+import LogInSection from "~/components/LogInSection.vue";
 </script>
 
 <template>
-  <LogInSec/>
+  <LogInSection/>
 </template>
 
 <style scoped>

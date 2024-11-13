@@ -79,7 +79,7 @@ async function handleSubmit() {
   <div class="log-in">
     <div class="container">
       <div class="image-box">
-        <img src="../public/images/login.png" ALT="login pic">
+        <img src="../public/images/login.webp" alt="login pic">
       </div>
       <div class="log-in-form">
         <span class="user-icon">
@@ -117,7 +117,7 @@ async function handleSubmit() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient( 120deg ,var(--text-hovor-color), var(--main-color));
+  background-image: linear-gradient(120deg, var(--text-hovor-color), var(--main-color));
   margin: 0;
   padding: 0;
 }
@@ -140,7 +140,7 @@ async function handleSubmit() {
   padding: 2rem .5rem;
   margin-top: 2rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-  background-color: var(--main-bg-color);
+  background-color: var(--main-color);
 }
 
 @media (max-width: 1200px) {
@@ -166,9 +166,10 @@ async function handleSubmit() {
   text-align: center;
   font-size: 5rem;
   background-color: var(--text-color);
-  color: var(--secondary-hovor-color);
+  color: var(--main-color);
   border: .3rem solid var(--text-color);
   border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 5px 15px;
 }
 
 .info-box > h2 {
@@ -210,14 +211,14 @@ async function handleSubmit() {
   padding: .5rem;
   margin: -2rem auto 0 auto;
   background-color: var(--text-color);
-  color: var(--secondary-hovor-color);
+  color: var(--main-color);
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   border-radius: 1rem;
 }
 
 .login-submit:hover {
-  background-color: var(--main-bg-color);
-  color: var(--main-color);
+  background-color: var(--main-hovor-color);
+  color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
 
