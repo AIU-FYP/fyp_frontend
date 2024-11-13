@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
+import Popup from "~/components/PopupChangePassword.vue";
 
 const isLinksVisible = ref(false);
 
@@ -24,6 +25,7 @@ const handleLogout = () => {
   auth.logout()
   navigateTo('/login')
 }
+const isPopupVisible = ref(false)
 
 </script>
 
@@ -55,9 +57,9 @@ const handleLogout = () => {
             </a>
           </li>
           <li>
-            <a>
-              <router-link to="/new-admin">Change Password</router-link>
-            </a>
+            <a style="cursor: pointer" @click="isPopupVisible = true">Change Password</a>
+            <Popup :show="isPopupVisible" @update:show="isPopupVisible = $event">
+            </Popup>
           </li>
           <li>
             <a @click="handleLogout">
@@ -72,7 +74,7 @@ const handleLogout = () => {
 
 <style scoped>
 .header-admin-section {
-  background-color: var(--main-bg-color);
+  background-color: var(--main-color);
   margin: auto;
 }
 
@@ -99,7 +101,7 @@ const handleLogout = () => {
 
 .title {
   font-size: 1.5rem;
-  color: var(--main-color);
+  color: var(--text-color);
 }
 
 .submenu {
@@ -109,7 +111,7 @@ const handleLogout = () => {
 .submenu li a {
   margin-left: .5rem;
   font-size: 1.2rem;
-  color: var(--main-color);
+  color: var(--text-color);
 }
 
 .submenu li a:hover {
@@ -153,7 +155,7 @@ const handleLogout = () => {
   }
 
   .submenu li a {
-    color: var(--main-color);
+    color: var(--text-color);
   }
 }
 

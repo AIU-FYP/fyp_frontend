@@ -1,5 +1,8 @@
 <script setup lang="ts">
 
+import AdminHeaderSection from "~/components/AdminHeaderSection.vue";
+import AdminFooterSection from "~/components/AdminFooterSection.vue";
+
 definePageMeta({
   middleware: 'auth'
 })
@@ -7,11 +10,9 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="admin-container">
-    <AdminHeaderSec/>
-    <AdminSec/>
-    <AdminFooterSec/>
-  </div>
+  <AdminHeaderSection/>
+  <AdminSection/>
+  <AdminFooterSection/>
 </template>
 
 <style scoped></style>

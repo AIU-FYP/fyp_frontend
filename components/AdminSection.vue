@@ -30,21 +30,21 @@ const navigationButtons = [
   {
     name: "Student",
     links: [
-      {text: "Register Student", url: "https://nuxt.com/docs"},
-      {text: "Manage Student", url: "https://vuejs.org"},
+      {text: "Register Student", url: "/add-new-student"},
+      {text: "Manage Student", url: ""},
     ],
   },
   {
     name: "Maintenance",
     links: [
-      {text: "Maintenance Form", url: "https://content.nuxtjs.org"},
-      {text: "Manage Maintenance", url: "https://modules.nuxtjs.org"},
+      {text: "Maintenance Form", url: "/maintenance-room"},
+      {text: "Manage Maintenance", url: ""},
     ],
   },
   {
     name: "Change Room",
     links: [
-      {text: "Change Room Form", url: "https://v3.nuxtjs.org"},
+      {text: "Change Room Form", url: "/request-to-change-room"},
       {text: "Manage Room Changes", url: "https://www.vuemastery.com"},
     ],
   },
@@ -139,7 +139,7 @@ function toggleLinkVisibility(index: number) {
 }
 
 .sidebar-button:hover {
-  color: var(--main-bg-color);
+  color: var(--text-hovor-color);
 }
 
 .sidebar ul li {
@@ -153,7 +153,7 @@ function toggleLinkVisibility(index: number) {
 }
 
 .sidebar li:hover {
-  color: var(--secondary-hovor-color);
+  color: var(--text-hovor-color);
   transition: .3s ease-in-out;
 }
 
@@ -204,7 +204,7 @@ function toggleLinkVisibility(index: number) {
 
 .stat-card {
   flex: 1 1 20%;
-  background-color: var(--secondary-hovor-color);
+  background-color: var(--text-hovor-color);
   padding: 1rem;
   border-radius: 8px;
   text-align: center;

@@ -1,10 +1,11 @@
 <script setup lang="ts">
+
 const currentYear = new Date().getFullYear();
 </script>
 
 <template>
-  <div class="footer">
-    <div class="container">
+  <div class="footer-admin-section">
+    <div class="footer-container">
       <div class="footer-bottom">
         <p>&copy; Copyright <a href="">Albukhary International University {{ currentYear }}</a></p>
       </div>
@@ -12,38 +13,34 @@ const currentYear = new Date().getFullYear();
   </div>
 </template>
 
+
 <style scoped>
-.container {
-  display: block;
-  padding: 0 100px;
+.footer-admin-section {
+  background-color: var(--main-color);
+  margin: auto;
 }
 
-.footer {
-  margin-bottom: auto;
-  padding: 1em 0;
-  background-color: var(--main-bg-color);
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: .2rem 1rem;
+  text-align: center;
 }
 
 .footer-bottom {
   text-align: center;
   font-size: 1.2rem;
+  padding: .5rem;
   color: var(--text-color);
 }
 
 .footer-bottom a {
-  color: var(--main-color);
+  color: var(--text-color);
 }
 
 a:hover {
   color: var(--text-hovor-color);
-}
-
-@media (max-width: 1200px) {
-  .container{
-    padding:5px;
-  }
-  .container P{
-    font-size: .8rem;
-  }
 }
 </style>
