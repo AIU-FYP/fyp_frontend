@@ -29,6 +29,7 @@ const visibleButtonIndex = ref<number | null>(null);
 const navigationButtons = [
   {
     name: "Student",
+    icon: "ph-student",
     links: [
       {text: "Register Student", url: "/add-new-student"},
       {text: "Manage Student", url: ""},
@@ -36,6 +37,7 @@ const navigationButtons = [
   },
   {
     name: "Maintenance",
+    icon: "wpf-maintenance",
     links: [
       {text: "Maintenance Form", url: "/maintenance-room"},
       {text: "Manage Maintenance", url: ""},
@@ -43,6 +45,7 @@ const navigationButtons = [
   },
   {
     name: "Change Room",
+    icon: "bx-building",
     links: [
       {text: "Change Room Form", url: "/request-to-change-room"},
       {text: "Manage Room Changes", url: "https://www.vuemastery.com"},
@@ -59,14 +62,18 @@ function toggleLinkVisibility(index: number) {
   <div class="admin-dashboard">
     <aside class="sidebar">
       <div v-for="(button, index) in navigationButtons" :key="index">
-        <button
-            @click="toggleLinkVisibility(index)"
-            :aria-expanded="visibleButtonIndex === index"
-            class="sidebar-button"
-        >
-          <UIcon name="icon-park-outline-control"/>
-          {{ button.name }}
-        </button>
+        <div class="btn-container">
+          <button
+              @click="toggleLinkVisibility(index)"
+              :aria-expanded="visibleButtonIndex === index"
+              class="sidebar-button"
+          >
+            <UIcon
+                :name="button.icon"
+            />
+            {{ button.name }}
+          </button>
+        </div>
         <ul v-if="visibleButtonIndex === index">
           <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
             <a :href="link.url" target="_blank">{{ link.text }}</a>
@@ -101,6 +108,7 @@ function toggleLinkVisibility(index: number) {
           <h3>{{ detail.title }}</h3>
         </div>
       </section>
+
     </main>
   </div>
 </template>
@@ -130,12 +138,22 @@ function toggleLinkVisibility(index: number) {
   }
 }
 
+.btn-container {
+  padding: .5rem;
+  background-color: transparent;
+}
+
+.btn-container:hover {
+  background-color: var(--main-hovor-color);
+}
+
 .sidebar-button {
-  font-size: 1.2rem;
-  color: var(--text-hovor-color);
+  font-size: 1rem;
+  color: var(--text-color);
   margin-bottom: 0.5rem;
   text-align: start;
-  transition: color 0.3s;
+  border-radius: .5rem;
+  transition: 0.3s ease-in-out;
 }
 
 .sidebar-button:hover {

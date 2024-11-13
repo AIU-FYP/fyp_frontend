@@ -109,9 +109,16 @@ const isPopupVisible = ref(false)
 }
 
 .submenu li a {
-  margin-left: .5rem;
-  font-size: 1.2rem;
+  margin-left: 1rem;
+  font-size: 1rem;
   color: var(--text-color);
+  padding: .5rem ;
+  background-color: transparent;
+  text-align: start;
+}
+
+.submenu li a:hover {
+  background-color: var(--main-hovor-color);
 }
 
 .submenu li a:hover {

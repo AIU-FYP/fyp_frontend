@@ -15,9 +15,9 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <AdminHeaderSec/>
-  <MaintenanceRoomDashboard/>
-  <AdminFooterSec/>
+  <AdminHeaderSection/>
+  <MaintenanceDashboardSec/>
+  <AdminFooterSection/>
 </template>
 
 <style scoped>

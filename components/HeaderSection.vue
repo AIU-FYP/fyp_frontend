@@ -18,7 +18,7 @@
       </div>
 
       <div class="title">
-        <h2>Smart AIU Management System</h2>
+        <h2>AIU Hostel Management System</h2>
       </div>
 
       <nav class="menu" v-if="isLinksVisible || !isMobile">

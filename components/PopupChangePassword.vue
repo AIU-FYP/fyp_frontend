@@ -121,7 +121,6 @@ function handleSubmit() {
           </form>
         </div>
       </div>
-      <hr class="divider">
     </div>
   </div>
 </template>
@@ -141,9 +140,6 @@ function handleSubmit() {
 }
 
 .popup-container {
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
   max-width: 40%;
   width: 40%;
   position: relative;
@@ -164,6 +160,7 @@ function handleSubmit() {
   padding: 2rem 1rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   background-color: var(--main-color);
+  border-radius: 1rem;
 }
 
 .log-in-form .user-icon {
@@ -173,8 +170,9 @@ function handleSubmit() {
   margin: -5rem auto 1rem auto;
   text-align: center;
   font-size: 4rem;
-  background-color: var(--bg-color);
+  background-color: var(--text-color);
   color: var(--main-color);
+  border: .3rem solid var(--text-hovor-color);
   border-radius: 50%;
 }
 
@@ -187,7 +185,7 @@ function handleSubmit() {
 .log-in-form label{
   display: block;
   text-align: start;
-  padding: .5rem 0  ;
+  padding: 1rem 0  ;
   color: var(--text-color);
 }
 
@@ -195,7 +193,7 @@ function handleSubmit() {
 .login-form select {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--text-hovor-color);
   border-radius: 5px;
   outline: none;
 }
@@ -210,14 +208,15 @@ function handleSubmit() {
   width: 90%;
   padding: .5rem;
   margin: 0 auto;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  background-color: var(--text-color);
+  color: var(--main-color);
+  font-size: 1.2rem;
+  box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px;
 }
 
 .maintenance-submit:hover {
   background-color: var(--text-hovor-color);
-  transition: .2s;
+  transition: .3s ease-in-out;
 }
 
 

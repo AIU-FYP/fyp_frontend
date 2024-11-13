@@ -252,7 +252,7 @@ function handleSubmit() {
   <div class="new-student-sec">
     <div class="container">
       <div class="form-header">
-        <h2>Registration New Student</h2>
+        <h2>Registration Form </h2>
       </div>
       <div class="box-form">
         <form @submit.prevent="handleSubmit">

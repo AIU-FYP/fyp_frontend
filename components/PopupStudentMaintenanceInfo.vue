@@ -10,7 +10,6 @@ const studentFields = [
   {label: 'WhatsApp Number ', key: 'whatsappNumber'},
   {label: 'Email Address ', key: 'emailAddress'},
   {label: 'Gender ', key: 'gender'},
-  {label: 'Location in the Room', key: 'locationInTheRoom'},
   {label: 'Location specific Issue ', key: 'locationSpecificIssue'},
   {label: 'Frequent damages occur', key: 'frequentTheDamagesOccur'},
   {label: 'Student Nationality ', key: 'studentNationality'},
