@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {useAuth} from "~/composables/useAuth";
+import MaintenanceDashboardSection from "~/components/MaintenanceDashboardSection.vue";
 
 definePageMeta({
   middleware: 'auth'
@@ -16,7 +17,7 @@ const handleLogout = () => {
 
 <template>
   <AdminHeaderSection/>
-  <MaintenanceDashboardSec/>
+  <MaintenanceDashboardSection/>
   <AdminFooterSection/>
 </template>
 

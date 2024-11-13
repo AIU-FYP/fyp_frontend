@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <AddNewStudentSec/>
+  <StudentDashboradSection/>
 </template>
 
 <style scoped>

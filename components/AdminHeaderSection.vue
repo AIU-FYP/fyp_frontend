@@ -76,6 +76,7 @@ const isPopupVisible = ref(false)
 .header-admin-section {
   background-color: var(--main-color);
   margin: auto;
+  border-bottom: .2rem solid var(--text-color);
 }
 
 .container-box .bar-btn {
@@ -86,8 +87,8 @@ const isPopupVisible = ref(false)
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: .5rem 1rem;
   text-align: center;
+  padding: .5rem;
 }
 
 .header-container .image-logo {

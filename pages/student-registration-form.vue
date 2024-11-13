@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import NewStudentSection from "~/components/NewStudentSection.vue";
+import NewStudentSection from "~/components/StudentRegistrationFormSection.vue";
 </script>
 
 <template>

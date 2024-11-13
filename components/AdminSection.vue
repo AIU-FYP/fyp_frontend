@@ -41,24 +41,24 @@ const navigationButtons = [
     name: "Student",
     icon: "ph-student",
     links: [
-      {text: "Register Student", url: "/add-new-student"},
-      {text: "Manage Student", url: ""},
+      {text: "Register Student", url: "/student-registration-form"},
+      {text: "Manage Student", url: "/student-registration-dashboard"},
     ],
   },
   {
     name: "Maintenance",
     icon: "wpf-maintenance",
     links: [
-      {text: "Maintenance Form", url: "/maintenance-room"},
-      {text: "Manage Maintenance", url: ""},
+      {text: "Maintenance Form", url: "/maintenance-room-form"},
+      {text: "Manage Maintenance", url: "/maintenance-room-dashboard"},
     ],
   },
   {
     name: "Change Room",
     icon: "bx-building",
     links: [
-      {text: "Change Room Form", url: "/request-to-change-room"},
-      {text: "Manage Room Changes", url: "https://www.vuemastery.com"},
+      {text: "Change Room Form", url: "/change-room-form"},
+      {text: "Manage Room Changes", url: "/change-room-dashboard"},
     ],
   },
 ];
@@ -86,7 +86,7 @@ function toggleLinkVisibility(index: number) {
         </div>
         <ul v-if="visibleButtonIndex === index">
           <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
-            <a :href="link.url" target="_blank">{{ link.text }}</a>
+            <a :href="link.url" >{{ link.text }}</a>
           </li>
         </ul>
       </div>

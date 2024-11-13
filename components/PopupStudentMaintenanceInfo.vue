@@ -99,14 +99,12 @@ const closePopup = () => {
   position: relative;
   overflow-y: auto;
   border: 3px solid var(--main-color);
-  border-radius: 3rem 0;
 }
 
 @media (max-width: 1200px) {
   .popup-container {
     width: 90%;
     max-width: 100%;
-    border-radius: 3rem 0;
   }
 }
 
@@ -137,7 +135,7 @@ span {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #333;
+  color: var(--main-color);
 }
 
 .close-btn:hover {
@@ -162,7 +160,7 @@ span {
 .student-key-info {
   text-align: start;
   text-transform: capitalize;
-  color: var(--text-color);
+  color: var(--main-color);
   font-size: 1.2rem;
   width: 50%;
   padding: .5rem;

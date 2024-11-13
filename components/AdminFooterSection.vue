@@ -6,9 +6,7 @@ const currentYear = new Date().getFullYear();
 <template>
   <div class="footer-admin-section">
     <div class="footer-container">
-      <div class="footer-bottom">
-        <p>&copy; Copyright <a href="">Albukhary International University {{ currentYear }}</a></p>
-      </div>
+      <p>&copy; Copyright <a href="">Albukhary International University {{ currentYear }}</a></p>
     </div>
   </div>
 </template>
@@ -18,25 +16,18 @@ const currentYear = new Date().getFullYear();
 .footer-admin-section {
   background-color: var(--main-color);
   margin: auto;
+  border-top: .2rem solid var(--text-color);
+
 }
 
 
 .footer-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: .2rem 1rem;
-  text-align: center;
-}
-
-.footer-bottom {
+  margin:auto;
   text-align: center;
   font-size: 1.2rem;
   padding: .5rem;
-  color: var(--text-color);
-}
-
-.footer-bottom a {
   color: var(--text-color);
 }
 
