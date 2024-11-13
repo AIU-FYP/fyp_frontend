@@ -330,7 +330,7 @@ function handleSubmit() {
 
 .form-header h2 {
   font-size: 1.5rem;
-  color: var(--secondary-hovor-color);
+  color: var(--text-hovor-color);
 }
 
 .container .box-form {
@@ -360,7 +360,7 @@ function handleSubmit() {
 
 .form-container .question-title {
   font-size: 1rem;
-  color: var(--text-color);
+  color: var(--main-color);
 }
 
 .form-container input,
@@ -385,11 +385,11 @@ function handleSubmit() {
   font-size: 1.2rem;
   border-radius: 1rem 0;
   background-color: var(--main-color);
-  color: var(--secondary-hovor-color);
+  color: var(--text-color);
 }
 
 .submit:hover {
-  background-color: var(--text-color);
+  background-color: var(--main-hovor-color);
   transition: .3s ease-in-out;
 }
 
