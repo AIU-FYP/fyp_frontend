@@ -132,7 +132,7 @@ span {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #333;
+  color: var(--main-color);
 }
 
 .close-btn:hover {
@@ -157,7 +157,7 @@ span {
 .student-key-info {
   text-align: start;
   text-transform: capitalize;
-  color: var(--text-color);
+  color: var(--main-color);
   font-size: 1.2rem;
   width: 50%;
   padding: .5rem;
