@@ -224,7 +224,7 @@ const isPopupVisible = ref(false)
 
 .container .description {
   flex: 30%;
-  background-color: #eeeeee;
+  background-color: var(--main-color);
   padding: 2.5rem;
   border-radius: 0;
 }
@@ -268,7 +268,7 @@ const isPopupVisible = ref(false)
 
 .maintenance-room-form > h2 {
   font-size: 1.5rem;
-  color: var(--text-color);
+  color: var(--main-color);
   text-align: center;
   padding: 1rem 0;
 }
@@ -288,7 +288,7 @@ const isPopupVisible = ref(false)
 
 .maintenance-form .question-title {
   font-size: 1rem;
-  color: var(--text-color);
+  color: var(--main-color);
   padding: .5rem 0;
 }
 
@@ -296,7 +296,7 @@ const isPopupVisible = ref(false)
 .maintenance-form select {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--main-color);
   border-radius: 5px;
   outline: none;
 }
@@ -306,7 +306,7 @@ const isPopupVisible = ref(false)
   height: 4rem;
   max-height: 4rem;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--main-color);
   border-radius: 5px;
   outline: none;
 }
