@@ -5,24 +5,34 @@ const dashboardItems = [
   {
     title: "Main Dashboard",
     maintenanceStats: [
-      {subTitle: "Total Pending"},
-      {subTitle: "Total Accepted"},
-      {subTitle: "Total Rejected"},
-      {subTitle: "Available Rooms"},
-      {subTitle: "Occupied Rooms"},
-      {subTitle: "Total Pending"},
-      {subTitle: "Total Accepted"},
-      {subTitle: "Total Rejected"},
+      {
+        subTitle: "Male Students",
+        icon: "fa-male",
+      },
+      {
+        subTitle: "Female Students",
+        icon: "fa-female",
+      },
+      {
+        subTitle: "Maintenance Requested",
+        icon: "la-building-solid",
+      },
+      {
+        subTitle: "Changes Room Requested",
+        icon: "la-building-solid",
+      },
+      {
+        subTitle: "Available Rooms",
+        icon: "fa-bed",
+      },
+      {
+        subTitle: "Occupied Rooms",
+        icon: "ic-baseline-clear",
+      },
     ],
   },
 ];
 
-const summaryDetails = [
-  {
-    title: "Total Maintenance Requests"
-  },
-  {title: "Total Room Change Requests"},
-];
 
 const visibleButtonIndex = ref<number | null>(null);
 
@@ -96,16 +106,18 @@ function toggleLinkVisibility(index: number) {
       <section v-for="item in dashboardItems" :key="item.title" class="analysis-section">
         <div class="stat-cards">
           <div v-for="(stat, index) in item.maintenanceStats" :key="index" class="stat-card">
-            <h4>{{ stat.subTitle }}</h4>
-            <UIcon name="mdi-worker-outline" class="stat-icon"/>
-            <p class="stat-value">+ <span></span></p>
+            <div class="box">
+              <h4>{{ stat.subTitle }}</h4>
+              <span class="stat-icon">
+              <UIcon
+                  :name="stat.icon"
+              />
+            </span>
+            </div>
+            <div class="num">
+              <span>2000</span>
+            </div>
           </div>
-        </div>
-      </section>
-
-      <section class="dashboard-summary">
-        <div v-for="detail in summaryDetails" :key="detail.title" class="summary-card">
-          <h3>{{ detail.title }}</h3>
         </div>
       </section>
 
@@ -222,11 +234,34 @@ function toggleLinkVisibility(index: number) {
 
 .stat-card {
   flex: 1 1 20%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   background-color: var(--text-hovor-color);
-  padding: 1rem;
-  border-radius: 8px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0 1rem 1rem 0 !important;
+}
+
+.stat-card .box {
+  flex: 5;
+  padding: 1rem 0.5rem;
+}
+
+.stat-card .num {
+  padding: 1rem 0.5rem;
+  flex: 2;
+  border-radius: 0 1rem 1rem 0;
+  background-color: var(--main-color);
+}
+
+.stat-card .num > span {
+  display: flex;
+  margin: 2rem 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--text-color);
 }
 
 .stat-card h4 {
@@ -240,19 +275,6 @@ function toggleLinkVisibility(index: number) {
   margin: 0.5rem 0;
 }
 
-.dashboard-summary {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.summary-card {
-  background-color: var(--main-color);
-  padding: 1rem;
-  border-radius: 1rem 0;
-  flex: 1 1 calc(50% - 1rem);
-  text-align: center;
-}
 
 @media (max-width: 768px) {
   .sidebar {
@@ -263,8 +285,7 @@ function toggleLinkVisibility(index: number) {
     padding: 1rem;
   }
 
-  .stat-cards,
-  .dashboard-summary {
+  .stat-cards{
     flex-direction: column;
   }
 }
