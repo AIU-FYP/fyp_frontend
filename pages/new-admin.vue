@@ -1,5 +1,6 @@
-<script setup lang="ts">
+NewAdminFormSection<script setup lang="ts">
 import {useAuth} from "~/composables/useAuth";
+import NewAdminFormSection from "~/components/NewAdminFormSection.vue";
 
 definePageMeta({
   middleware: 'auth'
@@ -15,7 +16,7 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <NewAdmin/>
+  <NewAdminFormSection/>
 </template>
 
 <style scoped>

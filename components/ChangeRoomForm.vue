@@ -58,10 +58,10 @@ const previousQuestions = [
     placeholder: "Select nationality"
   },
   {
-    label: "Please provide photo evidence",
+    label: "Other supporting docs",
     type: "file",
     required: true,
-    placeholder: "Please provide photo evidence"
+    placeholder: "Other supporting docs"
   },
   {
     label: "Explain your reason for room change?",
@@ -95,7 +95,7 @@ const formSchema = z.object({
   "Enter your Nationality":
       z.string()
           .optional(),
-  "Please provide photo evidence":
+  "Other supporting docss":
       z.any()
           .optional(),
   "Explain your reason for room change?":

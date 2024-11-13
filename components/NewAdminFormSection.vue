@@ -23,7 +23,7 @@ const previousQuestions = [
     required: true
   },
   {
-    label: "Student Affairs ID",
+    label: "Staff ID",
     type: "text", placeholder: "Enter your student ID (e.g., AIU21011234)",
     required: true
   },
@@ -34,7 +34,7 @@ const previousQuestions = [
     required: true
   },
   {
-    label: "Email Address (Student Affairs Email Only)",
+    label: "Email Address (Staff Email Only)",
     type: "text",
     placeholder: "Enter your email address",
     required: true
@@ -63,14 +63,14 @@ const formSchema = z.object({
   "Position":
       z.string().min(5, "Name must be at least 5 characters long")
           .nonempty("Name is required"),
-  "Student Affairs ID":
+  "Staff ID":
       z.string()
           .regex(/^AIU\d{8}$/, "Invalid Student ID format")
           .nonempty("Student ID is required"),
   "Phone Number (Local Number Only)":
       z.string().regex(/^\d{8,15}$/, "Invalid phone number")
           .nonempty("Phone Number is required"),
-  "Email Address (Student Email Only)":
+  "Email Address (Staff Email Only)":
       z.string()
           .email("Invalid email format")
           .regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'"),
@@ -132,7 +132,6 @@ function handleSubmit() {
     <div class="admin-profile">
       <div class="log-in-form">
         <h2>Please fill with your details</h2>
-        <hr class="divider">
         <div class="form-container">
           <form @submit.prevent="handleSubmit">
             <div class="login-form">
@@ -151,7 +150,6 @@ function handleSubmit() {
           </form>
         </div>
       </div>
-      <hr class="divider">
     </div>
   </div>
 </template>
@@ -159,13 +157,12 @@ function handleSubmit() {
 <style scoped>
 .admin-profile-section {
   display: block;
-  width: 80%;
+  width: 70%;
   margin: 5rem auto;
 }
 
 .admin-profile {
-  background: #fff;
-  padding: 20px;
+  background: var(--text-color);
   border-radius: 8px;
   width: 100%;
   position: relative;
@@ -178,6 +175,7 @@ function handleSubmit() {
     width: 100%;
     margin: 2rem auto;
   }
+
   .admin-profile {
     border-radius: 0;
     max-width: 100%;
@@ -197,12 +195,9 @@ function handleSubmit() {
   font-size: 1.5rem;
   text-align: start;
   margin: 0 1rem;
+  color: var(--text-hovor-color);
 }
 
-.divider {
-  margin: 1% 2%;
-  border: 2px solid var(--main-color);;
-}
 
 .login-form {
   display: flex;
@@ -226,7 +221,7 @@ function handleSubmit() {
 .login-form select {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--main-color);
   border-radius: 5px;
   outline: none;
 }
@@ -241,14 +236,29 @@ function handleSubmit() {
   width: 50%;
   padding: .5rem;
   margin: 2rem auto 0;
-  background-color: var(--main-hovor-color);
-  color: var(--text-color);
+  background-color: var(--text-color);
+  color: var(--main-color);
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 }
 
 .submit:hover {
-  background-color: var(--text-hovor-color);
-  transition: .2s;
+  background-color: var(--main-hovor-color);
+  color: var(--text-color);
+  transition: .3s ease-in-out;
+}
+
+@media (max-width: 1200px) {
+
+  .log-in-form > h2 {
+    font-size: 1.2rem;
+    text-align: start;
+    margin: 0 1rem;
+    color: var(--text-hovor-color);
+  }
+
+  .log-in-form label {
+    font-size: 1rem;
+  }
 }
 
 

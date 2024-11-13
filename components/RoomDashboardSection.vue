@@ -2,7 +2,7 @@
 
 import {onMounted, ref} from 'vue'
 import {useNuxtApp} from '#app'
-import Popup from '~/components/PopupStudentMaintenanceInfo.vue'
+import Popup from '~/components/PopupRoom.vue'
 
 interface Person {
   id: number
@@ -18,12 +18,11 @@ interface Person {
 
 const columns = [
   {key: 'id', label: 'id'},
-  {key: "date", label: 'Date',},
-  {key: 'name', label: 'Name', sortable: true},
-  {key: 'studentIdNumber', label: 'Student ID Number', sortable: true},
-  {key: 'roomNumber', label: 'Room Number', sortable: true},
-  {key: 'whatsappNumber', label: 'WhatsApp Number', sortable: true},
   {key: 'gender', label: 'Gender', sortable: true},
+  {key: 'blockName', label: 'Block Name', sortable: true},
+  {key: 'roomNo', label: 'Room No', sortable: true},
+  {key: 'levelNo', label: 'Level No', sortable: true},
+  {key: 'whichZone', label: 'Which Zone', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}
 ]
 
@@ -34,7 +33,7 @@ const api = $axios()
 
 const fetchData = async () => {
   try {
-    const response = await api.get("/Students/")
+    const response = await api.get("/Students")
     people.value = response.data.map((person: Person) => ({
       ...person,
       date: new Date().toLocaleDateString()
@@ -53,8 +52,8 @@ const openPopup = (row: Person) => {
   isPopupVisible.value = true;
 };
 
-onMounted(fetchData)
 
+onMounted(fetchData)
 
 const visibleButtonIndex = ref<number | null>(null);
 

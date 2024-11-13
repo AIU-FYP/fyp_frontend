@@ -1,9 +1,49 @@
-<script setup>
+<script setup lang="ts">
 import {computed, reactive, ref, watch} from 'vue';
 import Popup from '~/components/PopupAdminSubmit.vue'
 import {z} from 'zod';
 import {countries, femaleBlockOptions, maleBlockOptions, nationalities} from "~/utils/nationalities";
 
+
+const visibleButtonIndex = ref<number | null>(null);
+
+const navigationButtons = [
+  {
+    name: "Student",
+    icon: "ph-student",
+    links: [
+      {text: "Register Student", url: "/student-registration-form"},
+      {text: "Manage Student", url: "/student-registration-dashboard"},
+    ],
+  },
+  {
+    name: "Maintenance",
+    icon: "wpf-maintenance",
+    links: [
+      {text: "Maintenance Form", url: "/maintenance-room-form"},
+      {text: "Manage Maintenance", url: "/maintenance-room-dashboard"},
+    ],
+  },
+  {
+    name: "Change Room",
+    icon: "bx-building",
+    links: [
+      {text: "Change Room Form", url: "/change-room-form"},
+      {text: "Manage Room Changes", url: "/change-room-dashboard"},
+    ],
+  },
+  {
+    name: "Room",
+    icon: "bx-building",
+    links: [
+      {text: "Manage Rooms", url: "/room-dashboard"},
+    ],
+  },
+];
+
+function toggleLinkVisibility(index: number) {
+  visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
+}
 const form = reactive({});
 const errors = reactive({});
 
@@ -246,9 +286,40 @@ function handleSubmit() {
     alert("Please correct the errors in the form.");
   }
 }
+
+
 </script>
 
 <template>
+  <div class="admin-dashboard">
+
+    <aside class="sidebar">
+      <div v-for="(button, index) in navigationButtons" :key="index">
+        <div class="btn-container">
+          <button
+              @click="toggleLinkVisibility(index)"
+              :aria-expanded="visibleButtonIndex === index"
+              class="sidebar-button"
+          >
+            <UIcon
+                :name="button.icon"
+            />
+            {{ button.name }}
+          </button>
+        </div>
+        <ul v-if="visibleButtonIndex === index">
+          <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
+            <a :href="link.url">{{ link.text }}</a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="dashboard-content">
+
+    </main>
+  </div>
+
   <div class="new-student-sec">
     <div class="container">
       <div class="form-header">
@@ -312,10 +383,10 @@ function handleSubmit() {
 
 .container {
   display: block;
-  margin: 5rem auto;
-  width: 80%;
+  margin: 1rem auto;
+  width: 90%;
   max-width: 1200px;
-  box-shadow: rgba(149, 157, 165, 0.3) 0 8px 24px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
   border-radius: 0 1rem 1rem 0;
 }
 

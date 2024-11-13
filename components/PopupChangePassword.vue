@@ -26,7 +26,7 @@ const previousQuestions = [
     required: true
   },
   {
-    label: "Confirm New Password ",
+    label: "Confirm New Password",
     type: "password",
     placeholder: "Confirm New Password",
     required: true
@@ -107,7 +107,7 @@ function handleSubmit() {
           <form @submit.once="handleSubmit">
             <div class="login-form">
               <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-                <label :for="question.label">{{ question.label }}:</label>
+                <label :for="question.label">{{ question.label }} :</label>
                 <input
                     :type="question.type"
                     v-model="form[question.label]"
@@ -117,7 +117,7 @@ function handleSubmit() {
                 <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
               </div>
             </div>
-            <button class="maintenance-submit" type="submit">Save change</button>
+            <button class="submit" type="submit">Save change</button>
           </form>
         </div>
       </div>
@@ -145,11 +145,11 @@ function handleSubmit() {
   position: relative;
   text-align: center;
   z-index: 1001;
+  border-radius: 0;
 }
 
 @media (max-width: 1200px) {
   .popup-container {
-    border-radius: 0;
     max-width: 100%;
     width: 100%;
   }
@@ -160,7 +160,6 @@ function handleSubmit() {
   padding: 2rem 1rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   background-color: var(--main-color);
-  border-radius: 1rem;
 }
 
 .log-in-form .user-icon {
@@ -172,7 +171,7 @@ function handleSubmit() {
   font-size: 4rem;
   background-color: var(--text-color);
   color: var(--main-color);
-  border: .3rem solid var(--text-hovor-color);
+  border: .5rem solid var(--text-hovor-color);
   border-radius: 50%;
 }
 
@@ -203,7 +202,7 @@ function handleSubmit() {
   font-size: 1rem;
 }
 
-.maintenance-submit {
+.submit {
   display: block;
   width: 90%;
   padding: .5rem;
@@ -214,8 +213,9 @@ function handleSubmit() {
   box-shadow: rgba(0, 0, 0, 0.15) 0 5px 15px;
 }
 
-.maintenance-submit:hover {
-  background-color: var(--text-hovor-color);
+.submit:hover {
+  background-color: var(--main-hovor-color);
+  color: var(--text-hovor-color);
   transition: .3s ease-in-out;
 }
 

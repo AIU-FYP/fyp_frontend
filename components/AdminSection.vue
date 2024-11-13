@@ -14,20 +14,20 @@ const dashboardItems = [
         icon: "fa-female",
       },
       {
-        subTitle: "Maintenance Requested",
-        icon: "la-building-solid",
-      },
-      {
-        subTitle: "Changes Room Requested",
-        icon: "la-building-solid",
-      },
-      {
         subTitle: "Available Rooms",
         icon: "fa-bed",
       },
       {
         subTitle: "Occupied Rooms",
         icon: "ic-baseline-clear",
+      },
+      {
+        subTitle: "Maintenance Requests",
+        icon: "la-building-solid",
+      },
+      {
+        subTitle: "Change Room Requests",
+        icon: "la-building-solid",
       },
     ],
   },
@@ -59,6 +59,13 @@ const navigationButtons = [
     links: [
       {text: "Change Room Form", url: "/change-room-form"},
       {text: "Manage Room Changes", url: "/change-room-dashboard"},
+    ],
+  },
+  {
+    name: "Room",
+    icon: "bx-building",
+    links: [
+      {text: "Manage Rooms", url: "/room-dashboard"},
     ],
   },
 ];
