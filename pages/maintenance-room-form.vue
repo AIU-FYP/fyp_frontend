@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <HeaderSec/>
-  <MaintenanceRoom/>
-  <FooterSec/>
+  <HeaderSection/>
+  <MaintenanceFormSection/>
+  <FooterSection/>
 </template>
 
 <style scoped>

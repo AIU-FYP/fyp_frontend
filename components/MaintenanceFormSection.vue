@@ -236,7 +236,7 @@ function handleSubmit() {
 
 .maintenance-room-section {
   margin: 7rem;
-  border: 2px solid #eeeeee;
+  border: 2px solid var(--text-hovor-color);
   border-radius: 0 30px 30px 0;
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
 }
@@ -251,11 +251,12 @@ function handleSubmit() {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  max-width: 1200px;
 }
 
 .container .description {
   flex: 30%;
-  background-color: #eeeeee;
+  background-color: var(--main-color);
   padding: 2.5rem;
   border-radius: 0;
 }
@@ -293,13 +294,13 @@ function handleSubmit() {
   font-size: 1rem;
   padding: 1rem 0;
   font-weight: normal;
-  color: black;
+  color: var(--text-color);
   text-align: justify;
 }
 
 .maintenance-room-form > h2 {
   font-size: 1.5rem;
-  color: var(--text-color);
+  color: var(--main-hovor-color);
   text-align: center;
   padding: 1rem 0;
 }
@@ -320,14 +321,14 @@ function handleSubmit() {
 
 .maintenance-form .question-title {
   font-size: 1rem;
-  color: var(--text-color);
+  color: var(--main-color);
 }
 
 .maintenance-form input,
 .maintenance-form select {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--main-color);
   border-radius: 5px;
   outline: none;
 }
@@ -337,7 +338,7 @@ function handleSubmit() {
   min-height: 4rem;
   max-height: 4rem;
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--main-color);
   border-radius: 5px;
   outline: none;
 }
@@ -370,8 +371,8 @@ function handleSubmit() {
 }
 
 .maintenance-submit:hover {
-  background-color: var(--text-hovor-color);
-  transition: .2s;
+  background-color: var(--main-hovor-color);
+  transition: .3s ease-in-out;
 }
 
 </style>
