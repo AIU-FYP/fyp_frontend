@@ -117,7 +117,7 @@ async function handleSubmit() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(120deg, var(--text-hovor-color), var(--main-color));
+  background: linear-gradient(135deg, #133E87FF, #4B8AE6, #82B4F9);
   margin: 0;
   padding: 0;
 }
@@ -137,6 +137,7 @@ async function handleSubmit() {
 
 .container .log-in-form {
   flex: 30%;
+  min-height: 60vh;
   padding: 2rem .5rem;
   margin-top: 2rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
@@ -191,7 +192,7 @@ async function handleSubmit() {
   margin: 3rem auto;
 }
 
-.login-form label{
+.login-form label {
   color: var(--text-hovor-color);
 }
 
