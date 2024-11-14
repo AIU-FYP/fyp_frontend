@@ -41,24 +41,24 @@ const navigationButtons = [
     name: "Student",
     icon: "ph-student",
     links: [
-      {text: "Register Student", url: "/student-registration-form"},
-      {text: "Manage Student", url: "/student-registration-dashboard"},
+      {text: "Register Student", url: "/student-registration-form",},
+      {text: "Manage Student", url: "/student-registration-dashboard",},
     ],
   },
   {
     name: "Maintenance",
     icon: "wpf-maintenance",
     links: [
-      {text: "Maintenance Form", url: "/maintenance-room-form"},
-      {text: "Manage Maintenance", url: "/maintenance-room-dashboard"},
+      {text: "Maintenance Form", url: "/maintenance-room-form",},
+      {text: "Manage Maintenance", url: "/maintenance-room-dashboard",},
     ],
   },
   {
     name: "Change Room",
     icon: "bx-building",
     links: [
-      {text: "Change Room Form", url: "/change-room-form"},
-      {text: "Manage Room Changes", url: "/change-room-dashboard"},
+      {text: "Change Room Form", url: "/change-room-form",},
+      {text: "Manage Room Changes", url: "/change-room-dashboard",}
     ],
   },
   {
@@ -69,6 +69,7 @@ const navigationButtons = [
     ],
   },
 ];
+
 
 function toggleLinkVisibility(index: number) {
   visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
@@ -93,7 +94,7 @@ function toggleLinkVisibility(index: number) {
         </div>
         <ul v-if="visibleButtonIndex === index">
           <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
-            <a :href="link.url" >{{ link.text }}</a>
+            <a :href="link.url">{{ link.text }}</a>
           </li>
         </ul>
       </div>
@@ -295,7 +296,7 @@ function toggleLinkVisibility(index: number) {
     padding: 1rem;
   }
 
-  .stat-cards{
+  .stat-cards {
     flex-direction: column;
   }
 }

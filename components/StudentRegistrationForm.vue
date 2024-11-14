@@ -300,9 +300,6 @@ function handleSubmit() {
         </form>
 
       </div>
-      <div class="form-footer">
-        <h2>Thank you</h2>
-      </div>
     </div>
   </div>
 </template>
@@ -312,11 +309,11 @@ function handleSubmit() {
 .container {
   display: block;
   margin: 2rem;
-  width: calc( 100% - 4rem);
+  width: calc(100% - 4rem);
   max-width: 1200px;
   box-shadow: rgba(149, 157, 165, 0.3) 0 8px 24px;
   border-radius: 0 1rem 1rem 0;
-  background-color: var(--main-color);
+  background-color: var(--text-hovor-color);
 
 }
 
@@ -333,26 +330,12 @@ function handleSubmit() {
   margin: 0;
   padding: .5rem 0;
   border-radius: 0 1rem 0 0;
-  background-color: var(--text-hovor-color);
+  background-color: var(--main-hovor-color);
   border: none;
   outline: none;
   font-size: 1.5rem;
-  color: var(--main-color);
+  color: var(--text-hovor-color);
 }
-
-.form-footer{
-  width: 100%;
-  text-align: center;
-  margin: 0;
-  padding: .5rem 0;
-  border-radius: 0 0 1rem  0;
-  background-color: var(--text-hovor-color);
-  border: none;
-  outline: none;
-  font-size: 1.5rem;
-  color: var(--main-color);
-}
-
 
 .container .box-form {
   width: 90%;
@@ -381,14 +364,14 @@ function handleSubmit() {
 
 .form-container .question-title {
   font-size: 1rem;
-  color: var(--text-hovor-color);
+  color: var(--main-hovor-color);
 }
 
 .form-container input,
 .form-container select {
   width: 100%;
   padding: .5rem 1rem;
-  border: 1px solid var(--main-color);
+  border: 1px solid var(--main-hovor-color);
   border-radius: 5px;
   outline: none;
 }
@@ -405,13 +388,14 @@ function handleSubmit() {
   padding: .5rem 2rem;
   font-size: 1.2rem;
   border-radius: 1rem 0;
-  background-color: var(--text-color);
-  color: var(--main-color);
+  background-color: var(--main-hovor-color);
+  color: var(--text-hovor-color);
 }
 
 .submit:hover {
-  background-color: var(--text-hovor-color);
+  background-color: var(--main-color);
   transition: .3s ease-in-out;
 }
+
 
 </style>

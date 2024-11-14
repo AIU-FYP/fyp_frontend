@@ -28,8 +28,8 @@
           </li>
           <li><router-link to="/about">About</router-link>
           </li>
-          <li><router-link to="/maintenance-room">Maintenance Room</router-link></li>
-          <li><router-link to="request-to-change-room">Request to Change Room</router-link></li>
+          <li><router-link to="/maintenance-room-form">Maintenance Room</router-link></li>
+          <li><router-link to="change-room-form">Request to Change Room</router-link></li>
 
           <li><router-link to="/login">Log In</router-link></li>
 
