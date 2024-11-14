@@ -200,16 +200,19 @@ function toggleLinkVisibility(index: number) {
 
 .sidebar ul li {
   list-style: none;
-  margin: 0.5rem 1rem;
+  margin: 0.5rem;
+  padding: 0.5rem;
   font-size: 1rem;
   text-align: start;
   text-transform: capitalize;
   font-weight: normal;
   color: var(--text-hovor-color);
+  background-color: transparent;
 }
 
 .sidebar li:hover {
   color: var(--text-hovor-color);
+  background-color: var(--main-hovor-color);
   transition: .3s ease-in-out;
 }
 
