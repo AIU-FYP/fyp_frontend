@@ -1,10 +1,11 @@
 <script setup lang="ts">
 
-import NewStudentSection from "~/components/StudentRegistrationFormSection.vue";
 </script>
 
 <template>
-  <NewStudentSection/>
+  <AdminHeaderSection/>
+  <StudentRegistrationFormSection/>
+  <AdminFooterSection/>
 </template>
 
 <style scoped>

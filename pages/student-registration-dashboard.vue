@@ -3,7 +3,9 @@
 </script>
 
 <template>
+  <AdminHeaderSection/>
   <StudentDashboradSection/>
+  <AdminFooterSection/>
 </template>
 
 <style scoped>

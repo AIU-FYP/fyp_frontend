@@ -16,7 +16,6 @@ const studentFields = [
   {key: 'roomNo', label: 'Room No'},
   {key: 'levelNo', label: 'Level No'},
   {key: 'whichZone', label: 'Which Zone'},
-  {key: 'extend', label: 'Extend',}
 ];
 
 const closePopup = () => {

@@ -1,5 +1,6 @@
 <script setup>
 import {defineEmits, defineProps} from 'vue'
+
 const props = defineProps({
   show: Boolean
 })
@@ -43,20 +44,20 @@ const formSchema = z.object({
           .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
           .nonempty("Password is required"),
   "New Password": z.string()
-    .min(12, "Password must be at least 12 characters long")
-    .max(15, "Password must not exceed 15 characters")
-    .regex(/[a-zA-Z]/, "Password must include at least one letter")
-    .regex(/\d/, "Password must include at least one number")
-    .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
-    .nonempty("Password is required"),
-    "Confirm New Password ": z
-    .string()
-    .min(12, "Password must be at least 12 characters long")
-    .max(15, "Password must not exceed 15 characters")
-    .regex(/[a-zA-Z]/, "Password must include at least one letter")
-    .regex(/\d/, "Password must include at least one number")
-    .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
-    .nonempty("Password is required"),
+      .min(12, "Password must be at least 12 characters long")
+      .max(15, "Password must not exceed 15 characters")
+      .regex(/[a-zA-Z]/, "Password must include at least one letter")
+      .regex(/\d/, "Password must include at least one number")
+      .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+      .nonempty("Password is required"),
+  "Confirm New Password ": z
+      .string()
+      .min(12, "Password must be at least 12 characters long")
+      .max(15, "Password must not exceed 15 characters")
+      .regex(/[a-zA-Z]/, "Password must include at least one letter")
+      .regex(/\d/, "Password must include at least one number")
+      .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+      .nonempty("Password is required"),
 });
 
 const form = reactive({});
@@ -100,9 +101,6 @@ function handleSubmit() {
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
       <div class="log-in-form">
-        <span class="user-icon">
-          <UIcon name="mdi-user-outline"/>
-        </span>
         <div class="form-container">
           <form @submit.once="handleSubmit">
             <div class="login-form">
@@ -142,10 +140,10 @@ function handleSubmit() {
 .popup-container {
   max-width: 40%;
   width: 40%;
-  position: relative;
-  text-align: center;
+text-align: center;
   z-index: 1001;
-  border-radius: 0;
+  padding: 1rem;
+  background-color: var(--main-color);
 }
 
 @media (max-width: 1200px) {
@@ -157,22 +155,7 @@ function handleSubmit() {
 
 .log-in-form {
   display: block;
-  padding: 2rem 1rem;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-  background-color: var(--main-color);
-}
-
-.log-in-form .user-icon {
-  display: flex;
-  padding: 1rem;
-  width: fit-content;
-  margin: -5rem auto 1rem auto;
-  text-align: center;
-  font-size: 4rem;
-  background-color: var(--text-color);
-  color: var(--main-color);
-  border: .5rem solid var(--text-hovor-color);
-  border-radius: 50%;
+  background-color: transparent;
 }
 
 .login-form {
@@ -181,10 +164,10 @@ function handleSubmit() {
   margin: 3rem auto;
 }
 
-.log-in-form label{
+.log-in-form label {
   display: block;
   text-align: start;
-  padding: 1rem 0  ;
+  padding: 1rem 0;
   color: var(--text-color);
 }
 
@@ -218,7 +201,6 @@ function handleSubmit() {
   color: var(--text-hovor-color);
   transition: .3s ease-in-out;
 }
-
 
 
 </style>

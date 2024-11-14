@@ -146,7 +146,7 @@ function handleSubmit() {
             <form @submit.prevent="handleSubmit">
               <div class="login-form">
                 <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-                  <label :for="question.label">{{ question.label }</label>
+                  <label :for="question.label">{{ question.label }}</label>
                   <input
                       :type="question.type"
                       v-model="form[question.label]"
