@@ -1,15 +1,69 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
+import { onMounted, ref } from 'vue';
 import Popup from "~/components/PopupChangePassword.vue";
+import PopupNewAdmin from "~/components/PopupNewAdmin.vue";
+
+import {defineEmits, defineProps} from 'vue'
+const props = defineProps({
+  show: Boolean
+})
+const emit = defineEmits(['update:show'])
+
+
+
+import {reactive,} from 'vue';
+import {z} from 'zod';
+
+
+const formSchema = z.object({
+  "Current Password":
+      z.string()
+          .min(12, "Password must be at least 12 characters long")
+          .max(15, "Password must not exceed 15 characters")
+          .regex(/[a-zA-Z]/, "Password must include at least one letter")
+          .regex(/\d/, "Password must include at least one number")
+          .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+          .nonempty("Password is required"),
+  "New Password": z.string()
+      .min(12, "Password must be at least 12 characters long")
+      .max(15, "Password must not exceed 15 characters")
+      .regex(/[a-zA-Z]/, "Password must include at least one letter")
+      .regex(/\d/, "Password must include at least one number")
+      .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+      .nonempty("Password is required"),
+  "Confirm New Password ": z
+      .string()
+      .min(12, "Password must be at least 12 characters long")
+      .max(15, "Password must not exceed 15 characters")
+      .regex(/[a-zA-Z]/, "Password must include at least one letter")
+      .regex(/\d/, "Password must include at least one number")
+      .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
+      .nonempty("Password is required"),
+});
+
+const form = reactive({});
+const errors = reactive({});
+
+
+function handleSubmit() {
+  const validationResults = formSchema.safeParse(form);
+  if (validationResults.success) {
+    console.log("Form Data:", {...form});
+    alert("Password changed successfully!");
+  } else {
+    alert("Please correct the errors in the form.");
+  }
+}
 
 const isLinksVisible = ref(false);
+const isPopupChangePasswordVisible = ref(false);
+const isPopupNewAdminVisible = ref(false);
+const isMobile = ref(false);
 
 function toggleLinksVisibility() {
   isLinksVisible.value = !isLinksVisible.value;
   console.log("Links visibility toggled:", isLinksVisible.value);
 }
-
-const isMobile = ref(false);
 
 onMounted(() => {
   isMobile.value = window.innerWidth <= 1200;
@@ -18,14 +72,12 @@ onMounted(() => {
   });
 });
 
-
-const auth = useAuth()
+const auth = useAuth();
 
 const handleLogout = () => {
-  auth.logout()
-  navigateTo('/login')
-}
-const isPopupVisible = ref(false)
+  auth.logout();
+  navigateTo('/login');
+};
 
 </script>
 
@@ -47,19 +99,17 @@ const isPopupVisible = ref(false)
       </div>
 
       <div class="title">
-        <h1>Admin Dashboard </h1>
+        <h1>Admin Dashboard</h1>
       </div>
       <div class="menu-container">
         <ul class="submenu" v-if="isLinksVisible || !isMobile">
           <li>
-            <a>
-              <router-link to="/new-admin">Add New Admin</router-link>
-            </a>
+            <a @click="isPopupNewAdminVisible = true">Add New Admin</a>
+            <PopupNewAdmin :show="isPopupNewAdminVisible" @update:show="isPopupNewAdminVisible = $event" />
           </li>
           <li>
-            <a style="cursor: pointer" @click="isPopupVisible = true">Change Password</a>
-            <Popup :show="isPopupVisible" @update:show="isPopupVisible = $event">
-            </Popup>
+            <a style="cursor: pointer" @click="isPopupChangePasswordVisible = true">Change Password</a>
+            <Popup :show="isPopupChangePasswordVisible" @update:show="isPopupChangePasswordVisible = $event" />
           </li>
           <li>
             <a @click="handleLogout">
@@ -71,6 +121,7 @@ const isPopupVisible = ref(false)
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .header-admin-section {

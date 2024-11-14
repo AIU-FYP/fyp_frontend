@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <LogInSec/>
+  <NEW/>
 </template>
 
 <style scoped>

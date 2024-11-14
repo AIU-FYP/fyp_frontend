@@ -238,7 +238,7 @@ function toggleLinkVisibility(index: number) {
 }
 
 @media (max-width: 1200px) {
-  .container{
+  .container {
     margin: 5rem 0;
   }
 }

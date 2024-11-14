@@ -191,6 +191,10 @@ async function handleSubmit() {
   margin: 3rem auto;
 }
 
+.login-form label{
+  color: var(--text-hovor-color);
+}
+
 .login-form input {
   width: 100%;
   padding: 0.5rem;

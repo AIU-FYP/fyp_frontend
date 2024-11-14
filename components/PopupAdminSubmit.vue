@@ -102,7 +102,7 @@ h2 {
 p {
   font-size: 1.2rem;
   line-height: 2rem;
-  color: var(--text-color);
+  color: var(--main-color);
   text-align: justify;
 }
 
