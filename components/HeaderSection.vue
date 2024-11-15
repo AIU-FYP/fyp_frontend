@@ -23,16 +23,11 @@
 
       <nav class="menu" v-if="isLinksVisible || !isMobile">
         <ul class="menu-links">
-          <li>
-            <router-link to="/home">Home</router-link>
-          </li>
-          <li><router-link to="/about">About</router-link>
-          </li>
-          <li><router-link to="/maintenance-room-form">Maintenance Room</router-link></li>
-          <li><router-link to="change-room-form">Request to Change Room</router-link></li>
-
+          <li><router-link to="/home">Home</router-link></li>
+          <li><router-link to="/about">About</router-link></li>
+          <li><router-link to="/maintenance-room-form">Maintenance Room Form</router-link></li>
+          <li><router-link to="change-room-form">Change Room Form</router-link></li>
           <li><router-link to="/login">Log In</router-link></li>
-
         </ul>
       </nav>
     </div>
@@ -151,6 +146,10 @@ onMounted(() => {
     justify-content: space-between;
   }
 
+  .container-box button {
+    display: block;
+  }
+
   .bar-btn {
     font-size: 2rem;
     font-weight: bold;
@@ -166,9 +165,7 @@ onMounted(() => {
   .menu-links li {
     display: block;
     margin-left: .5rem;
-    border-bottom: 2px solid var(--text-hovor-color);
   }
-
 }
 
 </style>

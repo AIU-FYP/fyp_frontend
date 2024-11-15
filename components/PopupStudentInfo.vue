@@ -14,7 +14,7 @@ const studentFields = [
   {label: 'Name ', key: 'name'},
   {label: 'Student ID Number ', key: 'studentIdNumber'},
   {label: 'Email Address ', key: 'emailAddress'},
-  {label: 'Gender ', key: 'gender'},
+  {label: 'Gender', key: 'gender'},
   {label: 'Reason for room change', key: 'detailTheDamage'},
   {label: 'Passport Number', key: 'passportNumber'},
   {label: 'Date of Birth', key: 'dateOfBirth'},
@@ -35,6 +35,12 @@ const studentFields = [
 
 const closePopup = () => {
   emit('update:show', false)
+  closePopup()
+}
+
+const updateStudentInfo = () => {
+  console.log('Updated student info:', props.student)
+  closePopup()
 }
 </script>
 
@@ -61,20 +67,20 @@ const closePopup = () => {
             </span>
             {{ field.label }}:</span>
           <span class="student-key-info">
-            <span>
-              <UIcon
-                  style="color: var(--main-color)"
-                  name="bx-data"
-              />
-            </span>
-            {{ student[field.key] }}</span>
+            <input
+                v-if="field.key !== 'status'"
+                v-model="student[field.key]"
+                class="control-input"
+            />
+            <span v-else>{{ student[field.key] }}</span>
+          </span>
         </div>
       </div>
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
           <button class="deleteStudent" id="deleteStudent">Delete Student</button>
-          <button class="changeStudent" id="changeStudent ">Change Student Info</button>
+          <button  @click="updateStudentInfo" class="changeStudent" id="changeStudent ">Change Student Info</button>
         </div>
         <div>
           <h2>Thank you </h2>
@@ -166,7 +172,7 @@ span {
 }
 
 .student-label-info,
-.student-key-info {
+.student-key-info{
   text-align: start;
   text-transform: capitalize;
   color: var(--main-color);
@@ -174,6 +180,17 @@ span {
   width: 50%;
   padding: .5rem;
   border-radius: .5rem 0;
+  background-color: #eeeeee;
+  margin-bottom: .5rem;
+}
+
+.control-input{
+  text-align: start;
+  text-transform: capitalize;
+  color: var(--main-color);
+  font-size: 1.2rem;
+  width: 100%;
+  outline: none;
   background-color: #eeeeee;
   margin-bottom: .5rem;
 }
