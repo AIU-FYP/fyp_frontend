@@ -100,7 +100,7 @@ function handleSubmit() {
 <template>
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
-      <div class="log-in-form">
+      <div class="form">
         <div class="form-container">
           <form @submit.once="handleSubmit">
             <div class="login-form">
@@ -140,7 +140,7 @@ function handleSubmit() {
 .popup-container {
   max-width: 40%;
   width: 40%;
-text-align: center;
+  text-align: center;
   z-index: 1001;
   padding: 1rem;
   background-color: var(--main-color);
@@ -153,26 +153,26 @@ text-align: center;
   }
 }
 
-.log-in-form {
+.form {
   display: block;
   background-color: transparent;
 }
 
-.login-form {
+.form {
   display: block;
   width: 90%;
   margin: 3rem auto;
 }
 
-.log-in-form label {
+.form label {
   display: block;
   text-align: start;
   padding: 1rem 0;
   color: var(--text-color);
 }
 
-.login-form input,
-.login-form select {
+.form input,
+.form select {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid var(--text-hovor-color);
@@ -187,9 +187,9 @@ text-align: center;
 
 .submit {
   display: block;
-  width: 90%;
+  width: 100%;
   padding: .5rem;
-  margin: 0 auto;
+  margin: 2rem auto;
   background-color: var(--text-color);
   color: var(--main-color);
   font-size: 1.2rem;

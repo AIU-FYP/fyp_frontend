@@ -98,7 +98,16 @@ onMounted(() => {
 
 .menu-links li {
   display: inline-block;
+  padding: .3rem;
   margin-right: .5rem;
+  border-radius: .5rem;
+  border: 1px solid transparent;
+  background-color: transparent;
+}
+
+.menu-links li:hover {
+  border: 1px solid var(--main-hovor-color);
+  background-color: var(--main-hovor-color);
 }
 
 .menu-links a {

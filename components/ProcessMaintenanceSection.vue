@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 const items = [
   {
@@ -52,14 +51,14 @@ const toggleFaq = (index) => {
               {{ item.label }}
             </h3>
             <h3>
-              <UIcon v-if="activeIndex === index" name="ep-arrow-up-bold" />
-              <UIcon v-else name="ep-arrow-down-bold" />
+              <UIcon v-if="activeIndex === index" name="ep-arrow-up-bold"/>
+              <UIcon v-else name="ep-arrow-down-bold"/>
             </h3>
           </div>
           <p class="description" v-if="activeIndex === index">{{ item.content }}</p>
         </div>
         <a class="link-btn">
-          <router-link to="/maintenance-room">
+          <router-link to="/maintenance-room-form">
             Maintenance Room Form
           </router-link>
         </a>
@@ -73,7 +72,7 @@ const toggleFaq = (index) => {
 
 .process-maintenance-room {
   padding: 1rem 0;
-  margin: 0 10rem ;
+  margin: 0 10rem;
   align-items: center;
 }
 
@@ -91,15 +90,16 @@ const toggleFaq = (index) => {
     text-align: center;
     font-size: 1.5rem;
   }
+
   .process-maintenance-room {
     padding: 1em;
-    margin: 0 1rem ;
+    margin: 0 1rem;
   }
 }
 
 .process-item {
   background-color: #f5f5f5;
-  color: var(--main-color);
+  color: var(--main-hovor-color);
   margin-bottom: 1.5rem;
   border-radius: 8px;
 }
@@ -120,7 +120,7 @@ const toggleFaq = (index) => {
   padding: .5rem 1rem;
   font-size: 1rem;
   font-weight: normal;
-  color: var(--text-color);
+  color: var(--main-hovor-color);
   text-align: justify;
 }
 
@@ -128,12 +128,13 @@ const toggleFaq = (index) => {
   .title {
     font-size: 1rem;
   }
-  .description{
+
+  .description {
     font-size: .8rem;
   }
 }
 
-.link-btn{
+.link-btn {
   display: flex;
   font-size: 1.2rem;
   color: var(--main-color);

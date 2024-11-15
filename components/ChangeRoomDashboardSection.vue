@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue'
 import {useNuxtApp} from '#app'
-import Popup from '~/components/PopupStudentChangeInfo.vue'
+import Popup from '~/components/PopupStudentChangeRoom.vue'
 
 interface Person {
   id: number
@@ -23,6 +23,7 @@ const columns = [
   {key: 'roomNumber', label: 'Room Number', sortable: true},
   {key: 'whatsappNumber', label: 'WhatsApp Number', sortable: true},
   {key: 'gender', label: 'Gender', sortable: true},
+  {key: 'status', label: 'Status', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}
 ]
 
@@ -224,7 +225,7 @@ function toggleLinkVisibility(index: number) {
 
 .container {
   margin: 2rem 0;
-  padding: 2rem;
+  padding: 1rem;
   max-width: 1200px;
   background-color: #f5f5f5;
   box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;

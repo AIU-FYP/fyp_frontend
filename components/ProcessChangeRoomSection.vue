@@ -69,7 +69,7 @@ const toggleFaq = (index) => {
           <p class="description" v-if="activeIndex === index">{{ item.content }}</p>
         </div>
         <a class="link-btn">
-          <router-link to="/request-to-change-room">
+          <router-link to="/change-room-form">
             Request To Change Room Form
           </router-link>
         </a>
@@ -109,7 +109,7 @@ const toggleFaq = (index) => {
 
 .process-item {
   background-color: #f5f5f5;
-  color: var(--main-color);
+  color: var(--main-hovor-color);
   margin-bottom: 1.5rem;
   border-radius: 8px;
 }
@@ -130,7 +130,7 @@ const toggleFaq = (index) => {
   padding: .5rem 1rem;
   font-size: 1rem;
   font-weight: normal;
-  color: var(--text-color);
+  color: var(--main-hovor-color);
   text-align: justify;
 }
 

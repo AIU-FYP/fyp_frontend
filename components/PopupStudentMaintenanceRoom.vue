@@ -1,14 +1,6 @@
 <script setup>
 import {defineEmits, defineProps} from 'vue'
 
-
-const props = defineProps({
-  show: Boolean,
-  student: Object
-});
-
-const emit = defineEmits(['update:show'])
-
 const studentFields = [
   {label: 'ID ', key: 'id'},
   {label: 'Name ', key: 'name'},
@@ -18,10 +10,20 @@ const studentFields = [
   {label: 'WhatsApp Number ', key: 'whatsappNumber'},
   {label: 'Email Address ', key: 'emailAddress'},
   {label: 'Gender ', key: 'gender'},
+  {label: 'Location specific Issue ', key: 'locationSpecificIssue'},
+  {label: 'Frequent damages occur', key: 'frequentTheDamagesOccur'},
   {label: 'Student Nationality ', key: 'studentNationality'},
-  {label: 'Other supporting docs   ', key: 'OtherSupportingDocs'},
+  {label: 'Photo evidence damages ', key: 'photoEvidenceDamages'},
   {label: 'Reason for room change', key: 'detailTheDamage'},
+  {key: 'status', label: 'Status'},
 ];
+
+const props = defineProps({
+  show: Boolean,
+  student: Object
+});
+
+const emit = defineEmits(['update:show'])
 
 const closePopup = () => {
   emit('update:show', false)
@@ -32,7 +34,7 @@ const closePopup = () => {
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
       <div class="popup-header">
-        <span style="font-size: 1.5rem">Welcome to {{props.student.name}}</span>
+        <span style="font-size: 1.5rem">Welcome  to {{props.student.name}}</span>
         <span @click="closePopup" class="close-btn">
           <UIcon
               name="fontisto-close"
@@ -49,7 +51,7 @@ const closePopup = () => {
                   name="ph-student"
               />
             </span>
-            {{ field.label }}:</span>
+            {{ field.label }}</span>
           <span class="student-key-info">
             <span>
               <UIcon
@@ -63,8 +65,9 @@ const closePopup = () => {
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="accept" id="acceptMaintenance ">Accept request</button>
-          <button class="reject" id="rejectMaintenance ">Reject request</button>
+          <button class="work-done-by-SA" id="workDoneBySA">Work done by SA</button>
+          <button class="work-done-by-PPK" id="workDoneByPPK">Work done by PPK</button>
+          <button class="reject-maintenance-request" id="rejectMaintenanceRequest">Reject request</button>
         </div>
         <div>
           <h2>Thank you </h2>
@@ -184,6 +187,7 @@ span {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin: 2rem 0;
 }
 
 .popup-bts button {
@@ -192,23 +196,36 @@ span {
   text-transform: capitalize;
 }
 
-.popup-bts .accept {
+.popup-bts .work-done-by-SA {
   border-radius: 0 1rem;
   border: 2px solid var(--main-color);
 }
 
-.popup-bts .accept:hover {
+.popup-bts .work-done-by-SA:hover {
   background: var(--main-color);
+  color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
 
-.popup-bts .reject {
+.popup-bts .work-done-by-PPK {
+  border-radius: 0 1rem;
+  border: 2px solid var(--main-hovor-color);
+}
+
+.popup-bts .work-done-by-PPK:hover {
+  background: var(--main-hovor-color);
+  color: var(--text-hovor-color);
+  transition: .4s ease-in-out;
+}
+
+.popup-bts .reject-maintenance-request {
   border-radius: 0 1rem;
   border: 2px solid red;
 }
 
-.popup-bts .reject:hover {
+.popup-bts .reject-maintenance-request:hover {
   background: red;
+  color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
 

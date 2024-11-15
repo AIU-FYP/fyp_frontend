@@ -22,6 +22,7 @@ const columns = [
   {key: 'blockName', label: 'Block Name', sortable: true},
   {key: 'roomNo', label: 'Room No', sortable: true},
   {key: 'levelNo', label: 'Level No', sortable: true},
+  {key: 'status', label: 'Status', sortable: true},
   {key: 'whichZone', label: 'Which Zone', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}
 ]

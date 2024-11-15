@@ -2,7 +2,7 @@
 
 import {onMounted, ref} from 'vue'
 import {useNuxtApp} from '#app'
-import Popup from '~/components/PopupStudentMaintenanceInfo.vue'
+import Popup from '~/components/PopupStudentMaintenanceRoom.vue'
 
 interface Person {
   id: number
@@ -24,6 +24,7 @@ const columns = [
   {key: 'roomNumber', label: 'Room Number', sortable: true},
   {key: 'whatsappNumber', label: 'WhatsApp Number', sortable: true},
   {key: 'gender', label: 'Gender', sortable: true},
+  {key: 'status', label: 'Status', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}
 ]
 
@@ -152,7 +153,6 @@ function toggleLinkVisibility(index: number) {
 </template>
 
 <style scoped>
-
 .admin-dashboard {
   display: flex;
 }

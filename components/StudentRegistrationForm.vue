@@ -371,7 +371,7 @@ function handleSubmit() {
 .form-container select {
   width: 100%;
   padding: .5rem 1rem;
-  border: 1px solid var(--main-hovor-color);
+  border: 1px solid var(--text-color);
   border-radius: 5px;
   outline: none;
 }

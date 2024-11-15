@@ -15,7 +15,7 @@ const studentFields = [
   {key: 'blockName', label: 'Block Name'},
   {key: 'roomNo', label: 'Room No'},
   {key: 'levelNo', label: 'Level No'},
-  {key: 'whichZone', label: 'Which Zone'},
+  {key: 'status', label: 'Status'},
 ];
 
 const closePopup = () => {
@@ -58,8 +58,9 @@ const closePopup = () => {
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="accept" id="acceptMaintenance ">Accept request</button>
-          <button class="reject" id="rejectMaintenance ">Reject request</button>
+          <button class="room-occupied" id="roomOccupied">Room Occupied</button>
+          <button class="room-available" id="roomAvailable">Room Available</button>
+          <button class="room-out-of-service" id="roomOutOfService">Room Out Of Service</button>
         </div>
         <div>
           <h2>Thank you </h2>
@@ -180,6 +181,7 @@ span {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  margin: 2rem 0;
 }
 
 .popup-bts button {
@@ -188,23 +190,36 @@ span {
   text-transform: capitalize;
 }
 
-.popup-bts .accept {
+.popup-bts .room-occupied {
   border-radius: 0 1rem;
   border: 2px solid var(--main-color);
 }
 
-.popup-bts .accept:hover {
+.popup-bts .room-occupied:hover {
   background: var(--main-color);
+  color: var(--text-hovor-color);;
   transition: .4s ease-in-out;
 }
 
-.popup-bts .reject {
+.popup-bts .room-available{
+  border-radius: 0 1rem;
+  border: 2px solid var(--main-hovor-color);
+}
+
+.popup-bts .room-available:hover {
+  background: var(--main-hovor-color);
+  color: var(--text-hovor-color);;
+  transition: .4s ease-in-out;
+}
+
+.popup-bts .room-out-of-service {
   border-radius: 0 1rem;
   border: 2px solid red;
 }
 
-.popup-bts .reject:hover {
+.popup-bts .room-out-of-service:hover {
   background: red;
+  color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
 

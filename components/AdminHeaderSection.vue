@@ -9,11 +9,8 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:show'])
 
-
-
 import {reactive,} from 'vue';
 import {z} from 'zod';
-
 
 const formSchema = z.object({
   "Current Password":
@@ -43,7 +40,6 @@ const formSchema = z.object({
 
 const form = reactive({});
 const errors = reactive({});
-
 
 function handleSubmit() {
   const validationResults = formSchema.safeParse(form);
@@ -75,8 +71,8 @@ onMounted(() => {
 const auth = useAuth();
 
 const handleLogout = () => {
+  navigateTo('/home' );
   auth.logout();
-  navigateTo('/login');
 };
 
 </script>

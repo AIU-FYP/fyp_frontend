@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from 'vue';
+import {ref, onMounted} from 'vue';
 
 const dashboardItems = [
   {
@@ -8,26 +8,32 @@ const dashboardItems = [
       {
         subTitle: "Male Students",
         icon: "fa-male",
+        totalNum:"100"
       },
       {
         subTitle: "Female Students",
         icon: "fa-female",
+        totalNum:"87"
       },
       {
         subTitle: "Available Rooms",
         icon: "fa-bed",
+        totalNum:"12"
       },
       {
         subTitle: "Occupied Rooms",
         icon: "ic-baseline-clear",
+        totalNum:"23"
       },
       {
         subTitle: "Maintenance Requests",
         icon: "la-building-solid",
+        totalNum:"34"
       },
       {
         subTitle: "Change Room Requests",
         icon: "la-building-solid",
+        totalNum:"1212"
       },
     ],
   },
@@ -74,6 +80,31 @@ const navigationButtons = [
 function toggleLinkVisibility(index: number) {
   visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
 }
+
+const currentNumber = ref(0);
+
+const animateNumber = () => {
+  let start = 0;
+  const end = 100;
+  const duration = 1000;
+  const stepTime = 10;
+  const totalSteps = duration / stepTime;
+
+  const increment = (end / totalSteps);
+
+  const interval = setInterval(() => {
+    start += increment;
+    currentNumber.value = Math.min(Math.round(start), end);
+    if (start >= end) {
+      clearInterval(interval);
+    }
+  }, stepTime);
+};
+
+onMounted(() => {
+  animateNumber();
+})
+
 </script>
 
 <template>
@@ -123,7 +154,7 @@ function toggleLinkVisibility(index: number) {
             </span>
             </div>
             <div class="num">
-              <span>2000</span>
+              <span>{{ currentNumber }}</span>
             </div>
           </div>
         </div>

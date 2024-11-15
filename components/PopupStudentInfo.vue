@@ -20,7 +20,7 @@ const studentFields = [
   {label: 'Date of Birth', key: 'dateOfBirth'},
   {label: 'WhatsApp Number', key: 'whatsappNumber'},
   {label: 'Phone Number', key: 'phoneNumber'},
-  {label: 'Email Address (Student Email Only)', key: 'emailAddress'},
+  {label: 'Email Address', key: 'emailAddress'},
   {label: 'Nationality', key: 'nationality'},
   {label: 'Country of Residence', key: 'countryOfResidence'},
   {label: 'Current Level of Education', key: 'educationLevel'},
@@ -30,6 +30,7 @@ const studentFields = [
   {label: 'Level Number', key: 'levelNumber'},
   {label: 'Room Number', key: 'roomNumber'},
   {label: 'Zone', key: 'zone'},
+  {key: 'status', label: 'Status'},
 ];
 
 const closePopup = () => {
@@ -72,8 +73,8 @@ const closePopup = () => {
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="accept" id="acceptMaintenance ">Accept request</button>
-          <button class="reject" id="rejectMaintenance ">Reject request</button>
+          <button class="deleteStudent" id="deleteStudent">Delete Student</button>
+          <button class="changeStudent" id="changeStudent ">Change Student Info</button>
         </div>
         <div>
           <h2>Thank you </h2>
@@ -202,23 +203,25 @@ span {
   text-transform: capitalize;
 }
 
-.popup-bts .accept {
+.popup-bts .deleteStudent {
   border-radius: 0 1rem;
   border: 2px solid var(--main-color);
 }
 
-.popup-bts .accept:hover {
+.popup-bts .deleteStudent:hover {
   background: var(--main-color);
+  color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
 
-.popup-bts .reject {
+.popup-bts .changeStudent {
   border-radius: 0 1rem;
   border: 2px solid red;
 }
 
-.popup-bts .reject:hover {
+.popup-bts .changeStudent:hover {
   background: red;
+  color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
 
