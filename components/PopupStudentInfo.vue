@@ -11,26 +11,26 @@ const emit = defineEmits(['update:show'])
 
 const studentFields = [
   {label: 'ID ', key: 'id'},
-  {label: 'Name ', key: 'name'},
-  {label: 'Student ID Number ', key: 'studentIdNumber'},
-  {label: 'Email Address ', key: 'emailAddress'},
+  {label: 'Status', key: 'status'},
+  {label: 'Status', key: 'Status'},
+  {label: 'Name', key: 'name'},
+  {label: 'Student ID', key: 'studentId'},
+  {label: 'Passport No', key: 'passportNo'},
+  {label: 'Date of Birth', key: 'dob'},
+  {label: 'WhatsApp No', key: 'whatsappNo'},
+  {label: 'Phone No', key: 'phoneNo'},
+  {label: 'Email Address (Student Email Only)', key: 'emailAddress'},
   {label: 'Gender', key: 'gender'},
-  {label: 'Reason for room change', key: 'detailTheDamage'},
-  {label: 'Passport Number', key: 'passportNumber'},
-  {label: 'Date of Birth', key: 'dateOfBirth'},
-  {label: 'WhatsApp Number', key: 'whatsappNumber'},
-  {label: 'Phone Number', key: 'phoneNumber'},
-  {label: 'Email Address', key: 'emailAddress'},
   {label: 'Nationality', key: 'nationality'},
   {label: 'Country of Residence', key: 'countryOfResidence'},
   {label: 'Current Level of Education', key: 'educationLevel'},
   {label: 'Program/Major', key: 'programMajor'},
-  {label: 'Expected Graduation Year', key: 'graduationYear'},
+  {label: 'Expected Graduation Year', key: 'expectedGraduationYear'},
   {label: 'Block Name', key: 'blockName'},
-  {label: 'Level Number', key: 'levelNumber'},
-  {label: 'Room Number', key: 'roomNumber'},
-  {label: 'Zone', key: 'zone'},
-  {key: 'status', label: 'Status'},
+  {label: 'Level No', key: 'levelNo'},
+  {label: 'Room No', key: 'roomNo'},
+  {label: 'Which Zone?', key: 'zone'},
+
 ];
 
 const closePopup = () => {
@@ -80,7 +80,7 @@ const updateStudentInfo = () => {
       <div class="popup-footer">
         <div class="popup-bts">
           <button class="deleteStudent" id="deleteStudent">Delete Student</button>
-          <button  @click="updateStudentInfo" class="changeStudent" id="changeStudent ">Change Student Info</button>
+          <button @click="updateStudentInfo" class="changeStudent" id="changeStudent ">Change Student Info</button>
         </div>
         <div>
           <h2>Thank you </h2>
@@ -172,7 +172,7 @@ span {
 }
 
 .student-label-info,
-.student-key-info{
+.student-key-info {
   text-align: start;
   text-transform: capitalize;
   color: var(--main-color);
@@ -184,7 +184,7 @@ span {
   margin-bottom: .5rem;
 }
 
-.control-input{
+.control-input {
   text-align: start;
   text-transform: capitalize;
   color: var(--main-color);

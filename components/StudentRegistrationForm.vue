@@ -36,14 +36,14 @@ const previousQuestions = [
     placeholder: "Enter your name",
   },
   {
-    label: "Student ID NO",
+    label: "Student ID",
     type: "text",
     placeholder: "Enter your student ID (e.g., AIU21011234)",
   },
   {
-    label: "Passport NO",
+    label: "Passport No",
     type: "text",
-    placeholder: "Enter your passport NO",
+    placeholder: "Enter your passport No",
   },
   {
     label: "Date of Birth",
@@ -51,14 +51,14 @@ const previousQuestions = [
     placeholder: "Select your date of birth",
   },
   {
-    label: "WhatsApp NO",
+    label: "WhatsApp No",
     type: "text",
-    placeholder: "Enter your WhatsApp NO",
+    placeholder: "Enter your WhatsApp No",
   },
   {
-    label: "Phone NO",
+    label: "Phone No",
     type: "text",
-    placeholder: "Enter your phone NO",
+    placeholder: "Enter your phone No",
   },
   {
     label: "Email Address (Student Email Only)",
@@ -116,7 +116,7 @@ const previousQuestions = [
     model: ref("")
   },
   {
-    label: "Room NO",
+    label: "Room No",
     type: "select",
     options: [],
     placeholder: "Select Room No (e.g., 02)",
@@ -188,7 +188,7 @@ watch(
 watch(
     () => form["Level No"],
     (newLevel) => {
-      const roomQuestion = previousQuestions.find(q => q.label === "Room NO");
+      const roomQuestion = previousQuestions.find(q => q.label === "Room No");
       const selectedBlock = form["Block Name"];
       if (blockData[selectedBlock] && blockData[selectedBlock][newLevel]) {
         roomQuestion.options = blockData[selectedBlock][newLevel];
@@ -200,11 +200,11 @@ watch(
 
 const formSchema = z.object({
   "Name": z.string().min(8, "Name must be at least 8 characters long").nonempty("Name is required"),
-  "Student ID NO": z.string().regex(/^AIU\d{8}$/, "Invalid Student ID format").nonempty("Student ID is required"),
-  "Passport NO": z.string().regex(/^\d{6,15}$/, "Invalid Passport Number format").nonempty("Passport Number is required"),
+  "Student ID": z.string().regex(/^AIU\d{8}$/, "Invalid Student ID format").nonempty("Student ID is required"),
+  "Passport No": z.string().regex(/^\d{6,15}$/, "Invalid Passport Number format").nonempty("Passport Number is required"),
   "Date of Birth": z.string().nonempty("Date of Birth is required"),
-  "WhatsApp NO": z.string().regex(/^\d{8,15}$/, "Invalid WhatsApp number format").nonempty("WhatsApp number is required"),
-  "Phone NO": z.string().regex(/^\d{8,15}$/, "Invalid phone number format").nonempty("Phone number is required"),
+  "WhatsApp No": z.string().regex(/^\d{8,15}$/, "Invalid WhatsApp number format").nonempty("WhatsApp number is required"),
+  "Phone No": z.string().regex(/^\d{8,15}$/, "Invalid phone number format").nonempty("Phone number is required"),
   "Email Address (Student Email Only)": z.string().email("Invalid email format").regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'").nonempty("Email address is required"),
   "Gender": z.string().nonempty("Gender is required"),
   "Nationality": z.string().optional(),
@@ -213,7 +213,7 @@ const formSchema = z.object({
   "Program/Major": z.string().optional(),
   "Expected Graduation Year": z.string().regex(/^\d{4,4}$/, "Invalid Passport Number format").nonempty("Passport Number is required"),
   "Block Name": z.string().nonempty("Block Name is required"),
-  "Room NO": z.string().optional(),
+  "Room No": z.string().optional(),
   "Level No": z.string().optional(),
   "Which Zone?": z.string().optional(),
 });
@@ -252,13 +252,13 @@ function handleSubmit() {
   <div class="new-student-sec">
     <div class="container">
       <div class="form-header">
-        <h2>Registration New Student</h2>
+        <h2>Student Registration Form</h2>
       </div>
       <div class="box-form">
         <form @submit.prevent="handleSubmit">
           <div class="form-container">
             <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-              <label class="question-title" :for="question.label">{{ question.label }} :</label>
+              <label class="question-title" :for="question.label">{{ question.label }}</label>
 
               <input
                   v-if="question.type === 'text' || question.type === 'file' ||question.type==='date'"
@@ -308,12 +308,11 @@ function handleSubmit() {
 
 .container {
   display: block;
-  margin: 2rem;
-  width: calc(100% - 4rem);
-  max-width: 1200px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 1300px;
   box-shadow: rgba(149, 157, 165, 0.3) 0 8px 24px;
-  border-radius: 0 1rem 1rem 0;
-  background-color: var(--text-hovor-color);
 
 }
 
@@ -371,7 +370,7 @@ function handleSubmit() {
 .form-container select {
   width: 100%;
   padding: .5rem 1rem;
-  border: 1px solid var(--text-color);
+  border: 2px solid var(--text-color);
   border-radius: 5px;
   outline: none;
 }
