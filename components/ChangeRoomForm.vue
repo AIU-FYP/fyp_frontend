@@ -22,20 +22,20 @@ const previousQuestions = [
     required: true
   },
   {
-    label: "Student ID Number",
+    label: "Student ID",
     type: "text", placeholder: "Enter your student ID (e.g., AIU21011234)",
     required: true
   },
   {
-    label: "Room Number",
+    label: "Room No",
     type: "text",
-    placeholder: "Enter your room number (e.g., 25i-3-10)",
+    placeholder: "Enter your room No (e.g., 25i-3-10)",
     required: true
   },
   {
-    label: "Phone Number (Local Number Only)",
+    label: "Phone No (Local No Only)",
     type: "text",
-    placeholder: "Enter your phone number",
+    placeholder: "Enter your phone No",
     required: true
   },
   {
@@ -75,14 +75,14 @@ const formSchema = z.object({
   "Name":
       z.string().min(8, "Name must be at least 8 characters long")
           .nonempty("Name is required"),
-  "Student ID Number":
+  "Student ID":
       z.string()
           .regex(/^AIU\d{8}$/, "Invalid Student ID format")
           .nonempty("Student ID is required"),
-  "Room Number":
+  "Room No":
       z.string().regex(/^\d+[A-Za-z]*-\d-\d+$/, "Invalid Room Number format")
           .nonempty("Room Number is required"),
-  "Phone Number (Local Number Only)":
+  "Phone No (Local Number Only)":
       z.string().regex(/^\d{8,15}$/, "Invalid phone number")
           .nonempty("Phone Number is required"),
   "Email Address (Student Email Only)":
@@ -95,7 +95,7 @@ const formSchema = z.object({
   "Enter your Nationality":
       z.string()
           .optional(),
-  "Other supporting docss":
+  "Other supporting docs":
       z.any()
           .optional(),
   "Explain your reason for room change?":
@@ -296,7 +296,7 @@ const isPopupVisible = ref(false)
 .maintenance-form select {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid var(--main-color);
+  border: 2px solid #EEEEEE;
   border-radius: 5px;
   outline: none;
 }
@@ -306,7 +306,7 @@ const isPopupVisible = ref(false)
   height: 4rem;
   max-height: 4rem;
   padding: 0.5rem;
-  border: 1px solid var(--main-color);
+  border: 2px solid #EEEEEE;
   border-radius: 5px;
   outline: none;
 }

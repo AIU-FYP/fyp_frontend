@@ -2,7 +2,6 @@
 
 import {onMounted, ref} from 'vue'
 import {useNuxtApp} from '#app'
-import Popup from '~/components/PopupStudentMaintenanceRoom.vue'
 
 interface Person {
   id: number
@@ -16,17 +15,6 @@ interface Person {
   extend?: boolean | string
 }
 
-const columns = [
-  {key: 'id', label: 'id'},
-  {key: "date", label: 'Date',},
-  {key: 'name', label: 'Name', sortable: true},
-  {key: 'studentId', label: 'Student ID', sortable: true},
-  {key: 'roomNo', label: 'Room No', sortable: true},
-  {key: 'whatsappNo', label: 'WhatsApp No', sortable: true},
-  {key: 'gender', label: 'Gender', sortable: true},
-  {key: 'status', label: 'Status', sortable: true},
-  {key: 'extend', label: 'Extend', sortable: false,}
-]
 
 const people = ref<Person[]>([]);
 

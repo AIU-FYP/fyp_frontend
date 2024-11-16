@@ -29,8 +29,9 @@ const handleLogout = () => {
 
 <template>
   <div class="header-admin-section">
-    <div class="header-container">
+    <div class="container">
       <div class="container-box">
+
         <div class="image-logo">
           <a href="https://aiu.edu.my/">
             <img src="/images/AIU-Official-Logo.png" alt="image-logo">
@@ -64,18 +65,23 @@ const handleLogout = () => {
 <style scoped>
 .header-admin-section {
   background-color: var(--main-color);
-  margin: auto;
-  border-bottom: .2rem solid var(--text-color);
+}
+
+.container {
+  max-width: 1300px;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .container-box {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   padding: .5rem;
 }
 
-.header-container .image-logo img {
+.container-box .image-logo img {
   width: 60px;
   height: 50px;
 }
@@ -117,14 +123,14 @@ const handleLogout = () => {
   left: -6rem;
   background-color: var(--main-color);
   list-style: none;
-  padding:.5rem;
-  border-radius: .5rem ;
+  padding: .5rem;
+  border-radius: .5rem;
   z-index: 10;
 }
 
 .sublist a {
   display: block;
-  padding: .3rem .5rem ;
+  padding: .3rem .5rem;
   white-space: nowrap;
 }
 
@@ -137,7 +143,7 @@ const handleLogout = () => {
 }
 
 @media (max-width: 1200px) {
-  .header-container {
+  .container {
     display: block;
   }
 
@@ -155,12 +161,12 @@ const handleLogout = () => {
   .sublist {
     display: block;
     width: 100%;
-    min-width:100%;
+    min-width: 100%;
   }
 
   .sublist a {
     display: block;
-    padding: .3rem .5rem ;
+    padding: .3rem .5rem;
     white-space: nowrap;
   }
 
@@ -171,6 +177,7 @@ const handleLogout = () => {
   .sublist {
     display: block;
   }
+
   .container-box {
     display: flex;
     justify-content: space-between;
@@ -220,14 +227,14 @@ const handleLogout = () => {
     left: -6rem;
     background-color: var(--main-color);
     list-style: none;
-    padding:.5rem;
-    border-radius: .5rem ;
+    padding: .5rem;
+    border-radius: .5rem;
     z-index: 10;
   }
 
   .sublist a {
     display: block;
-    padding: .3rem .5rem ;
+    padding: .3rem .5rem;
     white-space: nowrap;
   }
 

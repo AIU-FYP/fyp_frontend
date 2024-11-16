@@ -14,21 +14,20 @@ const currentYear = new Date().getFullYear();
 
 <style scoped>
 .footer-admin-section {
-  background-color: var(--main-color);
   margin: auto;
-  border-top: .2rem solid var(--text-color);
-
+  background-color: var(--main-color);
 }
-
 
 .footer-container {
   display: flex;
   justify-content: space-between;
-  margin:auto;
+  margin: 0  auto;
   text-align: center;
   font-size: 1.2rem;
   padding: .5rem;
   color: var(--text-color);
+  max-width: 1300px;
+  background-color: var(--main-color);
 }
 
 a:hover {

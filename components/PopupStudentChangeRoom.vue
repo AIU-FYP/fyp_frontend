@@ -12,14 +12,14 @@ const emit = defineEmits(['update:show'])
 const studentFields = [
   {label: 'ID ', key: 'id'},
   {label: 'Name ', key: 'name'},
-  {label: 'Student ID Number ', key: 'studentIdNumber'},
-  {label: 'Room Number ', key: 'roomNumber'},
-  {label: 'phone Number ', key: 'phoneNumber'},
-  {label: 'WhatsApp Number ', key: 'whatsappNumber'},
+  {label: 'Student ID', key: 'studentId'},
+  {label: 'Room No ', key: 'roomNo'},
+  {label: 'phone No ', key: 'phoneNo'},
+  {label: 'WhatsApp No ', key: 'whatsappNo'},
   {label: 'Email Address ', key: 'emailAddress'},
   {label: 'Gender ', key: 'gender'},
-  {label: 'Student Nationality ', key: 'studentNationality'},
-  {label: 'Other supporting docs   ', key: 'OtherSupportingDocs'},
+  {label: 'Student Nationality ', key: 'nationality'},
+  {label: 'Other Supporting Docs ', key: 'OtherSupportingDocs'},
   {label: 'Reason for room change', key: 'detailTheDamage'},
   {key: 'status', label: 'Status'},
 ];
@@ -33,7 +33,7 @@ const closePopup = () => {
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
       <div class="popup-header">
-        <span style="font-size: 1.5rem">Welcome to {{props.student.name}}</span>
+        <span style="font-size: 1.5rem">Welcome to {{ props.student.name }}</span>
         <span @click="closePopup" class="close-btn">
           <UIcon
               name="fontisto-close"
@@ -113,7 +113,7 @@ const closePopup = () => {
   .popup-container {
     width: 100%;
     max-width: 100%;
-    border-radius:  0;
+    border-radius: 0;
   }
 }
 
@@ -169,11 +169,12 @@ span {
   margin-bottom: .5rem;
 }
 
-@media (max-width: 800px){
-  .box{
+@media (max-width: 800px) {
+  .box {
     display: flex;
-    flex-direction: column ;
+    flex-direction: column;
   }
+
   .student-label-info,
   .student-key-info {
     width: 100%;
@@ -216,7 +217,7 @@ span {
   transition: .4s ease-in-out;
 }
 
-@media (max-width: 800px){
+@media (max-width: 800px) {
   .popup-bts button {
     padding: .5rem;
     margin: 1rem 0;

@@ -329,7 +329,7 @@ function handleSubmit() {
   margin: 0;
   padding: .5rem 0;
   border-radius: 0 1rem 0 0;
-  background-color: var(--main-hovor-color);
+  background-color: var(--main-color);
   border: none;
   outline: none;
   font-size: 1.5rem;
