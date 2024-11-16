@@ -1,7 +1,52 @@
+Information Needed:
+Hostel Details
 
-the info that we need
-1. how many hostels and its name for each one
-2. how many levels each hostel
-3. how many rooms each level
-4. how many zone each room
-5. The question for registration new students
+1. Number of hostels and their names.
+2. Number of levels in each hostel.
+3. Number of rooms on each level.
+4. Number of zones in each room.
+
+New Student Registration
+
+1. Questions required for registering new students.
+
+Actions:
+1. Room Change Requests
+       Approve a requested room change.
+       Reject a requested room change.
+2. Student Management
+       Delete student information.
+       Update student information.
+3. Maintenance:
+       Tasks completed by SA.
+       Tasks completed by PPK.
+       Requests that were rejected.
+4. Room Status:
+       Occupied rooms.
+       Available rooms.
+       Rooms out of service.
+
+
+   work should be done
+        1.  setting page show admin, add new admin
+        2. change to input
+        3. v-model
+        4. api middleware
+
+ Maintenance Form
+   1. label: 'ID ', key: 'id'
+   2. label: 'Name ', key: 'name'
+   3. label: 'Student ID ', key: 'studentId'
+   4. label: 'Room No ', key: 'roomNo'
+   5. label: 'phone No ', key: 'phoneNo
+   6. label: 'WhatsApp No ', key: 'whatsappNo'
+   7. label: 'Email Address ', key: 'emailAddress'
+   8. label: 'Gender ', key: 'gender'
+   9. label: 'Location specific Issue ', key: 'locationSpecificIssue'
+   10. label: 'Frequent damages occur', key: 'frequentTheDamagesOccur'
+   11. label: 'Student Nationality ', key: 'studentNationality'
+   12. label: 'Photo evidence damages ', key: 'photoEvidenceDamages'
+   13. label: 'Reason for room change', key: 'detailTheDamage'
+   14. key: 'status', label: 'Status'
+
+

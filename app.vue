@@ -11,5 +11,7 @@
   --main-hovor-color: rgb(12,44,108);
   --text-color:#DDDDDD;
   --text-hovor-color: #EEEEEE;
+  --button-hovor-color: #39701d;
+
 }
 </style>

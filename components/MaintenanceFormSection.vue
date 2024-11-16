@@ -34,20 +34,20 @@ const previousQuestions = [
     required: true
   },
   {
-    label: "Student ID NO",
+    label: "Student ID",
     type: "text", placeholder: "Enter your student ID (e.g., AIU21011234)",
     required: true
   },
   {
-    label: "Room NO",
+    label: "Room No",
     type: "text",
-    placeholder: "Enter your room NO (e.g., 25i-3-10)",
+    placeholder: "Enter your room No (e.g., 25i-3-10)",
     required: true
   },
   {
-    label: "WhatsApp NO",
+    label: "WhatsApp No",
     type: "text",
-    placeholder: "Enter your whatsapp NO",
+    placeholder: "Enter your whatsapp No",
     required: true
   },
   {
@@ -101,14 +101,14 @@ const formSchema = z.object({
   "Name":
       z.string().min(8, "Name must be at least 8 characters long")
           .nonempty("Name is required"),
-  "Student ID NO":
+  "Student ID":
       z.string()
           .regex(/^AIU\d{8}$/, "Invalid Student ID format")
           .nonempty("Student ID is required"),
-  "Room NO":
+  "Room No":
       z.string().regex(/^\d+[A-Za-z]*-\d-\d+$/, "Invalid Room Number format")
           .nonempty("Room Number is required"),
-  "WhatsApp NO":
+  "WhatsApp No":
       z.string().regex(/^\d{8,15}$/, "Invalid phone number")
           .nonempty("Phone Number is required"),
   "Email Address (Student Email Only)":
@@ -328,7 +328,7 @@ function handleSubmit() {
 .maintenance-form select {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid var(--main-color);
+  border: 2px solid #EEEEEE;
   border-radius: 5px;
   outline: none;
 }
@@ -338,7 +338,7 @@ function handleSubmit() {
   min-height: 4rem;
   max-height: 4rem;
   padding: 0.5rem;
-  border: 1px solid var(--main-color);
+  border: 2px solid #EEEEEE;
   border-radius: 5px;
   outline: none;
 }

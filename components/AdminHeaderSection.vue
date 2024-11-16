@@ -1,55 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import {onMounted, ref} from 'vue';
 import Popup from "~/components/PopupChangePassword.vue";
 import PopupNewAdmin from "~/components/PopupNewAdmin.vue";
-
-import {defineEmits, defineProps} from 'vue'
-const props = defineProps({
-  show: Boolean
-})
-const emit = defineEmits(['update:show'])
-
-import {reactive,} from 'vue';
-import {z} from 'zod';
-
-const formSchema = z.object({
-  "Current Password":
-      z.string()
-          .min(12, "Password must be at least 12 characters long")
-          .max(15, "Password must not exceed 15 characters")
-          .regex(/[a-zA-Z]/, "Password must include at least one letter")
-          .regex(/\d/, "Password must include at least one number")
-          .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
-          .nonempty("Password is required"),
-  "New Password": z.string()
-      .min(12, "Password must be at least 12 characters long")
-      .max(15, "Password must not exceed 15 characters")
-      .regex(/[a-zA-Z]/, "Password must include at least one letter")
-      .regex(/\d/, "Password must include at least one number")
-      .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
-      .nonempty("Password is required"),
-  "Confirm New Password ": z
-      .string()
-      .min(12, "Password must be at least 12 characters long")
-      .max(15, "Password must not exceed 15 characters")
-      .regex(/[a-zA-Z]/, "Password must include at least one letter")
-      .regex(/\d/, "Password must include at least one number")
-      .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
-      .nonempty("Password is required"),
-});
-
-const form = reactive({});
-const errors = reactive({});
-
-function handleSubmit() {
-  const validationResults = formSchema.safeParse(form);
-  if (validationResults.success) {
-    console.log("Form Data:", {...form});
-    alert("Password changed successfully!");
-  } else {
-    alert("Please correct the errors in the form.");
-  }
-}
 
 const isLinksVisible = ref(false);
 const isPopupChangePasswordVisible = ref(false);
@@ -58,7 +10,6 @@ const isMobile = ref(false);
 
 function toggleLinksVisibility() {
   isLinksVisible.value = !isLinksVisible.value;
-  console.log("Links visibility toggled:", isLinksVisible.value);
 }
 
 onMounted(() => {
@@ -71,53 +22,44 @@ onMounted(() => {
 const auth = useAuth();
 
 const handleLogout = () => {
-  navigateTo('/home' );
+  navigateTo('/home');
   auth.logout();
 };
-
 </script>
 
 <template>
   <div class="header-admin-section">
     <div class="header-container">
-
       <div class="container-box">
         <div class="image-logo">
           <a href="https://aiu.edu.my/">
             <img src="/images/AIU-Official-Logo.png" alt="image-logo">
           </a>
         </div>
+
+        <div class="title">
+          <h1>Admin Dashboard</h1>
+        </div>
+
         <div class="bar-btn">
-          <button @click="toggleLinksVisibility" v-if="isMobile">
-            Setting
+          <button class="nav-item" @click="toggleLinksVisibility">
+            Services
+            <span class="sublist" v-if="isLinksVisible">
+                <a class="sub-item" @click="isPopupNewAdminVisible = true">Add New Admin</a>
+                <PopupNewAdmin :show="isPopupNewAdminVisible" @update:show="isPopupNewAdminVisible = $event"/>
+                <a class="sub-item" style="cursor: pointer"
+                   @click="isPopupChangePasswordVisible = true">Change Password</a>
+                <Popup :show="isPopupChangePasswordVisible" @update:show="isPopupChangePasswordVisible = $event"/>
+                <a class="sub-item" @click="handleLogout">
+                  <router-link to="/">Log Out</router-link>
+              </a>
+            </span>
           </button>
         </div>
-      </div>
-
-      <div class="title">
-        <h1>Admin Dashboard</h1>
-      </div>
-      <div class="menu-container">
-        <ul class="submenu" v-if="isLinksVisible || !isMobile">
-          <li>
-            <a @click="isPopupNewAdminVisible = true">Add New Admin</a>
-            <PopupNewAdmin :show="isPopupNewAdminVisible" @update:show="isPopupNewAdminVisible = $event" />
-          </li>
-          <li>
-            <a style="cursor: pointer" @click="isPopupChangePasswordVisible = true">Change Password</a>
-            <Popup :show="isPopupChangePasswordVisible" @update:show="isPopupChangePasswordVisible = $event" />
-          </li>
-          <li>
-            <a @click="handleLogout">
-              <router-link to="/">Log Out</router-link>
-            </a>
-          </li>
-        </ul>
       </div>
     </div>
   </div>
 </template>
-
 
 <style scoped>
 .header-admin-section {
@@ -126,20 +68,11 @@ const handleLogout = () => {
   border-bottom: .2rem solid var(--text-color);
 }
 
-.container-box .bar-btn {
-  display: none;
-}
-
-.header-container {
+.container-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  text-align: center;
   padding: .5rem;
-}
-
-.header-container .image-logo {
-  margin: 0;
 }
 
 .header-container .image-logo img {
@@ -152,27 +85,56 @@ const handleLogout = () => {
   color: var(--text-color);
 }
 
-.submenu {
-  display: flex;
+.bar-btn {
+  position: relative;
 }
 
-.submenu li a {
-  margin-left: 1rem;
-  font-size: 1rem;
-  color: var(--text-color);
-  padding: .5rem ;
+.bar-btn button {
+  font-size: 1.2rem;
+  color: var(--text-hovor-color);
   background-color: transparent;
-  text-align: start;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
 }
 
-.submenu li a:hover {
+.bar-btn button:hover {
+  background-color: var(--main-hovor-color);
+  transition: .3s ease-in-out;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.sublist {
+  display: none;
+  position: absolute;
+  margin-top: 1rem;
+  top: 100%;
+  left: -6rem;
+  background-color: var(--main-color);
+  list-style: none;
+  padding:.5rem;
+  border-radius: .5rem ;
+  z-index: 10;
+}
+
+.sublist a {
+  display: block;
+  padding: .3rem .5rem ;
+  white-space: nowrap;
+}
+
+.sublist a:hover {
   background-color: var(--main-hovor-color);
 }
 
-.submenu li a:hover {
-  color: var(--text-hovor-color);
+.sublist {
+  display: block;
 }
-
 
 @media (max-width: 1200px) {
   .header-container {
@@ -183,35 +145,98 @@ const handleLogout = () => {
     display: none;
   }
 
-  .container-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .container-box .bar-btn {
-    display: flex;
-    font-size: 1.2rem;
-    padding: .5rem;
-    border-radius: .5rem;
+  .bar-btn {
+    margin: 0;
+    border-radius: 0.5rem;
     background-color: var(--main-color);
     color: var(--text-hovor-color);
   }
 
-  .submenu {
+  .sublist {
     display: block;
-    text-align: start;
+    width: 100%;
+    min-width:100%;
   }
 
-  .submenu li {
-    color: var(--main-color);
-    margin: .5rem 0;
-    padding-bottom: .2rem;
+  .sublist a {
+    display: block;
+    padding: .3rem .5rem ;
+    white-space: nowrap;
   }
 
-  .submenu li a {
+  .sublist a:hover {
+    background-color: var(--main-hovor-color);
+  }
+
+  .sublist {
+    display: block;
+  }
+  .container-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem;
+  }
+
+  .header-container .image-logo img {
+    width: 60px;
+    height: 50px;
+  }
+
+  .title {
+    font-size: 1.5rem;
     color: var(--text-color);
   }
-}
 
+  .bar-btn {
+    position: relative;
+  }
+
+  .bar-btn button {
+    font-size: 1.2rem;
+    color: var(--text-hovor-color);
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .bar-btn button:hover {
+    background-color: var(--main-hovor-color);
+    transition: .3s ease-in-out;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .sublist {
+    display: none;
+    position: absolute;
+    margin-top: 1rem;
+    top: 100%;
+    left: -6rem;
+    background-color: var(--main-color);
+    list-style: none;
+    padding:.5rem;
+    border-radius: .5rem ;
+    z-index: 10;
+  }
+
+  .sublist a {
+    display: block;
+    padding: .3rem .5rem ;
+    white-space: nowrap;
+  }
+
+  .sublist a:hover {
+    background-color: var(--main-hovor-color);
+  }
+
+  .sublist {
+    display: block;
+  }
+}
 </style>

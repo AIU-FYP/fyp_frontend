@@ -20,9 +20,9 @@ const columns = [
   {key: 'id', label: 'id'},
   {key: "date", label: 'Date',},
   {key: 'name', label: 'Name', sortable: true},
-  {key: 'studentIdNumber', label: 'Student ID Number', sortable: true},
-  {key: 'roomNumber', label: 'Room Number', sortable: true},
-  {key: 'whatsappNumber', label: 'WhatsApp Number', sortable: true},
+  {key: 'studentId', label: 'Student ID', sortable: true},
+  {key: 'roomNo', label: 'Room No', sortable: true},
+  {key: 'whatsappNo', label: 'WhatsApp No', sortable: true},
   {key: 'gender', label: 'Gender', sortable: true},
   {key: 'status', label: 'Status', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}
@@ -102,63 +102,82 @@ function toggleLinkVisibility(index: number) {
 <template>
 
   <div class="admin-dashboard">
+    <div class="container">
 
-    <aside class="sidebar">
-      <div v-for="(button, index) in navigationButtons" :key="index">
-        <div class="btn-container">
-          <button
-              @click="toggleLinkVisibility(index)"
-              :aria-expanded="visibleButtonIndex === index"
-              class="sidebar-button"
-          >
-            <UIcon
-                :name="button.icon"
-            />
-            {{ button.name }}
-          </button>
-        </div>
-        <ul v-if="visibleButtonIndex === index">
-          <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
-            <a :href="link.url">{{ link.text }}</a>
-          </li>
-        </ul>
-      </div>
-    </aside>
-
-    <main class="dashboard-content">
-      <div class="container">
-        <div class="header">
-          <h2 class="admin-title">Welcome back</h2>
-        </div>
-        <hr class="divider"/>
-        <div class="content">
-          <UTable :columns="columns" :rows="people">
-            <template #extend-data="{ row }">
-              <a @click="openPopup(row)" class="extend-btn">Extend</a>
-              <Popup
-                  :show="isPopupVisible"
-                  @update:show="isPopupVisible = $event"
-                  :student="currentStudent"
+      <aside class="sidebar">
+        <div v-for="(button, index) in navigationButtons" :key="index">
+          <div class="btn-container">
+            <button
+                @click="toggleLinkVisibility(index)"
+                :aria-expanded="visibleButtonIndex === index"
+                class="sidebar-button"
+            >
+              <UIcon
+                  :name="button.icon"
               />
-            </template>
-          </UTable>
+              {{ button.name }}
+            </button>
+          </div>
+          <ul v-if="visibleButtonIndex === index">
+            <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
+              <a :href="link.url">{{ link.text }}</a>
+            </li>
+          </ul>
         </div>
-        <hr class="divider"/>
-        <div class="footer">
-          <h2 class="footer-megs" style="text-align: center">Thank you !</h2>
+      </aside>
+
+      <main class="dashboard-content">
+        <div class="sub-container">
+          <div class="header">
+            <h2 class="admin-title">Welcome back</h2>
+          </div>
+          <hr class="divider"/>
+          <div class="content">
+            <UTable :columns="columns" :rows="people">
+              <template #extend-data="{ row }">
+                <a @click="openPopup(row)" class="extend-btn">Extend</a>
+                <Popup
+                    :show="isPopupVisible"
+                    @update:show="isPopupVisible = $event"
+                    :student="currentStudent"
+                />
+              </template>
+            </UTable>
+          </div>
+          <hr class="divider"/>
+          <div class="footer">
+            <h2 class="footer-megs" style="text-align: center">Thank you !</h2>
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .admin-dashboard {
-  display: flex;
+  display: block;
 }
 
+.admin-dashboard > .container {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 1300px;
+  width: 100%;
+  border: 3px solid var(--main-color);
+  border-radius: 0 1rem 1rem 0;
+}
+
+@media (max-width: 1200px) {
+  .admin-dashboard .container{
+    border-radius: 0;
+    border: none;
+  }
+}
 .sidebar {
-  flex: 1;
+  flex: 0 0 15%;
   background-color: var(--main-color);
   padding: 2rem 1rem;
   display: flex;
@@ -166,23 +185,9 @@ function toggleLinkVisibility(index: number) {
   min-height: 100vh;
 }
 
-@media (max-width: 1200px) {
-  .admin-dashboard {
-    display: block;
-  }
-
-  .sidebar {
-    min-height: 30vh;
-  }
-}
-
-.btn-container {
-  padding: .5rem;
-  background-color: transparent;
-}
-
-.btn-container:hover {
-  background-color: var(--main-hovor-color);
+.dashboard-content {
+  flex: 1;
+  padding: 1rem 0;
 }
 
 .sidebar-button {
@@ -190,89 +195,113 @@ function toggleLinkVisibility(index: number) {
   color: var(--text-color);
   margin-bottom: 0.5rem;
   text-align: start;
-  border-radius: .5rem;
-  transition: 0.3s ease-in-out;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .sidebar-button:hover {
   color: var(--text-hovor-color);
+  background-color: var(--main-hovor-color);
+  transition: 0.3s ease-in-out;
+}
+
+.btn-container {
+  display: flex;
+  margin-bottom: .5rem;
+  font-size: 1rem;
+  font-weight: normal;
+  color: var(--text-color);
+  background-color: transparent;
+}
+
+.btn-container:hover {
+  display: flex;
+  margin-bottom: .5rem;
+  font-size: 1rem;
+  font-weight: normal;
+  color: var(--text-color);
+  background-color: var(--main-hovor-color);
+}
+
+
+.sidebar ul {
+  padding: 0;
+  margin: 0;
 }
 
 .sidebar ul li {
   list-style: none;
-  margin: 0.5rem;
+  margin: 0.5rem 0;
   padding: 0.5rem;
   font-size: 1rem;
   text-align: start;
   text-transform: capitalize;
   font-weight: normal;
-  color: var(--text-hovor-color);
+  color: var(--text-color);
   background-color: transparent;
 }
 
-.sidebar li:hover {
+.sidebar ul li:hover {
   color: var(--text-hovor-color);
   background-color: var(--main-hovor-color);
-  transition: .3s ease-in-out;
-}
-
-.dashboard-content {
-  flex: 5;
-  padding: 0;
-  background-color: #eeeeee;
 }
 
 
-@media (max-width: 768px) {
-  .sidebar {
-    flex-basis: 100%;
-  }
-
-  .dashboard-content {
-    padding: 1rem;
-  }
-
-}
-
-.container {
+.extend-btn {
+  text-decoration: none;
+  background-color: var(--main-color);
+  padding: 0.2rem 0.5rem;
   margin: 0;
-  padding: 2rem;
-  background-color: #f5f5f5;
-  box-shadow: rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  color: #eeeeee;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-@media (max-width: 1200px) {
-  .container{
-    margin: 5rem 0;
-  }
+.extend-btn:hover {
+  background-color: var(--text-hovor-color);
+  color: var(--main-color);
 }
+
 
 .admin-title,
 .footer-megs {
   font-size: 1.5rem;
   color: var(--main-color);
+  text-align: center;
 }
 
 .divider {
-  margin: 1rem 0;
-  color: var(--main-color);
+  width: calc(100% - 1rem);
   border-bottom: 0.1rem solid var(--main-color);
-}
-
-.extend-btn {
-  text-decoration: none;
-  background-color: var(--main-color);
-  padding: .2rem .5rem;
-  font-size: 1rem;
-  border-radius: .5rem 0;
-  color: #eeeeee;
-  cursor: pointer;
-}
-
-.extend-btn:hover {
-  background-color: var(--text-hovor-color);
-  transition: .3s ease-in-out;
+  margin: 1rem 0;
+  padding: 0;
   color: var(--main-color);
 }
 
+/* Media Queries for Responsiveness */
+@media (max-width: 1200px) {
+  .admin-dashboard > .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    min-height: 30vh;
+    flex-basis: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    flex-basis: 100%;
+    min-width: 0;
+  }
+
+  .dashboard-content {
+    padding: 1rem;
+  }
+}
 </style>

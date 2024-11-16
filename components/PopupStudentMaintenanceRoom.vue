@@ -4,10 +4,10 @@ import {defineEmits, defineProps} from 'vue'
 const studentFields = [
   {label: 'ID ', key: 'id'},
   {label: 'Name ', key: 'name'},
-  {label: 'Student ID Number ', key: 'studentIdNumber'},
-  {label: 'Room Number ', key: 'roomNumber'},
-  {label: 'phone Number ', key: 'phoneNumber'},
-  {label: 'WhatsApp Number ', key: 'whatsappNumber'},
+  {label: 'Student ID ', key: 'studentId'},
+  {label: 'Room No ', key: 'roomNo'},
+  {label: 'phone No ', key: 'phoneNo'},
+  {label: 'WhatsApp No ', key: 'whatsappNo'},
   {label: 'Email Address ', key: 'emailAddress'},
   {label: 'Gender ', key: 'gender'},
   {label: 'Location specific Issue ', key: 'locationSpecificIssue'},
@@ -65,9 +65,9 @@ const closePopup = () => {
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="work-done-by-SA" id="workDoneBySA">Work done by SA</button>
-          <button class="work-done-by-PPK" id="workDoneByPPK">Work done by PPK</button>
+          <button class="accepted-done-by-SA" id="acceptedDoneBySA">accepted by SA</button>
           <button class="reject-maintenance-request" id="rejectMaintenanceRequest">Reject request</button>
+          <button class="work-done-by-PPK" id="workDoneByPPK">Work done by PPK</button>
         </div>
         <div>
           <h2>Thank you </h2>
@@ -196,15 +196,9 @@ span {
   text-transform: capitalize;
 }
 
-.popup-bts .work-done-by-SA {
+.popup-bts .accepted-done-by-SA {
   border-radius: 0 1rem;
   border: 2px solid var(--main-color);
-}
-
-.popup-bts .work-done-by-SA:hover {
-  background: var(--main-color);
-  color: var(--text-hovor-color);
-  transition: .4s ease-in-out;
 }
 
 .popup-bts .work-done-by-PPK {
@@ -212,8 +206,10 @@ span {
   border: 2px solid var(--main-hovor-color);
 }
 
+.popup-bts .accepted-done-by-SA:hover,
 .popup-bts .work-done-by-PPK:hover {
-  background: var(--main-hovor-color);
+  background: var(--button-hovor-color);
+  border: 2px solid var(--button-hovor-color);
   color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
