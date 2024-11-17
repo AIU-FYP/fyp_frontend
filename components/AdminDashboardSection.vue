@@ -38,6 +38,15 @@
 
 <script setup>
 
+
+import {useAuth} from "~/composables/useAuth";
+
+definePageMeta({
+  middleware: 'auth'
+})
+
+const auth = useAuth()
+
 </script>
 
 <style scoped>
@@ -59,6 +68,7 @@
   padding: 20px;
   color: var(--text-color);
   border-radius: 10px;
+  min-height: 81vh;
 }
 
 .sidebar h1 {

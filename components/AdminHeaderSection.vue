@@ -1,28 +1,9 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue';
-import Popup from "~/components/ChangeAdminPassword.vue";
-import PopupNewAdmin from "~/components/PopupNewAdmin.vue";
-
-const isLinksVisible = ref(false);
-const isPopupChangePasswordVisible = ref(false);
-const isPopupNewAdminVisible = ref(false);
-const isMobile = ref(false);
-
-function toggleLinksVisibility() {
-  isLinksVisible.value = !isLinksVisible.value;
-}
-
-onMounted(() => {
-  isMobile.value = window.innerWidth <= 1200;
-  window.addEventListener('resize', () => {
-    isMobile.value = window.innerWidth <= 1200;
-  });
-});
 
 const auth = useAuth();
 
 const handleLogout = () => {
-  navigateTo('/home');
+  navigateTo('/login');
   auth.logout();
 };
 </script>
@@ -43,19 +24,24 @@ const handleLogout = () => {
         </div>
 
         <div class="bar-btn">
-          <button class="nav-item" @click="toggleLinksVisibility">
-            Services
-            <span class="sublist" v-if="isLinksVisible">
-                <a class="sub-item" @click="isPopupNewAdminVisible = true">Add New Admin</a>
-                <PopupNewAdmin :show="isPopupNewAdminVisible" @update:show="isPopupNewAdminVisible = $event"/>
-                <a class="sub-item" style="cursor: pointer"
-                   @click="isPopupChangePasswordVisible = true">Change Password</a>
-                <Popup :show="isPopupChangePasswordVisible" @update:show="isPopupChangePasswordVisible = $event"/>
-                <a class="sub-item" @click="handleLogout">
-                  <router-link to="/">Log Out</router-link>
-              </a>
+          <a class="nav-item">
+            <router-link to="/setting">
+            <span class="icon">
+              <UIcon
+                  name="uil-setting"
+              />
             </span>
-          </button>
+              Setting
+            </router-link>
+          </a>
+          <a class="nav-item" @click="handleLogout">
+            <span class="icon">
+              <UIcon
+                  name="material-symbols-logout-sharp"
+              />
+            </span>
+              Log Out
+          </a>
         </div>
       </div>
     </div>
@@ -95,51 +81,32 @@ const handleLogout = () => {
   position: relative;
 }
 
-.bar-btn button {
-  font-size: 1.2rem;
+.bar-btn a {
+  font-size: 1rem;
   color: var(--text-hovor-color);
   background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem;
   border-radius: 0.5rem;
+  align-items: center;
+
 }
 
-.bar-btn button:hover {
+.icon {
+  margin-right: 0.5rem;
+  align-items: center;
+  text-align: center;
+}
+
+.bar-btn a:hover {
   background-color: var(--main-hovor-color);
   transition: .3s ease-in-out;
 }
 
 .nav-item {
   position: relative;
-}
-
-.sublist {
-  display: none;
-  position: absolute;
-  margin-top: 1rem;
-  top: 100%;
-  left: -6rem;
-  background-color: var(--main-color);
-  list-style: none;
-  padding: .5rem;
-  border-radius: .5rem;
-  z-index: 10;
-}
-
-.sublist a {
-  display: block;
-  padding: .3rem .5rem;
-  white-space: nowrap;
-}
-
-.sublist a:hover {
-  background-color: var(--main-hovor-color);
-}
-
-.sublist {
-  display: block;
 }
 
 @media (max-width: 1200px) {
@@ -158,11 +125,6 @@ const handleLogout = () => {
     color: var(--text-hovor-color);
   }
 
-  .sublist {
-    display: block;
-    width: 100%;
-    min-width: 100%;
-  }
 
   .sublist a {
     display: block;
@@ -174,9 +136,7 @@ const handleLogout = () => {
     background-color: var(--main-hovor-color);
   }
 
-  .sublist {
-    display: block;
-  }
+
 
   .container-box {
     display: flex;
@@ -219,31 +179,5 @@ const handleLogout = () => {
     position: relative;
   }
 
-  .sublist {
-    display: none;
-    position: absolute;
-    margin-top: 1rem;
-    top: 100%;
-    left: -6rem;
-    background-color: var(--main-color);
-    list-style: none;
-    padding: .5rem;
-    border-radius: .5rem;
-    z-index: 10;
-  }
-
-  .sublist a {
-    display: block;
-    padding: .3rem .5rem;
-    white-space: nowrap;
-  }
-
-  .sublist a:hover {
-    background-color: var(--main-hovor-color);
-  }
-
-  .sublist {
-    display: block;
-  }
 }
 </style>

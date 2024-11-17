@@ -186,6 +186,7 @@ function handleSubmit() {
   padding: 20px;
   color: var(--text-color);
   border-radius: 1rem;
+  min-height: 81vh;
 }
 
 .sidebar h1 {

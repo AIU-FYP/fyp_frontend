@@ -8,11 +8,12 @@ definePageMeta({
 
 const auth = useAuth()
 
-
 </script>
 
 <template>
+  <AdminHeaderSection/>
   <NewAdminFormSection/>
+  <AdminFooterSection/>
 </template>
 
 <style scoped>
