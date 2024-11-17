@@ -109,66 +109,77 @@ onMounted(() => {
 
 <template>
   <div class="admin-dashboard">
-    <aside class="sidebar">
-      <div v-for="(button, index) in navigationButtons" :key="index">
-        <div class="btn-container">
-          <button
-              @click="toggleLinkVisibility(index)"
-              :aria-expanded="visibleButtonIndex === index"
-              class="sidebar-button"
-          >
-            <UIcon
-                :name="button.icon"
-            />
-            {{ button.name }}
-          </button>
+    <div class="container">
+      <aside class="sidebar">
+        <div v-for="(button, index) in navigationButtons" :key="index">
+          <div class="btn-container">
+            <button
+                @click="toggleLinkVisibility(index)"
+                :aria-expanded="visibleButtonIndex === index"
+                class="sidebar-button"
+            >
+              <UIcon
+                  :name="button.icon"
+              />
+              {{ button.name }}
+            </button>
+          </div>
+          <ul v-if="visibleButtonIndex === index">
+            <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
+              <a :href="link.url">{{ link.text }}</a>
+            </li>
+          </ul>
         </div>
-        <ul v-if="visibleButtonIndex === index">
-          <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
-            <a :href="link.url">{{ link.text }}</a>
-          </li>
-        </ul>
-      </div>
-    </aside>
+      </aside>
 
-    <main class="dashboard-content">
+      <main class="dashboard-content">
 
-      <section class="dashboard-info-content">
-        <div class="welcome-info">
-          <h2>Welcome back </h2>
-        </div>
-        <div class="image-container">
-          <img src="/images/login.webp" alt="welcome-image">
-        </div>
-      </section>
+        <section class="dashboard-info-content">
+          <div class="welcome-info">
+            <h2>Welcome back </h2>
+          </div>
+          <div class="image-container">
+            <img src="/images/login.webp" alt="welcome-image">
+          </div>
+        </section>
 
-      <section v-for="item in dashboardItems" :key="item.title" class="analysis-section">
-        <div class="stat-cards">
-          <div v-for="(stat, index) in item.maintenanceStats" :key="index" class="stat-card">
-            <div class="box">
-              <h4>{{ stat.subTitle }}</h4>
-              <span class="stat-icon">
+        <section v-for="item in dashboardItems" :key="item.title" class="analysis-section">
+          <div class="stat-cards">
+            <div v-for="(stat, index) in item.maintenanceStats" :key="index" class="stat-card">
+              <div class="box">
+                <h4>{{ stat.subTitle }}</h4>
+                <span class="stat-icon">
               <UIcon
                   :name="stat.icon"
               />
             </span>
-            </div>
-            <div class="num">
-              <span>{{ currentNumber }}</span>
+              </div>
+              <div class="num">
+                <span>{{ currentNumber }}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .admin-dashboard {
-  display: flex;
+  display: block;
 }
 
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 0;
+  margin: 0 auto;
+  width: 1500px;
+  border: 3px solid var(--main-color);
+
+}
 
 .sidebar {
   flex: 1;

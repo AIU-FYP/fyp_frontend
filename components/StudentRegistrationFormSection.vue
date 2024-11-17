@@ -135,7 +135,6 @@ function toggleLinkVisibility(index: number) {
   max-width: 1300px;
   width: 100%;
   border: 3px solid var(--main-color);
-  border-radius: 0 1rem 1rem 0;
 }
 
 @media (max-width: 1200px) {

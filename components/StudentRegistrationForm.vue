@@ -328,12 +328,11 @@ function handleSubmit() {
   text-align: center;
   margin: 0;
   padding: .5rem 0;
-  border-radius: 0 1rem 0 0;
-  background-color: var(--main-color);
+  background-color: var(--text-color);
   border: none;
   outline: none;
   font-size: 1.5rem;
-  color: var(--text-hovor-color);
+  color: var(--main-color);
 }
 
 .container .box-form {

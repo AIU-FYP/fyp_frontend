@@ -11,25 +11,12 @@ const emit = defineEmits(['update:show'])
 
 const studentFields = [
   {label: 'ID ', key: 'id'},
-  {label: 'Status', key: 'status'},
-  {label: 'Status', key: 'Status'},
   {label: 'Name', key: 'name'},
-  {label: 'Student ID', key: 'studentId'},
-  {label: 'Passport No', key: 'passportNo'},
-  {label: 'Date of Birth', key: 'dob'},
-  {label: 'WhatsApp No', key: 'whatsappNo'},
+  {label: 'Staff ID', key: 'staffId'},
   {label: 'Phone No', key: 'phoneNo'},
-  {label: 'Email Address (Student Email Only)', key: 'emailAddress'},
-  {label: 'Gender', key: 'gender'},
-  {label: 'Nationality', key: 'nationality'},
+  {label: 'Email Address', key: 'emailAddress'},
   {label: 'Country of Residence', key: 'countryOfResidence'},
-  {label: 'Current Level of Education', key: 'educationLevel'},
-  {label: 'Program/Major', key: 'programMajor'},
-  {label: 'Expected Graduation Year', key: 'expectedGraduationYear'},
-  {label: 'Block Name', key: 'blockName'},
-  {label: 'Level No', key: 'levelNo'},
-  {label: 'Room No', key: 'roomNo'},
-  {label: 'Which Zone?', key: 'zone'},
+  {label: 'Password', key: 'password'},
 
 ];
 
@@ -39,7 +26,7 @@ const closePopup = () => {
 }
 
 const updateStaffInfo = () => {
-  console.log('Updated student info:', props.student)
+  console.log('Updated Staff info:', props.student)
   closePopup()
 }
 </script>
@@ -79,8 +66,8 @@ const updateStaffInfo = () => {
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="deleteStaff" id="deleteStaff">Delete Staff</button>
-          <button @click="updateStaffInfo" class="changeStaff" id="changeStaff">Change Staff Info</button>
+          <button class="delete-staff" id="deleteStaff">Delete Staff</button>
+          <button @click="updateStaffInfo" class="change-staff" id="changeStaff">Change Staff Info</button>
         </div>
         <div>
           <h2>Thank you </h2>
@@ -220,23 +207,23 @@ span {
   text-transform: capitalize;
 }
 
-.popup-bts .deleteStudent {
+.popup-bts .change-staff {
   border-radius: 0 1rem;
   border: 2px solid var(--main-color);
 }
 
-.popup-bts .deleteStudent:hover {
+.popup-bts .change-staff:hover {
   background: var(--main-color);
   color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
 
-.popup-bts .changeStudent {
+.popup-bts .delete-staff {
   border-radius: 0 1rem;
   border: 2px solid red;
 }
 
-.popup-bts .changeStudent:hover {
+.popup-bts .delete-staff:hover {
   background: red;
   color: var(--text-hovor-color);
   transition: .4s ease-in-out;
@@ -257,5 +244,3 @@ h2 {
 }
 
 </style>
-
-

@@ -1,23 +1,72 @@
-<script setup>
+<template>
+  <div class="settings-page">
+    <div class="container">
+      <aside class="sidebar">
+        <h1>Account Settings</h1>
+        <nav>
+          <ul class="menu">
+            <li>
+              <UIcon name="clarity-administrator-line" class="icon" />
+              <router-link to="setting">Admin Profile</router-link>
+            </li>
+            <li>
+              <UIcon name="mdi-password" class="icon" />
+              <router-link to="change-admin-password">Change Password</router-link>
+            </li>
+            <li>
+              <UIcon name="subway-admin-1" class="icon" />
+              <router-link to="new-admin">Add New Admin</router-link>
+            </li>
+            <li>
+              <UIcon name="grommet-icons-user-admin" class="icon" />
+              <router-link to="admin-dashboard">Admin dashboard</router-link>
+            </li>
+            <li>
+              <UIcon name="eos-icons-admin" class="icon" />
+              <router-link to="admin">Admin</router-link>
+            </li>
+            <li>
+              <UIcon name="uiw-logout" class="icon" />
+              <router-link to="login">Log Out</router-link>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <main class="content">
+        <h2>Add new admin</h2>
+        <form @submit.prevent="handleSubmit">
+          <div v-for="(question, index) in previousQuestions" :key="index" class="form-group">
+            <div class="form-control">
+              <label :for="question.label">{{ question.label }}</label>
+              <input
+                  :id="question.label"
+                  :type="question.type"
+                  :placeholder="question.placeholder"
+                  v-model="form[question.label]"
+              />
+              <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+            </div>
+          </div>
+          <button type="submit" class="submit-btn">Save Changes</button>
+        </form>
+      </main>
+    </div>
+  </div>
+</template>
 
-import {reactive, ref, watch} from 'vue';
+<script setup>
+import {reactive, watch} from 'vue';
 import {z} from 'zod';
 
 const previousQuestions = [
   {
-    label: "First Name",
+    label: "Name",
     type: "text",
     placeholder: "Enter your name",
     required: true
   },
   {
-    label: "Last Name",
-    type: "text",
-    placeholder: "Enter your name",
-    required: true
-  },
-  {
-    label: "Position Name",
+    label: "Position",
     type: "text",
     placeholder: "Enter your name",
     required: true
@@ -28,7 +77,7 @@ const previousQuestions = [
     required: true
   },
   {
-    label: "Phone Number (Local Number Only)",
+    label: "Phone Number",
     type: "text",
     placeholder: "Enter your phone number",
     required: true
@@ -54,26 +103,23 @@ const previousQuestions = [
 ];
 
 const formSchema = z.object({
-  "First Name":
-      z.string().min(5, "Name must be at least 5 characters long")
-          .nonempty("Name is required"),
-  "Last Name":
-      z.string().min(5, "Name must be at least 5 characters long")
+  "Name":
+      z.string().min(4, "Name must be at least 4 characters long")
           .nonempty("Name is required"),
   "Position":
-      z.string().min(5, "Name must be at least 5 characters long")
+      z.string().min(5, "It must be at least 5 characters long")
           .nonempty("Name is required"),
   "Staff ID":
       z.string()
-          .regex(/^AIU\d{8}$/, "Invalid Student ID format")
-          .nonempty("Student ID is required"),
-  "Phone Number (Local Number Only)":
+          .regex(/^AIU\d{8}$/, "Invalid Staff ID format")
+          .nonempty("Staff ID is required"),
+  "Phone Number":
       z.string().regex(/^\d{8,15}$/, "Invalid phone number")
           .nonempty("Phone Number is required"),
   "Email Address (Staff Email Only)":
       z.string()
           .email("Invalid email format")
-          .regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'"),
+          .regex(/@aiu\.edu\.my$/, "Must be a Staff email ending with '@aiu.edu.my'"),
   "New Password": z.string()
       .min(12, "Password must be at least 12 characters long")
       .max(15, "Password must not exceed 15 characters")
@@ -112,7 +158,6 @@ previousQuestions.forEach((question) => {
   watch(() => form[question.label], (newValue) => validateField(question.label, newValue));
 });
 
-const isPopupVisible = ref(false)
 
 function handleSubmit() {
   form.Date = new Date().toLocaleDateString("en-GB");
@@ -126,140 +171,118 @@ function handleSubmit() {
 }
 </script>
 
-<template>
-
-  <div class="admin-profile-section">
-    <div class="admin-profile">
-      <div class="log-in-form">
-        <h2>Please fill with your details</h2>
-        <div class="form-container">
-          <form @submit.prevent="handleSubmit">
-            <div class="login-form">
-              <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-                <label :for="question.label">{{ question.label }}:</label>
-                <input
-                    :type="question.type"
-                    v-model="form[question.label]"
-                    :placeholder="question.placeholder"
-                    :id="question.label"
-                />
-                <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
-              </div>
-            </div>
-            <button class="submit" type="submit">Save change</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <style scoped>
-.admin-profile-section {
-  display: block;
-  width: 70%;
-  margin: 5rem auto;
-}
-
-.admin-profile {
-  background: var(--text-color);
-  border-radius: 8px;
-  width: 100%;
-  position: relative;
-  text-align: center;
-}
-
-@media (max-width: 1200px) {
-  .admin-profile-section {
-    display: block;
-    width: 100%;
-    margin: 2rem auto;
-  }
-
-  .admin-profile {
-    border-radius: 0;
-    max-width: 100%;
-    width: 100%;
-  }
-}
-
-
-.log-in-form {
-  display: block;
-  padding: 3rem 1rem;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-  background-color: var(--main-color);
-}
-
-.log-in-form > h2 {
-  font-size: 1.5rem;
-  text-align: start;
-  margin: 0 1rem;
-  color: var(--text-hovor-color);
-}
-
-
-.login-form {
+.settings-page {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  padding: 20px;
 }
 
-.login-form div {
-  flex: 45%;
-  margin: 0 1rem;
-}
-
-.log-in-form label {
-  display: block;
-  text-align: start;
-  padding: .5rem 0;
-  color: var(--text-color);
-}
-
-.login-form input,
-.login-form select {
+.container {
+  display: flex;
+  gap: 20px;
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid var(--main-color);
+  margin: 0 auto;
+}
+
+.sidebar {
+  flex: 1;
+  background-color: var(--main-color);
+  padding: 20px;
+  color: var(--text-color);
+  border-radius: 1rem;
+}
+
+.sidebar h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  display: flex;
+  align-items: center;
+  padding: .5rem;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.menu li:hover {
+  background-color: var(--main-hovor-color);
+  transition: .3s ease-in-out;
+}
+
+.menu li .icon {
+  margin-right: 10px;
+}
+
+.menu li a {
+  text-decoration: none;
+}
+
+.content {
+  flex: 3;
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 1rem;
+}
+
+.content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: var(--main-hovor-color);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid var(--text-color);
   border-radius: 5px;
   outline: none;
 }
 
 .error {
   color: red;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  margin-top: 5px;
 }
 
-.submit {
-  display: block;
-  width: 50%;
-  padding: .5rem;
-  margin: 2rem auto 0;
-  background-color: var(--text-color);
-  color: var(--main-color);
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-}
-
-.submit:hover {
+.submit-btn {
+  padding: 10px 20px;
   background-color: var(--main-hovor-color);
   color: var(--text-color);
+  border: none;
+  border-radius: .5rem;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: var(--main-color);
+  color: var(--text-hovor-color);
   transition: .3s ease-in-out;
 }
 
-@media (max-width: 1200px) {
-
-  .log-in-form > h2 {
-    font-size: 1.2rem;
-    text-align: start;
-    margin: 0 1rem;
-    color: var(--text-hovor-color);
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
   }
 
-  .log-in-form label {
-    font-size: 1rem;
+  .sidebar {
+    margin-bottom: 20px;
   }
 }
-
-
 </style>

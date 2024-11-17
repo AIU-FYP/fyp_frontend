@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
-import Popup from "~/components/PopupChangePassword.vue";
+import Popup from "~/components/ChangeAdminPassword.vue";
 import PopupNewAdmin from "~/components/PopupNewAdmin.vue";
 
 const isLinksVisible = ref(false);
