@@ -110,6 +110,7 @@ onMounted(() => {
 <template>
   <div class="admin-dashboard">
     <div class="container">
+
       <aside class="sidebar">
         <div v-for="(button, index) in navigationButtons" :key="index">
           <div class="btn-container">
@@ -162,6 +163,7 @@ onMounted(() => {
         </section>
 
       </main>
+
     </div>
   </div>
 </template>
@@ -169,25 +171,29 @@ onMounted(() => {
 <style scoped>
 .admin-dashboard {
   display: block;
+  background-color: var(--main-color);
 }
 
 .container {
   display: flex;
   flex-wrap: nowrap;
   padding: 0;
-  margin: 0 auto;
-  width: 1500px;
   border: 3px solid var(--main-color);
-
+  width: 100%;
+  margin: 0 auto;
 }
 
 .sidebar {
-  flex: 1;
+  flex: 2;
   background-color: var(--main-color);
   padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.dashboard-content{
+  flex: 6;
 }
 
 @media (max-width: 1200px) {
@@ -241,7 +247,7 @@ onMounted(() => {
 }
 
 .dashboard-content {
-  flex: 5;
+  flex: 10;
   padding: 4rem;
   background-color: #eeeeee;
 }
@@ -327,7 +333,6 @@ onMounted(() => {
   color: var(--main-color);
   margin: 0.5rem 0;
 }
-
 
 @media (max-width: 768px) {
   .sidebar {

@@ -6,10 +6,6 @@
         <nav>
           <ul class="menu">
             <li>
-              <UIcon name="clarity-administrator-line" class="icon" />
-              <router-link to="setting">Admin Profile</router-link>
-            </li>
-            <li>
               <UIcon name="mdi-password" class="icon" />
               <router-link to="change-admin-password">Change Password</router-link>
             </li>
@@ -109,44 +105,6 @@
   font-size: 1.5rem;
   margin-bottom: 20px;
   color: var(--main-hovor-color);
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border: 2px solid var(--text-color);
-  border-radius: 5px;
-  outline: none;
-}
-
-.error {
-  color: red;
-  font-size: 0.9rem;
-  margin-top: 5px;
-}
-
-.submit-btn {
-  padding: 10px 20px;
-  background-color: var(--main-hovor-color);
-  color: var(--text-color);
-  border: none;
-  border-radius: .5rem;
-  cursor: pointer;
-}
-
-.submit-btn:hover {
-  background-color: var(--main-color);
-  color: var(--text-hovor-color);
-  transition: .3s ease-in-out;
 }
 
 @media (max-width: 768px) {

@@ -19,7 +19,7 @@ const studentFields = [
   {label: 'Date of Birth', key: 'dob'},
   {label: 'WhatsApp No', key: 'whatsappNo'},
   {label: 'Phone No', key: 'phoneNo'},
-  {label: 'Email Address (Student Email Only)', key: 'emailAddress'},
+  {label: 'Email Address', key: 'emailAddress'},
   {label: 'Gender', key: 'gender'},
   {label: 'Nationality', key: 'nationality'},
   {label: 'Country of Residence', key: 'countryOfResidence'},
@@ -79,8 +79,8 @@ const updateStaffInfo = () => {
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="deleteStaff" id="deleteStaff">Delete Staff</button>
-          <button @click="updateStaffInfo" class="changeStaff" id="changeStaff">Change Staff Info</button>
+          <button class="delete-student" id="deleteStudent">Delete Student</button>
+          <button @click="updateStaffInfo" class="change-student-info" id="changeStudentInfo">Change Student Info</button>
         </div>
         <div>
           <h2>Thank you </h2>
@@ -220,23 +220,23 @@ span {
   text-transform: capitalize;
 }
 
-.popup-bts .deleteStudent {
+.popup-bts .change-student-info {
   border-radius: 0 1rem;
   border: 2px solid var(--main-color);
 }
 
-.popup-bts .deleteStudent:hover {
+.popup-bts .change-student-info:hover {
   background: var(--main-color);
   color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
 
-.popup-bts .changeStudent {
+.popup-bts .delete-student {
   border-radius: 0 1rem;
   border: 2px solid red;
 }
 
-.popup-bts .changeStudent:hover {
+.popup-bts .delete-student:hover {
   background: red;
   color: var(--text-hovor-color);
   transition: .4s ease-in-out;

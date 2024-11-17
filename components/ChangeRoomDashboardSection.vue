@@ -157,26 +157,20 @@ function toggleLinkVisibility(index: number) {
 <style scoped>
 .admin-dashboard {
   display: block;
+  background-color: var(--main-color);
 }
 
-.admin-dashboard > .container {
+.container {
   display: flex;
   flex-wrap: nowrap;
   padding: 0;
-  margin: 0 auto;
-  max-width: 1300px;
-  width: 100%;
   border: 3px solid var(--main-color);
+  width: 100%;
+  margin: 0 auto;
 }
 
-@media (max-width: 1200px) {
-  .admin-dashboard .container{
-    border-radius: 0;
-    border: none;
-  }
-}
 .sidebar {
-  flex: 0 0 15%;
+  flex: 2;
   background-color: var(--main-color);
   padding: 2rem 1rem;
   display: flex;
@@ -184,8 +178,27 @@ function toggleLinkVisibility(index: number) {
   min-height: 100vh;
 }
 
-.dashboard-content {
-  flex: 1;
+.dashboard-content{
+  flex: 6;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    display: block;
+  }
+
+  .sidebar {
+    min-height: 30vh;
+  }
+}
+
+.btn-container {
+  padding: .5rem;
+  background-color: transparent;
+}
+
+.btn-container:hover {
+  background-color: var(--main-hovor-color);
 }
 
 .sidebar-button {
@@ -193,109 +206,73 @@ function toggleLinkVisibility(index: number) {
   color: var(--text-color);
   margin-bottom: 0.5rem;
   text-align: start;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
+  border-radius: .5rem;
+  transition: 0.3s ease-in-out;
 }
 
 .sidebar-button:hover {
   color: var(--text-hovor-color);
-  background-color: var(--main-hovor-color);
-  transition: 0.3s ease-in-out;
-}
-
-.btn-container {
-  display: flex;
-  margin-bottom: .5rem;
-  font-size: 1rem;
-  font-weight: normal;
-  color: var(--text-color);
-  background-color: transparent;
-}
-
-.btn-container:hover {
-  display: flex;
-  margin-bottom: .5rem;
-  font-size: 1rem;
-  font-weight: normal;
-  color: var(--text-color);
-  background-color: var(--main-hovor-color);
-}
-
-
-.sidebar ul {
-  padding: 0;
-  margin: 0;
 }
 
 .sidebar ul li {
   list-style: none;
-  margin: 0.5rem 0;
+  margin: 0.5rem;
   padding: 0.5rem;
   font-size: 1rem;
   text-align: start;
   text-transform: capitalize;
   font-weight: normal;
-  color: var(--text-color);
+  color: var(--text-hovor-color);
   background-color: transparent;
 }
 
-.sidebar ul li:hover {
+.sidebar li:hover {
   color: var(--text-hovor-color);
   background-color: var(--main-hovor-color);
+  transition: .3s ease-in-out;
+}
+
+.dashboard-content {
+  flex: 10;
+  padding: 4rem;
+  background-color: #eeeeee;
 }
 
 
+.dashboard-info-content div {
+  margin: 1rem;
+}
+
 .extend-btn {
-  text-decoration: none;
-  background-color: var(--main-color);
-  padding: 0.2rem 0.5rem;
-  margin: 0;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-  color: #eeeeee;
+  padding: .5rem;
+  border-radius: .5rem 0;
+  color: var(--text-hovor-color);
+  background-color: var(--main-hovor-color);
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 .extend-btn:hover {
-  background-color: var(--text-hovor-color);
-  color: var(--main-color);
+  color: var(--text-color);
+  background-color: var(--main-color);
+  transition: .3s ease-in-out;
 }
 
-
-.admin-title,
-.footer-megs {
+.header h2,
+.footer h2{
   font-size: 1.5rem;
-  color: var(--main-color);
+  color: var(--main-hovor-color);
   text-align: center;
+  margin: 1rem auto;
 }
 
-.divider {
-  width: calc(100% - 1rem);
-  border-bottom: 0.1rem solid var(--main-color);
-  margin: 1rem 0;
-  padding: 0;
-  color: var(--main-color);
-}
-
-/* Media Queries for Responsiveness */
-@media (max-width: 1200px) {
-  .admin-dashboard > .container {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    min-height: 30vh;
-    flex-basis: 100%;
-  }
+.divider{
+  border-bottom: 2px solid var(--main-hovor-color);
+  margin: 1rem 0 ;
 }
 
 @media (max-width: 768px) {
   .sidebar {
     flex-basis: 100%;
-    min-width: 0;
   }
 
   .dashboard-content {

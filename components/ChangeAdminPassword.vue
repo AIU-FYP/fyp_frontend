@@ -6,10 +6,6 @@
         <nav>
           <ul class="menu">
             <li>
-              <UIcon name="clarity-administrator-line" class="icon" />
-              <router-link to="setting">Admin Profile</router-link>
-            </li>
-            <li>
               <UIcon name="mdi-password" class="icon" />
               <router-link to="change-admin-password">Change Password</router-link>
             </li>
