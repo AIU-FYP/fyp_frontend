@@ -61,10 +61,6 @@ onMounted(() => {
   max-height: 500px;
 }
 
-.container-box button {
-  display: none;
-}
-
 .main-container {
   display: flex;
   justify-content: space-between;

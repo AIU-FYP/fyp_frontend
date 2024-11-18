@@ -3,6 +3,7 @@
 import {onMounted, ref} from 'vue'
 import {useNuxtApp} from '#app'
 import Popup from '~/components/PopupStudentMaintenanceRoom.vue'
+let {$axios} = useNuxtApp()
 
 interface Person {
   id: number
@@ -30,7 +31,6 @@ const columns = [
 
 const people = ref<Person[]>([]);
 
-let {$axios} = useNuxtApp()
 const api = $axios()
 
 const fetchData = async () => {
@@ -44,7 +44,6 @@ const fetchData = async () => {
     console.error('Error fetching data:', error)
   }
 }
-
 
 const isPopupVisible = ref(false);
 const currentStudent = ref({});
@@ -97,7 +96,13 @@ function toggleLinkVisibility(index: number) {
   visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
 }
 
+definePageMeta({
+  middleware: ['auth'],
+});
+
+
 </script>
+
 
 <template>
 

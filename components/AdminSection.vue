@@ -105,6 +105,10 @@ onMounted(() => {
   animateNumber();
 })
 
+definePageMeta({
+  middleware: 'auth',
+});
+
 </script>
 
 <template>

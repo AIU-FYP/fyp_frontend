@@ -98,7 +98,7 @@ const closePopup = () => {
   max-height: 90vh;
   position: relative;
   overflow-y: auto;
-  border: 3px solid var(--main-color);
+
 }
 
 @media (max-width: 1200px) {
