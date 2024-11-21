@@ -3,6 +3,7 @@
 import {onMounted, ref} from 'vue'
 import {useNuxtApp} from '#app'
 import Popup from '~/components/PopupStudentMaintenanceRoom.vue'
+
 let {$axios} = useNuxtApp()
 
 interface Person {
@@ -97,7 +98,7 @@ function toggleLinkVisibility(index: number) {
 }
 
 definePageMeta({
-  middleware: ['auth'],
+  middleware: 'auth',
 });
 
 
@@ -183,7 +184,7 @@ definePageMeta({
   min-height: 100vh;
 }
 
-.dashboard-content{
+.dashboard-content {
   flex: 6;
 }
 
@@ -263,16 +264,16 @@ definePageMeta({
 }
 
 .header h2,
-.footer h2{
+.footer h2 {
   font-size: 1.5rem;
   color: var(--main-hovor-color);
   text-align: center;
   margin: 1rem auto;
 }
 
-.divider{
+.divider {
   border-bottom: 2px solid var(--main-hovor-color);
-  margin: 1rem 0 ;
+  margin: 1rem 0;
 }
 
 @media (max-width: 768px) {

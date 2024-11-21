@@ -39,7 +39,6 @@ const dashboardItems = [
   },
 ];
 
-
 const visibleButtonIndex = ref<number | null>(null);
 
 const navigationButtons = [
@@ -76,7 +75,6 @@ const navigationButtons = [
   },
 ];
 
-
 function toggleLinkVisibility(index: number) {
   visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
 }
@@ -105,9 +103,6 @@ onMounted(() => {
   animateNumber();
 })
 
-definePageMeta({
-  middleware: 'auth',
-});
 
 </script>
 

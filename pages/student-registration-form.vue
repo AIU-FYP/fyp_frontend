@@ -7,12 +7,6 @@ definePageMeta({
 })
 
 const auth = useAuth()
-
-const handleLogout = () => {
-  auth.logout()
-  navigateTo('/log-in')
-}
-
 </script>
 
 <template>

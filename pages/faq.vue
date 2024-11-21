@@ -2,6 +2,7 @@
 
 import ShapeSection from "~/components/ShapeSection.vue";
 import PolicySection from "~/components/PolicySection.vue";
+
 </script>
 
 <template>

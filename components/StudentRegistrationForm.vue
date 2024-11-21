@@ -2,7 +2,7 @@
 import {computed, reactive, ref, watch} from 'vue';
 import Popup from '~/components/PopupAdminSubmit.vue'
 import {z} from 'zod';
-import {countries, femaleBlockOptions, maleBlockOptions, nationalities} from "~/utils/nationalities";
+import { religions, femaleBlockOptions, maleBlockOptions, nationalities,blockData} from "~/utils/nationalities";
 
 const form = reactive({});
 const errors = reactive({});
@@ -17,13 +17,13 @@ const filteredNationalities = computed(() => {
   );
 });
 
-const userCountryInput = ref('');
-const filteredCountryInput = computed(() => {
-  if (!userCountryInput.value) {
-    return countries;
+const userReligionsInput = ref('');
+const filteredReligions = computed(() => {
+  if (!userReligionsInput.value) {
+    return religions;
   }
-  return countries.filter(n =>
-      n.toLowerCase().startsWith(userCountryInput.value.toLowerCase())
+  return religions.filter(n =>
+      n.toLowerCase().startsWith(userReligionsInput.value.toLowerCase())
   );
 });
 
@@ -46,7 +46,7 @@ const previousQuestions = [
     placeholder: "Enter your passport No",
   },
   {
-    label: "Date of Birth",
+    label: "Date of Arrive",
     type: "date",
     placeholder: "Select your date of birth",
   },
@@ -54,11 +54,6 @@ const previousQuestions = [
     label: "WhatsApp No",
     type: "text",
     placeholder: "Enter your WhatsApp No",
-  },
-  {
-    label: "Phone No",
-    type: "text",
-    placeholder: "Enter your phone No",
   },
   {
     label: "Email Address (Student Email Only)",
@@ -73,33 +68,22 @@ const previousQuestions = [
     model: ref(""),
   },
   {
+    label: "Religion",
+    type: "select",
+    options: filteredReligions.value,
+    placeholder: "Select Your religion"
+  },
+  {
     label: "Nationality",
     type: "select",
     options: filteredNationalities.value,
     placeholder: "Select Your nationality"
   },
   {
-    label: "Country of Residence",
-    type: "select",
-    options: filteredCountryInput.value,
-    placeholder: "Select your country of residence",
-  },
-  {
-    label: "Current Level of Education",
-    type: "select",
-    options: ["Freshman", "Sophomore", "Junior", "Senior"],
-    placeholder: "Select your level of education"
-  },
-  {
     label: "Program/Major",
     type: "select",
     options: ["Freshman", "Sophomore", "Junior", "Senior"],
     placeholder: "Select your program or major",
-  },
-  {
-    label: "Expected Graduation Year",
-    type: "text",
-    placeholder: "Select your expected graduation year",
   },
   {
     label: "Block Name",
@@ -124,39 +108,12 @@ const previousQuestions = [
 
   },
   {
-    label: "Which Zone?",
+    label: "Which Zone",
     type: "select",
-    options: ["Zone A", "Zone B", "Zone C", "Zone C"],
+    options:[],
     placeholder: "How many seats are in the room?"
   },
 ];
-
-const blockData = {
-  "Block M1": {
-    levelOne: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"],
-    levelTwo: ["03", "04", "05", "06", "07", "08", "09", "10"],
-  },
-  "Block M2": {
-    levelOne: ["01", "02", "03"],
-    levelTwo: ["01", "02", "03", "04"],
-  },
-  "Block M3": {
-    levelOne: ["01", "02"],
-    levelTwo: ["01", "02", "03"],
-  },
-  "Block F1": {
-    levelOne: ["01", "02", "03"],
-    levelTwo: ["01", "02", "03", "04"],
-  },
-  "Block F2": {
-    levelOne: ["01", "02"],
-    levelTwo: ["01", "02", "03", "04", "05"],
-  },
-  "Block F3": {
-    levelOne: ["01", "02", "03"],
-    levelTwo: ["01", "02", "03", "04", "05", "06"],
-  }
-};
 
 
 watch(
@@ -190,32 +147,50 @@ watch(
     (newLevel) => {
       const roomQuestion = previousQuestions.find(q => q.label === "Room No");
       const selectedBlock = form["Block Name"];
+
       if (blockData[selectedBlock] && blockData[selectedBlock][newLevel]) {
-        roomQuestion.options = blockData[selectedBlock][newLevel];
+        roomQuestion.options = Object.keys(blockData[selectedBlock][newLevel]);
       } else {
         roomQuestion.options = [];
       }
     }
 );
 
+
+watch(
+    () => [form["Block Name"], form["Level No"], form["Room No"]],
+    ([selectedBlock, selectedLevel, selectedRoom]) => {
+      const zoneQuestion = previousQuestions.find(q => q.label === "Which Zone");
+
+      if (
+          blockData[selectedBlock] &&
+          blockData[selectedBlock][selectedLevel] &&
+          blockData[selectedBlock][selectedLevel][selectedRoom]
+      ) {
+        zoneQuestion.options = blockData[selectedBlock][selectedLevel][selectedRoom];
+      } else {
+        zoneQuestion.options = [];
+      }
+    }
+);
+
+
 const formSchema = z.object({
   "Name": z.string().min(8, "Name must be at least 8 characters long").nonempty("Name is required"),
   "Student ID": z.string().regex(/^AIU\d{8}$/, "Invalid Student ID format").nonempty("Student ID is required"),
   "Passport No": z.string().regex(/^\d{6,15}$/, "Invalid Passport Number format").nonempty("Passport Number is required"),
-  "Date of Birth": z.string().nonempty("Date of Birth is required"),
+  "Date of Arrive": z.string().nonempty("Date of Birth is required"),
   "WhatsApp No": z.string().regex(/^\d{8,15}$/, "Invalid WhatsApp number format").nonempty("WhatsApp number is required"),
-  "Phone No": z.string().regex(/^\d{8,15}$/, "Invalid phone number format").nonempty("Phone number is required"),
   "Email Address (Student Email Only)": z.string().email("Invalid email format").regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'").nonempty("Email address is required"),
   "Gender": z.string().nonempty("Gender is required"),
+  "Religion": z.string().optional(),
   "Nationality": z.string().optional(),
   "Country of Residence": z.string().optional(),
-  "Current Level of Education": z.string().optional(),
   "Program/Major": z.string().optional(),
-  "Expected Graduation Year": z.string().regex(/^\d{4,4}$/, "Invalid Passport Number format").nonempty("Passport Number is required"),
   "Block Name": z.string().nonempty("Block Name is required"),
   "Room No": z.string().optional(),
   "Level No": z.string().optional(),
-  "Which Zone?": z.string().optional(),
+  "Which Zone": z.string().optional(),
 });
 
 previousQuestions.forEach((question) => {

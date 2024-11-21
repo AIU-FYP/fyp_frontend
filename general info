@@ -49,4 +49,44 @@ Actions:
    13. label: 'Reason for room change', key: 'detailTheDamage'
    14. key: 'status', label: 'Status'
 
+register new Student
+
+    1. label: 'Name', key: 'name'
+    2. label: 'Student ID', key: 'studentId'
+    3. label: 'Passport No', key: 'passportNo'
+    4. label: 'Date of Birth', key: 'dob'
+    5. label: 'WhatsApp No', key: 'whatsappNo'
+    6. label: 'Phone No', key: 'phoneNo'
+    7. label: 'Email Address (Student Email Only)', key: 'emailAddress'
+    8. label: 'Gender', key: 'gender'
+    9. label: 'Nationality', key: 'nationality'
+    10. label: 'Country of Residence', key: 'countryOfResidence'
+    11. label: 'Current Level of Education', key: 'educationLevel'
+    12. label: 'Program/Major', key: 'programMajor'
+    13. label: 'Expected Graduation Year', key: 'expectedGraduationYear'
+    14. label: 'Block Name', key: 'blockName'
+    15. label: 'Level No', key: 'levelNo'
+    16. label: 'Room No', key: 'roomNo'
+    17. label: 'Which Zone?', key: 'zone'
+
+
+change room form
+
+    1. label: 'Name', key: 'name'
+    2. label: 'Student ID', key: 'studentId'
+    3. label: 'Room No', key: 'roomNo'
+    4. label: 'Phone No (Local No Only)', key: 'phoneNo'
+    5. label: 'Email Address (Student Email Only)', key: 'emailAddress'
+    6. label: 'Gender', key: 'gender'
+    7. label: 'Enter your Nationality', key: 'nationality'
+    8. label: 'Other supporting docs', key: 'supportingDocs'
+    9. label: 'Explain your reason for room change?', key: 'reasonForRoomChange'
+
+room
+    1. label: 'ID', key: 'id'
+    2. label: 'Gender', key: 'gender'
+    3. label: 'Block Name', key: 'blockName'
+    4. label: 'Room No', key: 'roomNo'
+    5. label: 'Level No', key: 'levelNo'
+    6. label: 'Status', key: 'status'
 

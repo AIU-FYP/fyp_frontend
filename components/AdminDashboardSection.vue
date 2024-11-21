@@ -6,23 +6,23 @@
         <nav>
           <ul class="menu">
             <li>
-              <UIcon name="mdi-password" class="icon" />
+              <UIcon name="mdi-password" class="icon"/>
               <router-link to="change-admin-password">Change Password</router-link>
             </li>
             <li>
-              <UIcon name="subway-admin-1" class="icon" />
+              <UIcon name="subway-admin-1" class="icon"/>
               <router-link to="new-admin">Add New Admin</router-link>
             </li>
             <li>
-              <UIcon name="grommet-icons-user-admin" class="icon" />
+              <UIcon name="grommet-icons-user-admin" class="icon"/>
               <router-link to="admin-dashboard">Admin dashboard</router-link>
             </li>
             <li>
-              <UIcon name="eos-icons-admin" class="icon" />
+              <UIcon name="eos-icons-admin" class="icon"/>
               <router-link to="admin">Admin</router-link>
             </li>
             <li>
-              <UIcon name="uiw-logout" class="icon" />
+              <UIcon name="uiw-logout" class="icon"/>
               <router-link to="login">Log Out</router-link>
             </li>
           </ul>
@@ -38,14 +38,9 @@
 
 <script setup>
 
-
-import {useAuth} from "~/composables/useAuth";
-
 definePageMeta({
-  middleware: 'auth'
+  middleware: 'auth',
 })
-
-const auth = useAuth()
 
 </script>
 

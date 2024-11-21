@@ -3,8 +3,8 @@
 const auth = useAuth();
 
 const handleLogout = () => {
-  navigateTo('/login');
   auth.logout();
+   navigateTo('/login');
 };
 </script>
 
