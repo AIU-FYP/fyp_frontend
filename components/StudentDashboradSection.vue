@@ -1,8 +1,71 @@
 <script setup lang="ts">
-
-import {onMounted, ref} from 'vue'
-import {useNuxtApp} from '#app'
+import {ref, onMounted} from 'vue';
 import Popup from '~/components/PopupStudentInfo.vue'
+
+
+const visibleButtonIndex = ref<number | null>(null);
+
+const navigationButtons = [
+  {
+    name: "Student",
+    icon: "ph-student",
+    links: [
+      {text: "Manage Student", url: "/student-registration-dashboard",},
+    ],
+  },
+  {
+    name: "Maintenance",
+    icon: "wpf-maintenance",
+    links: [
+      {text: "Maintenance Form", url: "/maintenance-room-form",},
+      {text: "Manage Maintenance", url: "/maintenance-room-dashboard",},
+    ],
+  },
+  {
+    name: "Change Room",
+    icon: "bx-building",
+    links: [
+      {text: "Change Room Form", url: "/change-room-form",},
+      {text: "Manage Room Changes", url: "/change-room-dashboard",}
+    ],
+  },
+  {
+    name: "Room",
+    icon: "bx-building",
+    links: [
+      {text: "Manage Rooms", url: "/room-dashboard"},
+    ],
+  },
+];
+
+function toggleLinkVisibility(index: number) {
+  visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
+}
+
+const currentNumber = ref(0);
+
+const animateNumber = () => {
+  let start = 0;
+  const end = 100;
+  const duration = 1000;
+  const stepTime = 10;
+  const totalSteps = duration / stepTime;
+
+  const increment = (end / totalSteps);
+
+  const interval = setInterval(() => {
+    start += increment;
+    currentNumber.value = Math.min(Math.round(start), end);
+    if (start >= end) {
+      clearInterval(interval);
+    }
+  }, stepTime);
+};
+
+onMounted(() => {
+  animateNumber();
+})
+
 
 interface Person {
   id: number
@@ -56,50 +119,10 @@ const openPopup = (row: Person) => {
 onMounted(fetchData)
 
 
-const visibleButtonIndex = ref<number | null>(null);
-
-const navigationButtons = [
-  {
-    name: "Student",
-    icon: "ph-student",
-    links: [
-      {text: "Register Student", url: "/student-registration-form"},
-      {text: "Manage Student", url: "/student-registration-dashboard"},
-    ],
-  },
-  {
-    name: "Maintenance",
-    icon: "wpf-maintenance",
-    links: [
-      {text: "Maintenance Form", url: "/maintenance-room-form"},
-      {text: "Manage Maintenance", url: "/maintenance-room-dashboard"},
-    ],
-  },
-  {
-    name: "Change Room",
-    icon: "bx-building",
-    links: [
-      {text: "Change Room Form", url: "/change-room-form"},
-      {text: "Manage Room Changes", url: "/change-room-dashboard"},
-    ],
-  },
-  {
-    name: "Room",
-    icon: "bx-building",
-    links: [
-      {text: "Manage Rooms", url: "/room-dashboard"},
-    ],
-  },
-];
-
-function toggleLinkVisibility(index: number) {
-  visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
-}
 
 </script>
 
 <template>
-
   <div class="admin-dashboard">
     <div class="container">
 
@@ -149,6 +172,7 @@ function toggleLinkVisibility(index: number) {
           </div>
         </div>
       </main>
+
     </div>
   </div>
 </template>
@@ -163,7 +187,8 @@ function toggleLinkVisibility(index: number) {
   display: flex;
   flex-wrap: nowrap;
   padding: 0;
-  border: 3px solid var(--main-color);
+  border-top: 3px solid var(--text-hovor-color);
+  border-bottom: 3px solid var(--text-hovor-color);
   width: 100%;
   margin: 0 auto;
 }
@@ -182,7 +207,7 @@ function toggleLinkVisibility(index: number) {
 }
 
 @media (max-width: 1200px) {
-  .container {
+  .admin-dashboard {
     display: block;
   }
 
@@ -233,8 +258,12 @@ function toggleLinkVisibility(index: number) {
 
 .dashboard-content {
   flex: 10;
-  padding: 4rem;
   background-color: #eeeeee;
+}
+
+
+.dashboard-info-content div {
+  margin: 1rem;
 }
 
 
@@ -278,4 +307,6 @@ function toggleLinkVisibility(index: number) {
     padding: 1rem;
   }
 }
+
+
 </style>

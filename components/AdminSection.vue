@@ -46,7 +46,6 @@ const navigationButtons = [
     name: "Student",
     icon: "ph-student",
     links: [
-      {text: "Register Student", url: "/student-registration-form",},
       {text: "Manage Student", url: "/student-registration-dashboard",},
     ],
   },
@@ -177,7 +176,8 @@ onMounted(() => {
   display: flex;
   flex-wrap: nowrap;
   padding: 0;
-  border: 3px solid var(--main-color);
+  border-top: 3px solid var(--text-hovor-color);
+  border-bottom: 3px solid var(--text-hovor-color);
   width: 100%;
   margin: 0 auto;
 }
@@ -247,7 +247,7 @@ onMounted(() => {
 
 .dashboard-content {
   flex: 10;
-  padding: 4rem;
+  padding: 2rem;
   background-color: #eeeeee;
 }
 

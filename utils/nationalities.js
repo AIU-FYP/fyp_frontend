@@ -103,7 +103,6 @@ export const roomMaintenanceIssues = [
     "Rat infestation"
 ];
 
-
 export const blockData = {
     "Block 25H": {
         levelOne: {

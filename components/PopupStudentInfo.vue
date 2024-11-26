@@ -17,17 +17,15 @@ const studentFields = [
   {label: 'Passport No', key: 'passportNo'},
   {label: 'Date of Arrived', key: 'doa'},
   {label: 'WhatsApp No', key: 'whatsappNo'},
-  {label: 'Email Address', key: 'emailAddress'},
+  {label: 'Student Email', key: 'studentEmail'},
   {label: 'Gender', key: 'gender'},
   {label: 'Religion', key: 'religion'},
   {label: 'Nationality', key: 'nationality'},
   {label: 'Program/Major', key: 'programMajor'},
-  {label: 'Expected Graduation Year', key: 'expectedGraduationYear'},
   {label: 'Block Name', key: 'blockName'},
   {label: 'Level No', key: 'levelNo'},
   {label: 'Room No', key: 'roomNo'},
   {label: 'Which Zone?', key: 'zone'},
-
 ];
 
 const closePopup = () => {
@@ -98,6 +96,7 @@ const updateStaffInfo = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .popup-container {
@@ -111,6 +110,7 @@ const updateStaffInfo = () => {
   position: relative;
   overflow-y: auto;
   border: 3px solid var(--main-color);
+  z-index: 1001;
 }
 
 @media (max-width: 1200px) {
