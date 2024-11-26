@@ -298,6 +298,12 @@ onMounted(fetchData)
   margin: 1rem 0 ;
 }
 
+@media (max-width: 1200px) {
+  .container{
+    display: block;
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
     flex-basis: 100%;

@@ -175,6 +175,7 @@ onMounted(() => {
 .container {
   display: flex;
   flex-wrap: nowrap;
+  flex-direction: row;
   padding: 0;
   border-top: 3px solid var(--text-hovor-color);
   border-bottom: 3px solid var(--text-hovor-color);
@@ -200,10 +201,16 @@ onMounted(() => {
     display: block;
   }
 
+  .container{
+    flex-direction: column;
+  }
+
   .sidebar {
     min-height: 30vh;
   }
 }
+
+
 
 .btn-container {
   padding: .5rem;

@@ -211,6 +211,21 @@ span {
   justify-content: space-around;
 }
 
+
+@media (max-width: 800px){
+  .popup-bts{
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+  }
+  .popup-bts button {
+    padding: .5rem;
+    margin: 1rem 0;
+    font-size: 1rem;
+  }
+}
+
 .popup-bts button {
   padding: .5rem;
   font-size: 1.2rem;
