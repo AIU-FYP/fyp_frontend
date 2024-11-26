@@ -1,15 +1,31 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+import {navigateTo } from '#app';
 
 const auth = useAuth();
 
 const handleLogout = () => {
   auth.logout();
-   navigateTo('/login');
+  navigateTo('/login');
 };
+
+const isLoading = ref(false);
+
+const handleSettingsNavigation = async () => {
+  isLoading.value = true;
+  try {
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    navigateTo('/setting');
+  } finally {
+    isLoading.value = false;
+  }
+};
+
 </script>
 
 <template>
   <div class="header-admin-section">
+    <LoaderSection v-if="isLoading" />
     <div class="container">
       <div class="container-box">
 
@@ -24,7 +40,7 @@ const handleLogout = () => {
         </div>
 
         <div class="bar-btn">
-          <a class="nav-item">
+          <a class="nav-item" @click="handleSettingsNavigation">
             <router-link to="/setting">
             <span class="icon">
               <UIcon

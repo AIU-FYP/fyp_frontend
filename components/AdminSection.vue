@@ -1,5 +1,91 @@
 <script setup lang="ts">
-import {ref, onMounted} from 'vue';
+import {onMounted, ref} from 'vue'
+import {useNuxtApp} from '#app'
+
+interface Person {
+  id: number
+  date: string
+  name: string
+  studentIdNumber: string
+  roomNumber: string
+  whatsappNumber: string
+  emailAddress: string
+  gender: string
+  extend?: boolean | string
+}
+
+const people = ref<Person[]>([]);
+
+let {$axios} = useNuxtApp()
+const api = $axios()
+
+const fetchData = async () => {
+  try {
+    const response = await api.get("/Students")
+    people.value = response.data.map((person: Person) => ({
+      ...person,
+      date: new Date().toLocaleDateString()
+    }))
+  } catch (error) {
+    console.error('Error fetching data:', error)
+  }
+}
+const isLoading = ref(false);
+const router = useRouter();
+
+async function navigateToPage(url: string) {
+  isLoading.value = true;
+  try {
+    setTimeout(async () => {
+      await router.push(url);
+      isLoading.value = false;
+    }, 2000);
+  } catch (error) {
+    console.error('Navigation error:', error);
+    isLoading.value = false;
+  }
+}
+
+onMounted(fetchData)
+
+const visibleButtonIndex = ref<number | null>(null);
+
+const navigationButtons = [
+  {
+    name: "Student",
+    icon: "ph-student",
+    links: [
+      {text: "Manage Student", url: "/student-registration-dashboard"},
+    ],
+  },
+  {
+    name: "Maintenance",
+    icon: "wpf-maintenance",
+    links: [
+      {text: "Maintenance Form", url: "/maintenance-room-form"},
+      {text: "Manage Maintenance", url: "/maintenance-room-dashboard"},
+    ],
+  },
+  {
+    name: "Change Room",
+    icon: "bx-building",
+    links: [
+      {text: "Change Room Form", url: "/change-room-form"},
+      {text: "Manage Room Changes", url: "/change-room-dashboard"},
+    ],
+  },
+  {
+    name: "Room",
+    icon: "bx-building",
+    links: [
+      {text: "Manage Rooms", url: "/room-dashboard"},
+    ],
+  },
+];
+
+function toggleLinkVisibility(index: number) {
+  visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
+}
 
 const dashboardItems = [
   {
@@ -39,45 +125,6 @@ const dashboardItems = [
   },
 ];
 
-const visibleButtonIndex = ref<number | null>(null);
-
-const navigationButtons = [
-  {
-    name: "Student",
-    icon: "ph-student",
-    links: [
-      {text: "Manage Student", url: "/student-registration-dashboard",},
-    ],
-  },
-  {
-    name: "Maintenance",
-    icon: "wpf-maintenance",
-    links: [
-      {text: "Maintenance Form", url: "/maintenance-room-form",},
-      {text: "Manage Maintenance", url: "/maintenance-room-dashboard",},
-    ],
-  },
-  {
-    name: "Change Room",
-    icon: "bx-building",
-    links: [
-      {text: "Change Room Form", url: "/change-room-form",},
-      {text: "Manage Room Changes", url: "/change-room-dashboard",}
-    ],
-  },
-  {
-    name: "Room",
-    icon: "bx-building",
-    links: [
-      {text: "Manage Rooms", url: "/room-dashboard"},
-    ],
-  },
-];
-
-function toggleLinkVisibility(index: number) {
-  visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
-}
-
 const currentNumber = ref(0);
 
 const animateNumber = () => {
@@ -109,6 +156,8 @@ onMounted(() => {
   <div class="admin-dashboard">
     <div class="container">
 
+      <LoaderSection v-if="isLoading"/>
+
       <aside class="sidebar">
         <div v-for="(button, index) in navigationButtons" :key="index">
           <div class="btn-container">
@@ -125,7 +174,7 @@ onMounted(() => {
           </div>
           <ul v-if="visibleButtonIndex === index">
             <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
-              <a :href="link.url">{{ link.text }}</a>
+              <a @click.prevent="navigateToPage(link.url)">{{ link.text }}</a>
             </li>
           </ul>
         </div>
