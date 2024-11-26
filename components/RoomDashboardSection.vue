@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import {onMounted, ref} from 'vue'
 import {useNuxtApp} from '#app'
 import Popup from '~/components/PopupRoom.vue'
@@ -98,9 +97,9 @@ function toggleLinkVisibility(index: number) {
 </script>
 
 <template>
-
   <div class="admin-dashboard">
     <div class="container">
+
       <aside class="sidebar">
         <div v-for="(button, index) in navigationButtons" :key="index">
           <div class="btn-container">
@@ -147,6 +146,7 @@ function toggleLinkVisibility(index: number) {
           </div>
         </div>
       </main>
+
     </div>
   </div>
 </template>
@@ -161,7 +161,8 @@ function toggleLinkVisibility(index: number) {
   display: flex;
   flex-wrap: nowrap;
   padding: 0;
-  border: 3px solid var(--main-color);
+  border-top: 3px solid var(--text-hovor-color);
+  border-bottom: 3px solid var(--text-hovor-color);
   width: 100%;
   margin: 0 auto;
 }
@@ -180,7 +181,7 @@ function toggleLinkVisibility(index: number) {
 }
 
 @media (max-width: 1200px) {
-  .container {
+  .admin-dashboard {
     display: block;
   }
 
@@ -231,8 +232,12 @@ function toggleLinkVisibility(index: number) {
 
 .dashboard-content {
   flex: 10;
-  padding: 4rem;
   background-color: #eeeeee;
+}
+
+
+.dashboard-info-content div {
+  margin: 1rem;
 }
 
 
@@ -267,6 +272,12 @@ function toggleLinkVisibility(index: number) {
   margin: 1rem 0 ;
 }
 
+@media (max-width: 1200px) {
+  .container{
+    display: block;
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
     flex-basis: 100%;
@@ -276,4 +287,6 @@ function toggleLinkVisibility(index: number) {
     padding: 1rem;
   }
 }
+
+
 </style>

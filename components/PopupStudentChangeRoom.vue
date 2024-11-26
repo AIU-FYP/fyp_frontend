@@ -50,7 +50,7 @@ const closePopup = () => {
                   name="ph-student"
               />
             </span>
-            {{ field.label }}:</span>
+            {{ field.label }}</span>
           <span class="student-key-info">
             <span>
               <UIcon

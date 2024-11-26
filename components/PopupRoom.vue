@@ -195,20 +195,16 @@ span {
   border: 2px solid var(--main-color);
 }
 
-.popup-bts .room-occupied:hover {
-  background: var(--main-color);
-  color: var(--text-hovor-color);;
-  transition: .4s ease-in-out;
-}
-
-.popup-bts .room-available{
+.popup-bts .room-available {
   border-radius: 0 1rem;
   border: 2px solid var(--main-hovor-color);
 }
 
+.popup-bts .room-occupied:hover,
 .popup-bts .room-available:hover {
-  background: var(--main-hovor-color);
-  color: var(--text-hovor-color);;
+  background: var(--button-hovor-color);
+  color: var(--text-hovor-color);
+  border: 2px solid var(--button-hovor-color);
   transition: .4s ease-in-out;
 }
 
@@ -224,9 +220,15 @@ span {
 }
 
 @media (max-width: 800px) {
+  .popup-bts {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+
   .popup-bts button {
-    padding: .5rem;
-    margin: 1rem 0;
+    margin: 0.5rem;
     font-size: 1rem;
   }
 }
