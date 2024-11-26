@@ -1,8 +1,32 @@
 <script setup lang="ts">
-
-import {onMounted, ref} from 'vue'
-import {useNuxtApp} from '#app'
+import {ref, onMounted} from 'vue';
 import Popup from '~/components/PopupStudentMaintenanceRoom.vue'
+import {useNuxtApp} from "#app";
+
+const currentNumber = ref(0);
+
+const animateNumber = () => {
+  let start = 0;
+  const end = 100;
+  const duration = 1000;
+  const stepTime = 10;
+  const totalSteps = duration / stepTime;
+
+  const increment = (end / totalSteps);
+
+  const interval = setInterval(() => {
+    start += increment;
+    currentNumber.value = Math.min(Math.round(start), end);
+    if (start >= end) {
+      clearInterval(interval);
+    }
+  }, stepTime);
+};
+
+onMounted(() => {
+  animateNumber();
+})
+
 
 let {$axios} = useNuxtApp()
 
@@ -24,7 +48,6 @@ const columns = [
   {key: 'name', label: 'Name', sortable: true},
   {key: 'studentId', label: 'Student ID', sortable: true},
   {key: 'roomNo', label: 'Room No', sortable: true},
-  {key: 'whatsappNo', label: 'WhatsApp No', sortable: true},
   {key: 'gender', label: 'Gender', sortable: true},
   {key: 'status', label: 'Status', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}
@@ -49,13 +72,7 @@ const fetchData = async () => {
 const isPopupVisible = ref(false);
 const currentStudent = ref({});
 
-const openPopup = (row: Person) => {
-  currentStudent.value = row;
-  isPopupVisible.value = true;
-};
-
 onMounted(fetchData)
-
 
 const visibleButtonIndex = ref<number | null>(null);
 
@@ -102,11 +119,19 @@ definePageMeta({
 });
 
 
+
+const openPopup = (row: Person) => {
+  currentStudent.value = row;
+  isPopupVisible.value = true;
+};
+
+onMounted(fetchData)
+
+
+
 </script>
 
-
 <template>
-
   <div class="admin-dashboard">
     <div class="container">
 
@@ -156,6 +181,7 @@ definePageMeta({
           </div>
         </div>
       </main>
+
     </div>
   </div>
 </template>
@@ -170,7 +196,8 @@ definePageMeta({
   display: flex;
   flex-wrap: nowrap;
   padding: 0;
-  border: 3px solid var(--main-color);
+  border-top: 3px solid var(--text-hovor-color);
+  border-bottom: 3px solid var(--text-hovor-color);
   width: 100%;
   margin: 0 auto;
 }
@@ -184,12 +211,12 @@ definePageMeta({
   min-height: 100vh;
 }
 
-.dashboard-content {
+.dashboard-content{
   flex: 6;
 }
 
 @media (max-width: 1200px) {
-  .container {
+  .admin-dashboard {
     display: block;
   }
 
@@ -240,8 +267,12 @@ definePageMeta({
 
 .dashboard-content {
   flex: 10;
-  padding: 4rem;
   background-color: #eeeeee;
+}
+
+
+.dashboard-info-content div {
+  margin: 1rem;
 }
 
 
@@ -264,16 +295,22 @@ definePageMeta({
 }
 
 .header h2,
-.footer h2 {
+.footer h2{
   font-size: 1.5rem;
   color: var(--main-hovor-color);
   text-align: center;
   margin: 1rem auto;
 }
 
-.divider {
+.divider{
   border-bottom: 2px solid var(--main-hovor-color);
-  margin: 1rem 0;
+  margin: 1rem 0 ;
+}
+
+@media (max-width: 1200px) {
+  .container{
+    display: block;
+  }
 }
 
 @media (max-width: 768px) {
@@ -285,4 +322,6 @@ definePageMeta({
     padding: 1rem;
   }
 }
+
+
 </style>

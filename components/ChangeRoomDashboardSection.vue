@@ -1,7 +1,31 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue'
-import {useNuxtApp} from '#app'
+import {ref, onMounted} from 'vue';
 import Popup from '~/components/PopupStudentChangeRoom.vue'
+import {useNuxtApp} from "#app";
+
+const currentNumber = ref(0);
+
+const animateNumber = () => {
+  let start = 0;
+  const end = 100;
+  const duration = 1000;
+  const stepTime = 10;
+  const totalSteps = duration / stepTime;
+
+  const increment = (end / totalSteps);
+
+  const interval = setInterval(() => {
+    start += increment;
+    currentNumber.value = Math.min(Math.round(start), end);
+    if (start >= end) {
+      clearInterval(interval);
+    }
+  }, stepTime);
+};
+
+onMounted(() => {
+  animateNumber();
+})
 
 interface Person {
   id: number
@@ -21,11 +45,14 @@ const columns = [
   {key: 'name', label: 'Name', sortable: true},
   {key: 'studentId', label: 'Student ID', sortable: true},
   {key: 'roomNo', label: 'Room No', sortable: true},
-  {key: 'whatsappNo', label: 'WhatsApp No', sortable: true},
   {key: 'gender', label: 'Gender', sortable: true},
   {key: 'status', label: 'Status', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}
 ]
+
+definePageMeta({
+  middleware: 'auth',
+});
 
 const people = ref<Person[]>([]);
 
@@ -97,13 +124,13 @@ function toggleLinkVisibility(index: number) {
   visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
 }
 
+
 </script>
 
 <template>
-
   <div class="admin-dashboard">
-
     <div class="container">
+
       <aside class="sidebar">
         <div v-for="(button, index) in navigationButtons" :key="index">
           <div class="btn-container">
@@ -120,7 +147,7 @@ function toggleLinkVisibility(index: number) {
           </div>
           <ul v-if="visibleButtonIndex === index">
             <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
-              <a :target="link.target" :href="link.url"  >{{ link.text }}</a>
+              <a :href="link.url">{{ link.text }}</a>
             </li>
           </ul>
         </div>
@@ -150,6 +177,7 @@ function toggleLinkVisibility(index: number) {
           </div>
         </div>
       </main>
+
     </div>
   </div>
 </template>
@@ -164,7 +192,8 @@ function toggleLinkVisibility(index: number) {
   display: flex;
   flex-wrap: nowrap;
   padding: 0;
-  border: 3px solid var(--main-color);
+  border-top: 3px solid var(--text-hovor-color);
+  border-bottom: 3px solid var(--text-hovor-color);
   width: 100%;
   margin: 0 auto;
 }
@@ -183,7 +212,7 @@ function toggleLinkVisibility(index: number) {
 }
 
 @media (max-width: 1200px) {
-  .container {
+  .admin-dashboard {
     display: block;
   }
 
@@ -234,8 +263,12 @@ function toggleLinkVisibility(index: number) {
 
 .dashboard-content {
   flex: 10;
-  padding: 4rem;
   background-color: #eeeeee;
+}
+
+
+.dashboard-info-content div {
+  margin: 1rem;
 }
 
 
@@ -270,6 +303,12 @@ function toggleLinkVisibility(index: number) {
   margin: 1rem 0 ;
 }
 
+@media (max-width: 1200px) {
+  .container{
+    display: block;
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
     flex-basis: 100%;
@@ -279,4 +318,5 @@ function toggleLinkVisibility(index: number) {
     padding: 1rem;
   }
 }
+
 </style>
