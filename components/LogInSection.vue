@@ -61,6 +61,8 @@ function validateForm() {
   validateField("password");
 }
 
+const isLoading = ref(false);
+
 async function handleSubmit() {
   validateForm();
 
@@ -68,8 +70,11 @@ async function handleSubmit() {
     try {
       await auth.login(form.username, form.password);
       navigateTo('/admin');
+      isLoading.value = true;
+
     } catch (error) {
       errorMessage.value = error.message;
+      isLoading.value = false;
     }
   }
 }
@@ -104,6 +109,7 @@ async function handleSubmit() {
               </div>
             </div>
             <button class="login-submit" type="submit">Log In</button>
+            <LoaderSection :visible="isLoading" />
           </form>
         </div>
       </div>

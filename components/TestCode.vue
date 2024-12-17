@@ -1,34 +1,6 @@
 <script setup lang="ts">
-import {ref, onMounted} from 'vue';
-import Popup from '~/components/PopupStudentMaintenanceRoom.vue'
-import {useNuxtApp} from "#app";
-
-const currentNumber = ref(0);
-
-const animateNumber = () => {
-  let start = 0;
-  const end = 100;
-  const duration = 1000;
-  const stepTime = 10;
-  const totalSteps = duration / stepTime;
-
-  const increment = (end / totalSteps);
-
-  const interval = setInterval(() => {
-    start += increment;
-    currentNumber.value = Math.min(Math.round(start), end);
-    if (start >= end) {
-      clearInterval(interval);
-    }
-  }, stepTime);
-};
-
-onMounted(() => {
-  animateNumber();
-})
-
-
-let {$axios} = useNuxtApp()
+import {onMounted, ref} from 'vue'
+import {useNuxtApp} from '#app'
 
 interface Person {
   id: number
@@ -42,24 +14,14 @@ interface Person {
   extend?: boolean | string
 }
 
-const columns = [
-  {key: 'id', label: 'id'},
-  {key: "date", label: 'Date',},
-  {key: 'name', label: 'Name', sortable: true},
-  {key: 'studentId', label: 'Student ID', sortable: true},
-  {key: 'roomNo', label: 'Room No', sortable: true},
-  {key: 'gender', label: 'Gender', sortable: true},
-  {key: 'status', label: 'Status', sortable: true},
-  {key: 'extend', label: 'Extend', sortable: false,}
-]
-
 const people = ref<Person[]>([]);
 
+let {$axios} = useNuxtApp()
 const api = $axios()
 
 const fetchData = async () => {
   try {
-    const response = await api.get("/Students/")
+    const response = await api.get("/Students")
     people.value = response.data.map((person: Person) => ({
       ...person,
       date: new Date().toLocaleDateString()
@@ -68,9 +30,21 @@ const fetchData = async () => {
     console.error('Error fetching data:', error)
   }
 }
+const isLoading = ref(false);
+const router = useRouter();
 
-const isPopupVisible = ref(false);
-const currentStudent = ref({});
+async function navigateToPage(url: string) {
+  isLoading.value = true;
+  try {
+    setTimeout(async () => {
+      await router.push(url);
+      isLoading.value = false;
+    }, 2000);
+  } catch (error) {
+    console.error('Navigation error:', error);
+    isLoading.value = false;
+  }
+}
 
 onMounted(fetchData)
 
@@ -113,36 +87,67 @@ function toggleLinkVisibility(index: number) {
   visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
 }
 
-const isLoading = ref(false);
-const router = useRouter();
+const dashboardItems = [
+  {
+    title: "Main Dashboard",
+    maintenanceStats: [
+      {
+        subTitle: "Male Students",
+        icon: "fa-male",
+        totalNum:"100"
+      },
+      {
+        subTitle: "Female Students",
+        icon: "fa-female",
+        totalNum:"87"
+      },
+      {
+        subTitle: "Available Rooms",
+        icon: "fa-bed",
+        totalNum:"12"
+      },
+      {
+        subTitle: "Occupied Rooms",
+        icon: "ic-baseline-clear",
+        totalNum:"23"
+      },
+      {
+        subTitle: "Maintenance Requests",
+        icon: "la-building-solid",
+        totalNum:"34"
+      },
+      {
+        subTitle: "Change Room Requests",
+        icon: "la-building-solid",
+        totalNum:"1212"
+      },
+    ],
+  },
+];
 
+const currentNumber = ref(0);
 
-async function navigateToPage(url: string) {
-  isLoading.value = true;
-  try {
-    setTimeout(async () => {
-      await router.push(url);
-      isLoading.value = false;
-    }, 2000);
-  } catch (error) {
-    console.error('Navigation error:', error);
-    isLoading.value = false;
-  }
-}
+const animateNumber = () => {
+  let start = 0;
+  const end = 100;
+  const duration = 1000;
+  const stepTime = 10;
+  const totalSteps = duration / stepTime;
 
-definePageMeta({
-  middleware: 'auth',
-});
+  const increment = (end / totalSteps);
 
-
-
-const openPopup = (row: Person) => {
-  currentStudent.value = row;
-  isPopupVisible.value = true;
+  const interval = setInterval(() => {
+    start += increment;
+    currentNumber.value = Math.min(Math.round(start), end);
+    if (start >= end) {
+      clearInterval(interval);
+    }
+  }, stepTime);
 };
 
-onMounted(fetchData)
-
+onMounted(() => {
+  animateNumber();
+})
 
 
 </script>
@@ -150,8 +155,8 @@ onMounted(fetchData)
 <template>
   <div class="admin-dashboard">
     <div class="container">
-      <LoaderSection v-if="isLoading"/>
       <aside class="sidebar">
+        <LoaderSection v-if="isLoading"/>
         <div v-for="(button, index) in navigationButtons" :key="index">
           <div class="btn-container">
             <button
@@ -174,28 +179,34 @@ onMounted(fetchData)
       </aside>
 
       <main class="dashboard-content">
-        <div class="sub-container">
-          <div class="header">
-            <h2 class="admin-title">Welcome back</h2>
+
+        <section class="dashboard-info-content">
+          <div class="welcome-info">
+            <h2>Welcome back </h2>
           </div>
-          <hr class="divider"/>
-          <div class="content">
-            <UTable :columns="columns" :rows="people">
-              <template #extend-data="{ row }">
-                <a @click="openPopup(row)" class="extend-btn">Extend</a>
-                <Popup
-                    :show="isPopupVisible"
-                    @update:show="isPopupVisible = $event"
-                    :student="currentStudent"
-                />
-              </template>
-            </UTable>
+          <div class="image-container">
+            <img src="/images/login.webp" alt="welcome-image">
           </div>
-          <hr class="divider"/>
-          <div class="footer">
-            <h2 class="footer-megs" style="text-align: center">Thank you !</h2>
+        </section>
+
+        <section v-for="item in dashboardItems" :key="item.title" class="analysis-section">
+          <div class="stat-cards">
+            <div v-for="(stat, index) in item.maintenanceStats" :key="index" class="stat-card">
+              <div class="box">
+                <h4>{{ stat.subTitle }}</h4>
+                <span class="stat-icon">
+              <UIcon
+                  :name="stat.icon"
+              />
+            </span>
+              </div>
+              <div class="num">
+                <span>{{ currentNumber }}</span>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
+
       </main>
 
     </div>
@@ -211,6 +222,7 @@ onMounted(fetchData)
 .container {
   display: flex;
   flex-wrap: nowrap;
+  flex-direction: row;
   padding: 0;
   border-top: 3px solid var(--text-hovor-color);
   border-bottom: 3px solid var(--text-hovor-color);
@@ -236,10 +248,16 @@ onMounted(fetchData)
     display: block;
   }
 
+  .container{
+    flex-direction: column;
+  }
+
   .sidebar {
     min-height: 30vh;
   }
 }
+
+
 
 .btn-container {
   padding: .5rem;
@@ -283,50 +301,90 @@ onMounted(fetchData)
 
 .dashboard-content {
   flex: 10;
+  padding: 2rem;
   background-color: #eeeeee;
 }
 
-
-.dashboard-info-content div {
-  margin: 1rem;
-}
-
-
-.dashboard-info-content div {
-  margin: 1rem;
-}
-
-.extend-btn {
-  padding: .5rem;
-  border-radius: .5rem 0;
-  color: var(--text-hovor-color);
-  background-color: var(--main-hovor-color);
-  cursor: pointer;
-}
-
-.extend-btn:hover {
-  color: var(--text-color);
-  background-color: var(--main-color);
-  transition: .3s ease-in-out;
-}
-
-.header h2,
-.footer h2{
-  font-size: 1.5rem;
-  color: var(--main-hovor-color);
-  text-align: center;
-  margin: 1rem auto;
-}
-
-.divider{
-  border-bottom: 2px solid var(--main-hovor-color);
-  margin: 1rem 0 ;
+.dashboard-info-content {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  border: 2px solid var(--main-color);
+  border-radius: 1rem;
 }
 
 @media (max-width: 1200px) {
-  .container{
+  .dashboard-info-content {
     display: block;
   }
+}
+
+.dashboard-info-content div {
+  margin: 1rem;
+}
+
+.welcome-info h2 {
+  font-size: 1.5rem;
+  color: var(--main-color);
+}
+
+.dashboard-info-content .image-container {
+  width: 120px;
+  height: 120px;
+}
+
+.analysis-section {
+  margin-bottom: 2rem;
+}
+
+.stat-cards {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  flex: 1 1 20%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: var(--text-hovor-color);
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0 1rem 1rem 0 !important;
+}
+
+.stat-card .box {
+  flex: 5;
+  padding: 1rem 0.5rem;
+}
+
+.stat-card .num {
+  padding: 1rem 0.5rem;
+  flex: 2;
+  border-radius: 0 1rem 1rem 0;
+  background-color: var(--main-color);
+}
+
+.stat-card .num > span {
+  display: flex;
+  margin: 2rem 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+.stat-card h4 {
+  font-size: 1.1rem;
+  color: var(--main-color);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: var(--main-color);
+  margin: 0.5rem 0;
 }
 
 @media (max-width: 768px) {
@@ -337,7 +395,9 @@ onMounted(fetchData)
   .dashboard-content {
     padding: 1rem;
   }
+
+  .stat-cards {
+    flex-direction: column;
+  }
 }
-
-
 </style>

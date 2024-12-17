@@ -33,6 +33,24 @@ Actions:
         3. v-model
         4. api middleware
 
+Popup new Student
+       label: 'ID', key: 'id'
+       label: 'Status', key: 'status'
+       label: 'Name', key: 'name'
+       label: 'Student ID', key: 'studentId'
+       label: 'Passport No', key: 'passportNo'
+       label: 'Date of Arrived', key: 'doa'
+       label: 'WhatsApp No', key: 'whatsappNo'
+       label: 'Student Email', key: 'studentEmail'
+       label: 'Gender', key: 'gender'
+       label: 'Religion', key: 'religion'
+       label: 'Nationality', key: 'nationality'
+       label: 'Program/Major', key: 'programMajor'
+       label: 'Block Name', key: 'blockName'
+       label: 'Level No', key: 'levelNo'
+       label: 'Room No', key: 'roomNo'
+       label: 'Which Zone?', key: 'zone'
+
  Maintenance Form
    1. label: 'ID ', key: 'id'
    2. label: 'Name ', key: 'name'
@@ -48,26 +66,6 @@ Actions:
    12. label: 'Photo evidence damages ', key: 'photoEvidenceDamages'
    13. label: 'Reason for room change', key: 'detailTheDamage'
    14. key: 'status', label: 'Status'
-
-register new Student
-
-    1. label: 'Name', key: 'name'
-    2. label: 'Student ID', key: 'studentId'
-    3. label: 'Passport No', key: 'passportNo'
-    4. label: 'Date of Birth', key: 'dob'
-    5. label: 'WhatsApp No', key: 'whatsappNo'
-    6. label: 'Phone No', key: 'phoneNo'
-    7. label: 'Email Address (Student Email Only)', key: 'emailAddress'
-    8. label: 'Gender', key: 'gender'
-    9. label: 'Nationality', key: 'nationality'
-    10. label: 'Country of Residence', key: 'countryOfResidence'
-    11. label: 'Current Level of Education', key: 'educationLevel'
-    12. label: 'Program/Major', key: 'programMajor'
-    13. label: 'Expected Graduation Year', key: 'expectedGraduationYear'
-    14. label: 'Block Name', key: 'blockName'
-    15. label: 'Level No', key: 'levelNo'
-    16. label: 'Room No', key: 'roomNo'
-    17. label: 'Which Zone?', key: 'zone'
 
 
 change room form
