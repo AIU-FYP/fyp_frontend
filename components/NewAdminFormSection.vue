@@ -6,23 +6,23 @@
         <nav>
           <ul class="menu">
             <li>
-              <UIcon name="mdi-password" class="icon" />
+              <UIcon name="mdi-password" class="icon"/>
               <router-link to="change-admin-password">Change Password</router-link>
             </li>
             <li>
-              <UIcon name="subway-admin-1" class="icon" />
+              <UIcon name="subway-admin-1" class="icon"/>
               <router-link to="new-admin">Add New Admin</router-link>
             </li>
             <li>
-              <UIcon name="grommet-icons-user-admin" class="icon" />
+              <UIcon name="grommet-icons-user-admin" class="icon"/>
               <router-link to="admin-dashboard">Admin dashboard</router-link>
             </li>
             <li>
-              <UIcon name="eos-icons-admin" class="icon" />
+              <UIcon name="eos-icons-admin" class="icon"/>
               <router-link to="admin">Admin</router-link>
             </li>
             <li>
-              <UIcon name="uiw-logout" class="icon" />
+              <UIcon name="uiw-logout" class="icon"/>
               <router-link to="login">Log Out</router-link>
             </li>
           </ul>
@@ -85,13 +85,19 @@ const previousQuestions = [
     required: true
   },
   {
-    label: "New Password",
+    label: "Admin type (admin or super admin)",
+    type: "password",
+    placeholder: "Enter admin type ",
+    required: true
+  },
+  {
+    label: "Password",
     type: "password",
     placeholder: "Enter your New Password",
     required: true
   },
   {
-    label: "Confirm New Password ",
+    label: "Confirm Password ",
     type: "password",
     placeholder: "Confirm New Password",
     required: true
@@ -123,6 +129,7 @@ const formSchema = z.object({
       .regex(/\d/, "Password must include at least one number")
       .regex(/[@$!%*?&]/, "Password must include at least one special character (@$!%*?&)")
       .nonempty("Password is required"),
+  "Admin type (admin or super admin)": z.enum(["admin", "super admin"], "Admin type must be 'admin' or 'super admin'"),
   "Confirm New Password": z
       .string()
       .min(12, "Password must be at least 12 characters long")
