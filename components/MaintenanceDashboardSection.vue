@@ -81,6 +81,7 @@ const navigationButtons = [
     name: "Student",
     icon: "ph-student",
     links: [
+      {text: "Register Student", url: "/student-registration-form"},
       {text: "Manage Student", url: "/student-registration-dashboard"},
     ],
   },
@@ -101,14 +102,14 @@ const navigationButtons = [
     ],
   },
   {
-    name: "Room",
+    name: "Hostels",
     icon: "bx-building",
     links: [
+      {text: "Add new Hostel", url: "/new-hostel-form"},
       {text: "Manage Rooms", url: "/room-dashboard"},
     ],
   },
 ];
-
 function toggleLinkVisibility(index: number) {
   visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
 }

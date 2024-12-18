@@ -3,30 +3,6 @@ import {ref, onMounted} from 'vue';
 import Popup from '~/components/PopupStudentChangeRoom.vue'
 import {useNuxtApp} from "#app";
 
-const currentNumber = ref(0);
-
-const animateNumber = () => {
-  let start = 0;
-  const end = 100;
-  const duration = 1000;
-  const stepTime = 10;
-  const totalSteps = duration / stepTime;
-
-  const increment = (end / totalSteps);
-
-  const interval = setInterval(() => {
-    start += increment;
-    currentNumber.value = Math.min(Math.round(start), end);
-    if (start >= end) {
-      clearInterval(interval);
-    }
-  }, stepTime);
-};
-
-onMounted(() => {
-  animateNumber();
-})
-
 interface Person {
   id: number
   date: string
@@ -99,7 +75,7 @@ const navigationButtons = [
     name: "Maintenance",
     icon: "wpf-maintenance",
     links: [
-      {text: "Maintenance Form", url: "/maintenance-room-form", target: "_blank"},
+      {text: "Maintenance Form", url: "/maintenance-room-form"},
       {text: "Manage Maintenance", url: "/maintenance-room-dashboard"},
     ],
   },
@@ -107,19 +83,19 @@ const navigationButtons = [
     name: "Change Room",
     icon: "bx-building",
     links: [
-      {text: "Change Room Form", url: "/change-room-form", target: "_blank"},
+      {text: "Change Room Form", url: "/change-room-form"},
       {text: "Manage Room Changes", url: "/change-room-dashboard"},
     ],
   },
   {
-    name: "Room",
+    name: "Hostels",
     icon: "bx-building",
     links: [
+      {text: "Add new Hostel", url: "/new-hostel-form"},
       {text: "Manage Rooms", url: "/room-dashboard"},
     ],
   },
 ];
-
 function toggleLinkVisibility(index: number) {
   visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
 }

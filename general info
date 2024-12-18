@@ -6,10 +6,6 @@ Hostel Details
 3. Number of rooms on each level.
 4. Number of zones in each room.
 
-New Student Registration
-
-1. Questions required for registering new students.
-
 Actions:
 1. Room Change Requests
        Approve a requested room change.
@@ -18,20 +14,19 @@ Actions:
        Delete student information.
        Update student information.
 3. Maintenance:
-       Tasks completed by SA.
        Tasks completed by PPK.
        Requests that were rejected.
 4. Room Status:
        Occupied rooms.
        Available rooms.
        Rooms out of service.
-
-
-   work should be done
-        1.  setting page show admin, add new admin
-        2. change to input
-        3. v-model
-        4. api middleware
+5. Admin
+        add new admin
+        change admin password
+        remove admin as a super admin
+6. hostels
+        add new hostel
+        add new room
 
 Popup new Student
        label: 'ID', key: 'id'
@@ -52,39 +47,46 @@ Popup new Student
        label: 'Which Zone?', key: 'zone'
 
  Maintenance Form
-   1. label: 'ID ', key: 'id'
-   2. label: 'Name ', key: 'name'
-   3. label: 'Student ID ', key: 'studentId'
-   4. label: 'Room No ', key: 'roomNo'
-   5. label: 'phone No ', key: 'phoneNo
-   6. label: 'WhatsApp No ', key: 'whatsappNo'
-   7. label: 'Email Address ', key: 'emailAddress'
-   8. label: 'Gender ', key: 'gender'
-   9. label: 'Location specific Issue ', key: 'locationSpecificIssue'
-   10. label: 'Frequent damages occur', key: 'frequentTheDamagesOccur'
-   11. label: 'Student Nationality ', key: 'studentNationality'
-   12. label: 'Photo evidence damages ', key: 'photoEvidenceDamages'
-   13. label: 'Reason for room change', key: 'detailTheDamage'
-   14. key: 'status', label: 'Status'
+        label: 'ID ', key: 'id'
+        label: 'Name ', key: 'name'
+        label: 'Student ID ', key: 'studentId'
+        label: 'Room No ', key: 'roomNo'
+        label: 'phone No ', key: 'phoneNo
+        label: 'WhatsApp No ', key: 'whatsappNo'
+        label: 'Email Address ', key: 'emailAddress'
+        label: 'Gender ', key: 'gender'
+        label: 'Location specific Issue ', key: 'locationSpecificIssue'
+        label: 'Frequent damages occur', key: 'frequentTheDamagesOccur'
+        label: 'Student Nationality ', key: 'studentNationality'
+        label: 'Photo evidence damages ', key: 'photoEvidenceDamages'
+        label: 'Reason for room change', key: 'detailTheDamage'
+        key: 'status', label: 'Status'
 
 
 change room form
 
-    1. label: 'Name', key: 'name'
-    2. label: 'Student ID', key: 'studentId'
-    3. label: 'Room No', key: 'roomNo'
-    4. label: 'Phone No (Local No Only)', key: 'phoneNo'
-    5. label: 'Email Address (Student Email Only)', key: 'emailAddress'
-    6. label: 'Gender', key: 'gender'
-    7. label: 'Enter your Nationality', key: 'nationality'
-    8. label: 'Other supporting docs', key: 'supportingDocs'
-    9. label: 'Explain your reason for room change?', key: 'reasonForRoomChange'
+        label: 'Name', key: 'name'
+        label: 'Student ID', key: 'studentId'
+        label: 'Room No', key: 'roomNo'
+        label: 'Phone No (Local No Only)', key: 'phoneNo'
+        label: 'Email Address (Student Email Only)', key: 'emailAddress'
+        label: 'Gender', key: 'gender'
+        label: 'Enter your Nationality', key: 'nationality'
+        label: 'Other supporting docs', key: 'supportingDocs'
+        label: 'Explain your reason for room change?', key: 'reasonForRoomChange'
 
 room
-    1. label: 'ID', key: 'id'
-    2. label: 'Gender', key: 'gender'
-    3. label: 'Block Name', key: 'blockName'
-    4. label: 'Room No', key: 'roomNo'
-    5. label: 'Level No', key: 'levelNo'
-    6. label: 'Status', key: 'status'
+        label: 'ID', key: 'id'
+        label: 'Gender', key: 'gender'
+        label: 'Block Name', key: 'blockName'
+        label: 'Room No', key: 'roomNo'
+        label: 'Level No', key: 'levelNo'
+        label: 'Status', key: 'status'
+
+hostels
+
+        label: 'hostel name ' key : 'hostelName'
+        label: 'Hostel Level' key : 'hostelLevel'
+        label: 'Hostel Room ' key : 'hostelRoom'
+        label: 'Hostel Status ' key : 'hostelStatus'
 
