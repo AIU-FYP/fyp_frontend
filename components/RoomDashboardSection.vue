@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import {onMounted, ref} from 'vue'
-import {useNuxtApp} from '#app'
+import {computed, onMounted, ref} from 'vue';
 import Popup from '~/components/PopupRoom.vue'
+import {useNuxtApp} from "#app";
+
+let {$axios} = useNuxtApp()
 
 interface Person {
   id: number
@@ -26,31 +28,29 @@ const columns = [
 ]
 
 const people = ref<Person[]>([]);
+const currentPage = ref(1);
+const pageSize = ref(10);
+const totalItems = ref(0);
+const q = ref('');
 
-let {$axios} = useNuxtApp()
 const api = $axios()
 
 const fetchData = async () => {
   try {
-    const response = await api.get("/Students")
+    const response = await api.get("/Students/");
     people.value = response.data.map((person: Person) => ({
       ...person,
-      date: new Date().toLocaleDateString()
-    }))
+      date: new Date().toLocaleDateString(),
+    }));
+    totalItems.value = response.data.length;
   } catch (error) {
-    console.error('Error fetching data:', error)
+    console.error('Error fetching data:', error);
   }
 }
 
 
 const isPopupVisible = ref(false);
 const currentStudent = ref({});
-
-const openPopup = (row: Person) => {
-  currentStudent.value = row;
-  isPopupVisible.value = true;
-};
-
 
 onMounted(fetchData)
 
@@ -82,9 +82,10 @@ const navigationButtons = [
     ],
   },
   {
-    name: "Room",
+    name: "Hostels",
     icon: "bx-building",
     links: [
+      {text: "Add new Hostel", url: "/new-hostel-form"},
       {text: "Manage Rooms", url: "/room-dashboard"},
     ],
   },
@@ -93,6 +94,56 @@ const navigationButtons = [
 function toggleLinkVisibility(index: number) {
   visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
 }
+
+const isLoading = ref(false);
+const router = useRouter();
+
+
+async function navigateToPage(url: string) {
+  isLoading.value = true;
+  try {
+    setTimeout(async () => {
+      await router.push(url);
+      isLoading.value = false;
+    }, 2000);
+  } catch (error) {
+    console.error('Navigation error:', error);
+    isLoading.value = false;
+  }
+}
+
+definePageMeta({
+  middleware: 'auth',
+});
+
+const openPopup = (row: Person) => {
+  currentStudent.value = row;
+  isPopupVisible.value = true;
+};
+
+const filteredRows = computed(() => {
+  if (!q.value) {
+    return people.value;
+  }
+
+  return people.value.filter((person) => {
+    return Object.values(person).some((value) => {
+      return String(value).toLowerCase().includes(q.value.toLowerCase());
+    });
+  });
+});
+
+const paginatedRows = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return filteredRows.value.slice(start, end);
+});
+
+const handlePageChange = (newPage: number) => {
+  currentPage.value = newPage;
+};
+
+onMounted(fetchData)
 
 </script>
 
@@ -116,7 +167,7 @@ function toggleLinkVisibility(index: number) {
           </div>
           <ul v-if="visibleButtonIndex === index">
             <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
-              <a :href="link.url">{{ link.text }}</a>
+              <a @click.prevent="navigateToPage(link.url)">{{ link.text }}</a>
             </li>
           </ul>
         </div>
@@ -124,12 +175,16 @@ function toggleLinkVisibility(index: number) {
 
       <main class="dashboard-content">
         <div class="sub-container">
-          <div class="header">
-            <h2 class="admin-title">Welcome back</h2>
-          </div>
-          <hr class="divider"/>
+
           <div class="content">
-            <UTable :columns="columns" :rows="people">
+            <div class="header">
+
+              <div class="search-container">
+                <UInput v-model="q" placeholder="Filter students..."/>
+              </div>
+            </div>
+
+            <UTable :columns="columns" :rows="paginatedRows">
               <template #extend-data="{ row }">
                 <a @click="openPopup(row)" class="extend-btn">Extend</a>
                 <Popup
@@ -139,10 +194,31 @@ function toggleLinkVisibility(index: number) {
                 />
               </template>
             </UTable>
-          </div>
-          <hr class="divider"/>
-          <div class="footer">
-            <h2 class="footer-megs" style="text-align: center">Thank you !</h2>
+            <div class="pagination">
+              <button
+                  :disabled="currentPage === 1"
+                  @click="handlePageChange(currentPage - 1)"
+              >
+                <UIcon
+                    name="mdi-arrow-left"
+                />
+              </button>
+              <span>Page {{ currentPage }} of {{ Math.ceil(totalItems / pageSize) }}</span>
+              <button
+                  :disabled="currentPage >= Math.ceil(totalItems / pageSize)"
+                  @click="handlePageChange(currentPage + 1)"
+              >
+                <UIcon
+                    name="mdi-arrow-right"
+                />
+              </button>
+            </div>
+
+
+            <hr class="divider"/>
+            <div class="footer">
+              <h2 class="footer-megs" style="text-align: center">Thank you !</h2>
+            </div>
           </div>
         </div>
       </main>
@@ -176,7 +252,7 @@ function toggleLinkVisibility(index: number) {
   min-height: 100vh;
 }
 
-.dashboard-content{
+.dashboard-content {
   flex: 6;
 }
 
@@ -235,14 +311,19 @@ function toggleLinkVisibility(index: number) {
   background-color: #eeeeee;
 }
 
+.dashboard-info-content div {
+  margin: 1rem;
+}
 
 .dashboard-info-content div {
   margin: 1rem;
 }
 
-
-.dashboard-info-content div {
-  margin: 1rem;
+.dashboard-content .header {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 0.5rem;
+  align-items: center;
 }
 
 .extend-btn {
@@ -260,20 +341,40 @@ function toggleLinkVisibility(index: number) {
 }
 
 .header h2,
-.footer h2{
+.footer h2 {
   font-size: 1.5rem;
   color: var(--main-hovor-color);
   text-align: center;
   margin: 1rem auto;
 }
 
-.divider{
+.divider {
   border-bottom: 2px solid var(--main-hovor-color);
-  margin: 1rem 0 ;
+  margin: 1rem 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.pagination span {
+  padding: .5rem 1rem;
+  border-radius: .5rem;
+  transition: 0.3s ease-in-out;
+}
+
+.pagination button {
+  padding: .5rem;
+  border-radius: .5rem;
+  color: var(--text-color);
+  background-color: var(--main-color);
+  transition: 0.3s ease-in-out;
 }
 
 @media (max-width: 1200px) {
-  .container{
+  .container {
     display: block;
   }
 }
