@@ -179,13 +179,9 @@ onMounted(fetchData)
 
           <div class="content">
             <div class="header">
-              <span class="icon">
-                <UIcon
-                    name="mdi-magnify"
-                />
-              </span>
+
               <div class="search-container">
-                <UInput v-model="q" placeholder="Filter people..."/>
+                <UInput v-model="q" placeholder="Filter students..."/>
               </div>
             </div>
 
