@@ -49,7 +49,6 @@ const navigationButtons = [
     links: [
       {text: "Add new Hostel", url: "/new-hostel-form"},
       {text: "Manage Rooms", url: "/room-dashboard"},
-      {text: "Manage Rooms", url: "/room-dashboard"},
     ],
   },
 ];
@@ -85,14 +84,7 @@ const previousQuestions = [
     placeholder: "Select Gender",
   },
   {
-    label: "How many levels",
-    type: "select",
-    options: ["1", "2", "3", "4"],
-    required: true,
-    placeholder: "Select Number of Levels",
-  },
-  {
-    label: "Number of rooms per level",
+    label: "Number of Rooms for Each Level",
     type: "multi-select",
     required: true,
     levels: [
@@ -164,7 +156,7 @@ function submitForm() {
                 :required="question.required"
                 class="form-input"
             >
-              <option value="" disabled selected>{{ question.placeholder }}</option>
+              <option value="" disabled>{{question.placeholder}}</option>
               <option v-for="option in question.options" :key="option" :value="option">
                 {{ option }}
               </option>

@@ -81,7 +81,6 @@ const navigationButtons = [
     links: [
       {text: "Add new Hostel", url: "/new-hostel-form"},
       {text: "Manage Rooms", url: "/room-dashboard"},
-      {text: "Manage Rooms", url: "/room-dashboard"},
     ],
   },
 ];

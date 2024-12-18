@@ -15,7 +15,6 @@ interface Person {
   extend?: boolean | string
 }
 
-
 const people = ref<Person[]>([]);
 
 let {$axios} = useNuxtApp()
@@ -33,17 +32,7 @@ const fetchData = async () => {
   }
 }
 
-
-const isPopupVisible = ref(false);
-const currentStudent = ref({});
-
-const openPopup = (row: Person) => {
-  currentStudent.value = row;
-  isPopupVisible.value = true;
-};
-
 onMounted(fetchData)
-
 
 const visibleButtonIndex = ref<number | null>(null);
 
@@ -73,9 +62,10 @@ const navigationButtons = [
     ],
   },
   {
-    name: "Room",
+    name: "Hostels",
     icon: "bx-building",
     links: [
+      {text: "Add new Hostel", url: "/new-hostel-form"},
       {text: "Manage Rooms", url: "/room-dashboard"},
     ],
   },
