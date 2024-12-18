@@ -30,7 +30,7 @@ const columns = [
 
 const people = ref<Person[]>([]);
 const currentPage = ref(1);
-const pageSize = ref(15);
+const pageSize = ref(10);
 const totalItems = ref(0);
 
 const api = $axios()
@@ -135,7 +135,6 @@ const handlePageChange = (newPage: number) => {
 };
 
 
-
 onMounted(fetchData)
 
 </script>
@@ -178,7 +177,7 @@ onMounted(fetchData)
 
             <UTable :columns="columns" :rows="paginatedRows">
 
-            <template #extend-data="{ row }">
+              <template #extend-data="{ row }">
                 <a @click="openPopup(row)" class="extend-btn">Extend</a>
                 <Popup
                     :show="isPopupVisible"
@@ -193,17 +192,20 @@ onMounted(fetchData)
                   :disabled="currentPage === 1"
                   @click="handlePageChange(currentPage - 1)"
               >
-                Previous
+                <UIcon
+                    name="mdi-arrow-left"
+                />
               </button>
               <span>Page {{ currentPage }} of {{ Math.ceil(totalItems / pageSize) }}</span>
               <button
                   :disabled="currentPage >= Math.ceil(totalItems / pageSize)"
                   @click="handlePageChange(currentPage + 1)"
               >
-                Next
+                <UIcon
+                    name="mdi-arrow-right"
+                />
               </button>
             </div>
-
 
 
             <hr class="divider"/>
@@ -337,6 +339,26 @@ onMounted(fetchData)
 .divider {
   border-bottom: 2px solid var(--main-hovor-color);
   margin: 1rem 0;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.pagination span {
+  padding: .5rem 1rem;
+  border-radius: .5rem;
+  transition: 0.3s ease-in-out;
+}
+
+.pagination button {
+  padding: .5rem;
+  border-radius: .5rem;
+  color: var(--text-color);
+  background-color: var(--main-color);
+  transition: 0.3s ease-in-out;
 }
 
 @media (max-width: 1200px) {
