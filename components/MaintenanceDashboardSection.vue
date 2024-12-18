@@ -327,14 +327,6 @@ onMounted(fetchData)
   align-items: center;
 }
 
-.dashboard-content .header .icon {
-  background-color: var(--main-color);
-  padding: .2rem .5rem;
-  color: var(--text-color);
-  margin: 0 1rem 0 0;
-  border-radius: .5rem .5rem;
-}
-
 .extend-btn {
   padding: .5rem;
   border-radius: .5rem 0;
