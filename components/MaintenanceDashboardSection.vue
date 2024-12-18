@@ -32,6 +32,7 @@ const people = ref<Person[]>([]);
 const currentPage = ref(1);
 const pageSize = ref(10);
 const totalItems = ref(0);
+const q = ref('');
 
 const api = $axios()
 
@@ -42,7 +43,7 @@ const fetchData = async () => {
       ...person,
       date: new Date().toLocaleDateString(),
     }));
-    totalItems.value = response.data.length; // Set total items for pagination
+    totalItems.value = response.data.length;
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -121,19 +122,27 @@ const openPopup = (row: Person) => {
   isPopupVisible.value = true;
 };
 
+const filteredRows = computed(() => {
+  if (!q.value) {
+    return people.value;
+  }
+
+  return people.value.filter((person) => {
+    return Object.values(person).some((value) => {
+      return String(value).toLowerCase().includes(q.value.toLowerCase());
+    });
+  });
+});
+
 const paginatedRows = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
-  return people.value.slice(start, end);
+  return filteredRows.value.slice(start, end);
 });
 
-
 const handlePageChange = (newPage: number) => {
-  if (newPage > 0 && newPage <= Math.ceil(totalItems.value / pageSize.value)) {
-    currentPage.value = newPage;
-  }
+  currentPage.value = newPage;
 };
-
 
 onMounted(fetchData)
 
@@ -166,17 +175,21 @@ onMounted(fetchData)
       </aside>
 
       <main class="dashboard-content">
-        <LoaderSection v-if="isLoading"/>
         <div class="sub-container">
-          <div class="header">
-            <h2 class="admin-title">Welcome back</h2>
-          </div>
-          <hr class="divider"/>
-          <div class="content">
 
+          <div class="content">
+            <div class="header">
+              <span class="icon">
+                <UIcon
+                    name="mdi-magnify"
+                />
+              </span>
+              <div class="search-container">
+                <UInput v-model="q" placeholder="Filter people..."/>
+              </div>
+            </div>
 
             <UTable :columns="columns" :rows="paginatedRows">
-
               <template #extend-data="{ row }">
                 <a @click="openPopup(row)" class="extend-btn">Extend</a>
                 <Popup
@@ -186,7 +199,6 @@ onMounted(fetchData)
                 />
               </template>
             </UTable>
-
             <div class="pagination">
               <button
                   :disabled="currentPage === 1"
@@ -304,14 +316,27 @@ onMounted(fetchData)
   background-color: #eeeeee;
 }
 
+.dashboard-info-content div {
+  margin: 1rem;
+}
 
 .dashboard-info-content div {
   margin: 1rem;
 }
 
+.dashboard-content .header {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 0.5rem;
+  align-items: center;
+}
 
-.dashboard-info-content div {
-  margin: 1rem;
+.dashboard-content .header .icon {
+  background-color: var(--main-color);
+  padding: .2rem .5rem;
+  color: var(--text-color);
+  margin: 0 1rem 0 0;
+  border-radius: .5rem .5rem;
 }
 
 .extend-btn {
