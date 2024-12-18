@@ -1,32 +1,7 @@
 <script setup lang="ts">
-import {ref, onMounted} from 'vue';
+import {computed, onMounted, ref} from 'vue';
 import Popup from '~/components/PopupStudentMaintenanceRoom.vue'
 import {useNuxtApp} from "#app";
-
-const currentNumber = ref(0);
-
-const animateNumber = () => {
-  let start = 0;
-  const end = 100;
-  const duration = 1000;
-  const stepTime = 10;
-  const totalSteps = duration / stepTime;
-
-  const increment = (end / totalSteps);
-
-  const interval = setInterval(() => {
-    start += increment;
-    currentNumber.value = Math.min(Math.round(start), end);
-    if (start >= end) {
-      clearInterval(interval);
-    }
-  }, stepTime);
-};
-
-onMounted(() => {
-  animateNumber();
-})
-
 
 let {$axios} = useNuxtApp()
 
@@ -54,20 +29,25 @@ const columns = [
 ]
 
 const people = ref<Person[]>([]);
+const currentPage = ref(1);
+const pageSize = ref(15);
+const totalItems = ref(0);
 
 const api = $axios()
 
 const fetchData = async () => {
   try {
-    const response = await api.get("/Students/")
+    const response = await api.get("/Students/");
     people.value = response.data.map((person: Person) => ({
       ...person,
-      date: new Date().toLocaleDateString()
-    }))
+      date: new Date().toLocaleDateString(),
+    }));
+    totalItems.value = response.data.length; // Set total items for pagination
   } catch (error) {
-    console.error('Error fetching data:', error)
+    console.error('Error fetching data:', error);
   }
 }
+
 
 const isPopupVisible = ref(false);
 const currentStudent = ref({});
@@ -110,6 +90,7 @@ const navigationButtons = [
     ],
   },
 ];
+
 function toggleLinkVisibility(index: number) {
   visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
 }
@@ -135,23 +116,34 @@ definePageMeta({
   middleware: 'auth',
 });
 
-
-
 const openPopup = (row: Person) => {
   currentStudent.value = row;
   isPopupVisible.value = true;
 };
 
+const paginatedRows = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return people.value.slice(start, end);
+});
+
+
+const handlePageChange = (newPage: number) => {
+  if (newPage > 0 && newPage <= Math.ceil(totalItems.value / pageSize.value)) {
+    currentPage.value = newPage;
+  }
+};
+
+
+
 onMounted(fetchData)
-
-
 
 </script>
 
 <template>
   <div class="admin-dashboard">
     <div class="container">
-      <LoaderSection v-if="isLoading"/>
+
       <aside class="sidebar">
         <div v-for="(button, index) in navigationButtons" :key="index">
           <div class="btn-container">
@@ -175,14 +167,18 @@ onMounted(fetchData)
       </aside>
 
       <main class="dashboard-content">
+        <LoaderSection v-if="isLoading"/>
         <div class="sub-container">
           <div class="header">
             <h2 class="admin-title">Welcome back</h2>
           </div>
           <hr class="divider"/>
           <div class="content">
-            <UTable :columns="columns" :rows="people">
-              <template #extend-data="{ row }">
+
+
+            <UTable :columns="columns" :rows="paginatedRows">
+
+            <template #extend-data="{ row }">
                 <a @click="openPopup(row)" class="extend-btn">Extend</a>
                 <Popup
                     :show="isPopupVisible"
@@ -191,10 +187,29 @@ onMounted(fetchData)
                 />
               </template>
             </UTable>
-          </div>
-          <hr class="divider"/>
-          <div class="footer">
-            <h2 class="footer-megs" style="text-align: center">Thank you !</h2>
+
+            <div class="pagination">
+              <button
+                  :disabled="currentPage === 1"
+                  @click="handlePageChange(currentPage - 1)"
+              >
+                Previous
+              </button>
+              <span>Page {{ currentPage }} of {{ Math.ceil(totalItems / pageSize) }}</span>
+              <button
+                  :disabled="currentPage >= Math.ceil(totalItems / pageSize)"
+                  @click="handlePageChange(currentPage + 1)"
+              >
+                Next
+              </button>
+            </div>
+
+
+
+            <hr class="divider"/>
+            <div class="footer">
+              <h2 class="footer-megs" style="text-align: center">Thank you !</h2>
+            </div>
           </div>
         </div>
       </main>
@@ -228,7 +243,7 @@ onMounted(fetchData)
   min-height: 100vh;
 }
 
-.dashboard-content{
+.dashboard-content {
   flex: 6;
 }
 
@@ -312,20 +327,20 @@ onMounted(fetchData)
 }
 
 .header h2,
-.footer h2{
+.footer h2 {
   font-size: 1.5rem;
   color: var(--main-hovor-color);
   text-align: center;
   margin: 1rem auto;
 }
 
-.divider{
+.divider {
   border-bottom: 2px solid var(--main-hovor-color);
-  margin: 1rem 0 ;
+  margin: 1rem 0;
 }
 
 @media (max-width: 1200px) {
-  .container{
+  .container {
     display: block;
   }
 }
