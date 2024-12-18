@@ -59,8 +59,16 @@ function toggleLinkVisibility(index: number) {
 }
 
 const visibleButtonIndex = ref<number | null>(null);
-const formData = ref<Record<string, string | null>>({});
-
+const formData = ref<Record<string, any>>({
+  hostelName: '',
+  gender: '',
+  levels: {
+    level1: null,
+    level2: null,
+    level3: null,
+    level4: null,
+  },
+});
 
 const previousQuestions = [
   {
@@ -84,11 +92,16 @@ const previousQuestions = [
     placeholder: "Select Number of Levels",
   },
   {
-    label: "How many rooms each level",
-    type: "select",
-    options: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+    label: "Number of rooms per level",
+    type: "multi-select",
     required: true,
-    placeholder: "Select Number of Rooms",
+    levels: [
+      {label: "Level 1", key: "level1"},
+      {label: "Level 2", key: "level2"},
+      {label: "Level 3", key: "level3"},
+      {label: "Level 4", key: "level4"},
+    ],
+    placeholder: "Select Number of Rooms for Each Level",
   },
 ];
 
@@ -151,13 +164,26 @@ function submitForm() {
                 :required="question.required"
                 class="form-input"
             >
-              <option value="" disabled selected>
-                {{ "Please select an option" }}
-              </option>
+              <option value="" disabled selected>{{ question.placeholder }}</option>
               <option v-for="option in question.options" :key="option" :value="option">
                 {{ option }}
               </option>
             </select>
+
+            <div v-else-if="question.type === 'multi-select'">
+              <div v-for="(level, levelIndex) in question.levels" :key="levelIndex">
+                <label :for="'level-' + level.key" class="level-title">{{ level.label }}</label>
+                <select
+                    :id="'level-' + level.key"
+                    v-model="formData.levels[level.key]"
+                    class="form-input"
+                    :required="question.required"
+                >
+                  <option value="" disabled selected>{{ question.placeholder }}</option>
+                  <option v-for="i in 20" :key="i" :value="i">{{ i }}</option>
+                </select>
+              </div>
+            </div>
           </div>
 
           <button type="submit" class="submit-btn">Submit</button>

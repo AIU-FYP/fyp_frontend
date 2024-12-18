@@ -55,6 +55,7 @@ const navigationButtons = [
     name: "Student",
     icon: "ph-student",
     links: [
+      {text: "Register Student", url: "/student-registration-form"},
       {text: "Manage Student", url: "/student-registration-dashboard"},
     ],
   },
@@ -75,9 +76,11 @@ const navigationButtons = [
     ],
   },
   {
-    name: "Room",
+    name: "Hostels",
     icon: "bx-building",
     links: [
+      {text: "Add new Hostel", url: "/new-hostel-form"},
+      {text: "Manage Rooms", url: "/room-dashboard"},
       {text: "Manage Rooms", url: "/room-dashboard"},
     ],
   },
@@ -174,7 +177,7 @@ onMounted(() => {
           </div>
           <ul v-if="visibleButtonIndex === index">
             <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
-              <a @click.prevent="navigateToPage(link.url)">{{ link.text }}</a>
+              <a @click.prevent="navigateToPage(link.url)" style="cursor: pointer">{{ link.text }}</a>
             </li>
           </ul>
         </div>
