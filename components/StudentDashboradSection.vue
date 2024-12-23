@@ -38,7 +38,8 @@ const api = $axios()
 
 const fetchData = async () => {
   try {
-    const response = await api.get("/Students/");
+    const response = await api.get("/students/");
+    console.log(response.data)
     people.value = response.data.map((person: Person) => ({
       ...person,
       date: new Date().toLocaleDateString(),

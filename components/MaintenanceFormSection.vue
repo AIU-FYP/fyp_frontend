@@ -131,8 +131,8 @@ const formSchema = z.object({
       z.any()
           .optional(),
   "Explain in detail the damage?":
-      z.string().min(20, "Name must be at least 20 characters long")
-          .nonempty("Name is required"),
+      z.string().min(20, "Detail must be at least 20 characters long")
+          .nonempty("Detail is required"),
 });
 
 const form = reactive({});
@@ -158,21 +158,52 @@ previousQuestions.forEach((question) => {
 
 const isPopupVisible = ref(false)
 
-function handleSubmit() {
+// function handleSubmit() {
+//   form.Date = new Date().toLocaleDateString("en-GB");
+//   const validationResults = formSchema.safeParse(form);
+//   if (validationResults.success) {
+//     console.log("Form Data:", {...form});
+//     alert("Form submitted successfully!");
+//   } else {
+//     alert("Please correct the errors in the form.");
+//   }
+// }
+
+async function handleSubmit() {
   form.Date = new Date().toLocaleDateString("en-GB");
   const validationResults = formSchema.safeParse(form);
+
   if (validationResults.success) {
-    console.log("Form Data:", {...form});
-    alert("Form submitted successfully!");
+    try {
+      const api = useApi();
+      const response = await api.post('/submit-maintenance-issue', {
+        ...form,
+      });
+
+      if (response.status === 201 || response.status === 200) {
+        alert("Form submitted successfully!");
+        console.log("Server Response:", response.data);
+        Object.keys(form).forEach(key => form[key] = "");
+      } else {
+        alert("Failed to submit the form. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error while submitting the form:", error);
+      alert("An error occurred while submitting the form. Please try again.");
+    }
   } else {
     alert("Please correct the errors in the form.");
   }
 }
+
+
+
 </script>
 
 <template>
   <div class="maintenance-room-section">
     <div class="container">
+
       <div class="description">
         <img src="/images/AIU-Official-Logo.png" alt="AIU"/>
         <h2 class="title-maintenance-form">Form For Maintenance Room Issues</h2>
@@ -182,6 +213,7 @@ function handleSubmit() {
         </p>
         <p>Note: Before registering to the system, please make sure you have your student email.</p>
       </div>
+
       <div class="maintenance-room-form">
         <h2>Please fill this Form</h2>
         <form @submit.prevent="handleSubmit">
@@ -228,6 +260,7 @@ function handleSubmit() {
 
         </form>
       </div>
+
     </div>
   </div>
 </template>

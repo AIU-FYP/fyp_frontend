@@ -1,20 +1,6 @@
 <script setup>
 import {defineEmits, defineProps} from 'vue'
 
-const student = [{
-  studentName: "student name",
-  StudentIDNumber: "Student ID Number",
-  RoomNumber: "Room Number",
-  PhoneNumber: "Phone Number",
-  WhatsAppNumber: "WhatsApp Number",
-  EmailAddress: "Email Address ",
-  Gender: "Gender",
-  EnterYourNationality: "Enter your Nationality",
-  PleaseProvidePhotoEvidence: "Please provide photo evidence",
-  ExplainYourReasonForRoomChange: "Explain your reason for room change"
-
-}]
-
 const props = defineProps({
   show: Boolean
 })
@@ -104,13 +90,15 @@ h2 {
 p {
   font-size: 1.2rem;
   line-height: 2rem;
-  color: var(--text-color);
+  color: var(--main-color);
   text-align: justify;
+  margin: 5% 3%;
+
 }
 
 .divider {
   margin: 5% 3%;
-  border: 1px solid var(--text-color);;
+  border: 1px solid var(--main-color);;
 }
 
 
