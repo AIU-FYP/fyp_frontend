@@ -1,62 +1,8 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const isLoading = ref(false);
-const router = useRouter();
-
-async function navigateToPage(url: string) {
-  isLoading.value = true;
-  try {
-    setTimeout(async () => {
-      await router.push(url);
-      isLoading.value = false;
-    }, 2000);
-  } catch (error) {
-    console.error('Navigation error:', error);
-    isLoading.value = false;
-  }
-}
-
-
-const navigationButtons = [
-  {
-    name: "Student",
-    icon: "ph-student",
-    links: [
-      {text: "Register Student", url: "/student-registration-form"},
-      {text: "Manage Student", url: "/student-registration-dashboard"},
-    ],
-  },
-  {
-    name: "Maintenance",
-    icon: "wpf-maintenance",
-    links: [
-      {text: "Maintenance Form", url: "/maintenance-room-form"},
-      {text: "Manage Maintenance", url: "/maintenance-room-dashboard"},
-    ],
-  },
-  {
-    name: "Change Room",
-    icon: "bx-building",
-    links: [
-      {text: "Change Room Form", url: "/change-room-form"},
-      {text: "Manage Room Changes", url: "/change-room-dashboard"},
-    ],
-  },
-  {
-    name: "Hostels",
-    icon: "bx-building",
-    links: [
-      {text: "Add new Hostel", url: "/new-hostel-form"},
-      {text: "Manage Rooms", url: "/room-dashboard"},
-    ],
-  },
-];
-
-function toggleLinkVisibility(index: number) {
-  visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
-}
-
 const visibleButtonIndex = ref<number | null>(null);
 const formData = ref<Record<string, any>>({
   hostelName: '',
@@ -69,47 +15,84 @@ const formData = ref<Record<string, any>>({
   },
 });
 
-const previousQuestions = [
+const router = useRouter();
+
+async function navigateToPage(url: string) {
+  isLoading.value = true;
+  try {
+    setTimeout(async () => {
+      await router.push(url);
+    }, 2000);
+  } catch (error) {
+    console.error('Navigation error:', error);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+const navigationButtons = [
   {
-    label: "Hostel Name",
-    type: "text",
-    placeholder: "Enter Hostel Name",
-    required: true,
-  },
-  {
-    label: "Gender",
-    type: "select",
-    options: ["Male", "Female"],
-    required: true,
-    placeholder: "Select Gender",
-  },
-  {
-    label: "Number of Rooms for Each Level",
-    type: "multi-select",
-    required: true,
-    levels: [
-      {label: "Level 1", key: "level1"},
-      {label: "Level 2", key: "level2"},
-      {label: "Level 3", key: "level3"},
-      {label: "Level 4", key: "level4"},
+    name: "Student",
+    icon: "ph-student",
+    links: [
+      { text: "Register Student", url: "/student-registration-form" },
+      { text: "Manage Student", url: "/student-registration-dashboard" },
     ],
-    placeholder: "Select Number of Rooms for Each Level",
+  },
+  {
+    name: "Maintenance",
+    icon: "wpf-maintenance",
+    links: [
+      { text: "Maintenance Form", url: "/maintenance-room-form" },
+      { text: "Manage Maintenance", url: "/maintenance-room-dashboard" },
+    ],
+  },
+  {
+    name: "Change Room",
+    icon: "bx-building",
+    links: [
+      { text: "Change Room Form", url: "/change-room-form" },
+      { text: "Manage Room Changes", url: "/change-room-dashboard" },
+    ],
+  },
+  {
+    name: "Hostels",
+    icon: "bx-building",
+    links: [
+      { text: "Add new Hostel", url: "/new-hostel-form" },
+      { text: "Manage Rooms", url: "/room-dashboard" },
+    ],
   },
 ];
 
-function submitForm() {
-  console.log("Form Submitted with Data:", formData.value);
-  alert("Form submitted successfully!");
+function toggleLinkVisibility(index: number) {
+  visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
 }
 
+const previousQuestions = [
+  { label: "Hostel Name", type: "text", placeholder: "Enter Hostel Name", required: true },
+  { label: "How many zone", type: "select", options: ["2", "3", "4"], placeholder: "Select Zone Count", required: true },
+  { label: "Gender", type: "select", options: ["Male", "Female"], placeholder: "Select Gender", required: true },
+  {
+    label: "Number of Rooms for Each Level",
+    type: "multi-select",
+    levels: [
+      { label: "Level 1", key: "level1" },
+      { label: "Level 2", key: "level2" },
+      { label: "Level 3", key: "level3" },
+      { label: "Level 4", key: "level4" },
+    ],
+    placeholder: "Select Rooms for Each Level",
+    required: true,
+  },
+];
 
 </script>
 
 <template>
   <div class="admin-dashboard">
     <div class="container">
-
-      <LoaderSection v-if="isLoading"/>
+      <LoaderSection v-if="isLoading" />
 
       <aside class="sidebar">
         <div v-for="(button, index) in navigationButtons" :key="index">
@@ -119,9 +102,7 @@ function submitForm() {
                 :aria-expanded="visibleButtonIndex === index"
                 class="sidebar-button"
             >
-              <UIcon
-                  :name="button.icon"
-              />
+              <UIcon :name="button.icon" />
               {{ button.name }}
             </button>
           </div>
@@ -134,58 +115,12 @@ function submitForm() {
       </aside>
 
       <main class="dashboard-content">
-        <h1 class="title">Add New Hostel</h1>
-        <form @submit.prevent="submitForm" class="hostel-form">
-          <div v-for="(question, index) in previousQuestions" :key="index" class="form-group">
-            <label :for="'input-' + index" class="question-title">{{ question.label }}</label>
-
-            <input
-                v-if="question.type === 'text'"
-                :id="'input-' + index"
-                :type="question.type"
-                v-model="formData[question.label]"
-                :placeholder="question.placeholder"
-                :required="question.required"
-                class="form-input"
-            />
-
-            <select
-                v-else-if="question.type === 'select'"
-                :id="'input-' + index"
-                v-model="formData[question.label]"
-                :required="question.required"
-                class="form-input"
-            >
-              <option value="" disabled>{{question.placeholder}}</option>
-              <option v-for="option in question.options" :key="option" :value="option">
-                {{ option }}
-              </option>
-            </select>
-
-            <div v-else-if="question.type === 'multi-select'">
-              <div v-for="(level, levelIndex) in question.levels" :key="levelIndex">
-                <label :for="'level-' + level.key" class="level-title">{{ level.label }}</label>
-                <select
-                    :id="'level-' + level.key"
-                    v-model="formData.levels[level.key]"
-                    class="form-input"
-                    :required="question.required"
-                >
-                  <option value="" disabled selected>{{ question.placeholder }}</option>
-                  <option v-for="i in 20" :key="i" :value="i">{{ i }}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <button type="submit" class="submit-btn">Submit</button>
-        </form>
-
+        <NewHostelForm/>
       </main>
-
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .admin-dashboard {
@@ -215,6 +150,7 @@ function submitForm() {
 
 .dashboard-content {
   flex: 6;
+  padding: 0;
 }
 
 @media (max-width: 1200px) {
@@ -274,23 +210,8 @@ function submitForm() {
 
 .dashboard-content {
   flex: 10;
-  padding: 2rem;
-  background-color: #eeeeee;
-}
-
-.dashboard-content .title{
-  font-size: 2rem;
-  color: var(--main-color);
-  margin-bottom: 1rem;
-}
-
-.dashboard-content .hostel-form {
-  display: block;
-}
-
-.dashboard-content .question-title {
-  font-size: 1rem;
-  color: var(--main-color);
+  padding: 0;
+  background-color: white;
 }
 
 .dashboard-content .hostel-form input,
@@ -300,21 +221,6 @@ function submitForm() {
   border: 2px solid #EEEEEE;
   border-radius: 5px;
   outline: none;
-}
-
-.submit-btn {
-  margin-top: 1rem;
-  padding: .5rem 2rem;
-  display: flex;
-  font-size: 1rem;
-  border-radius: 1rem;
-  background-color: var(--main-color);
-  color: var(--text-color);
-}
-
-.submit-btn:hover {
-  background-color: var(--main-hovor-color);
-  transition: .3s ease-in-out;
 }
 
 @media (max-width: 768px) {

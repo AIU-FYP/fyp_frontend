@@ -158,43 +158,43 @@ previousQuestions.forEach((question) => {
 
 const isPopupVisible = ref(false)
 
-// function handleSubmit() {
-//   form.Date = new Date().toLocaleDateString("en-GB");
-//   const validationResults = formSchema.safeParse(form);
-//   if (validationResults.success) {
-//     console.log("Form Data:", {...form});
-//     alert("Form submitted successfully!");
-//   } else {
-//     alert("Please correct the errors in the form.");
-//   }
-// }
-
-async function handleSubmit() {
+function handleSubmit() {
   form.Date = new Date().toLocaleDateString("en-GB");
   const validationResults = formSchema.safeParse(form);
-
   if (validationResults.success) {
-    try {
-      const api = useApi();
-      const response = await api.post('/submit-maintenance-issue', {
-        ...form,
-      });
-
-      if (response.status === 201 || response.status === 200) {
-        alert("Form submitted successfully!");
-        console.log("Server Response:", response.data);
-        Object.keys(form).forEach(key => form[key] = "");
-      } else {
-        alert("Failed to submit the form. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error while submitting the form:", error);
-      alert("An error occurred while submitting the form. Please try again.");
-    }
+    console.log("Form Data:", {...form});
+    alert("Form submitted successfully!");
   } else {
     alert("Please correct the errors in the form.");
   }
 }
+
+// async function handleSubmit() {
+//   form.Date = new Date().toLocaleDateString("en-GB");
+//   const validationResults = formSchema.safeParse(form);
+//
+//   if (validationResults.success) {
+//     try {
+//       const api = useApi();
+//       console.log("Form Data Being Sent:", form); // Log the data
+//       const response = await api.post('/submit-maintenance-issue', form);
+//
+//       console.log("Server Response:", response); // Log server response
+//       if (response.status === 201 || response.status === 200) {
+//         alert("Form submitted successfully!");
+//         Object.keys(form).forEach(key => (form[key] = ""));
+//       } else {
+//         console.log("Unexpected Response Status:", response.status);
+//         alert("Failed to submit the form. Please try again.");
+//       }
+//     } catch (error) {
+//       console.error("Error while submitting the form:", error);
+//       alert("An error occurred while submitting the form. Please try again.");
+//     }
+//   } else {
+//     alert("Please correct the errors in the form.");
+//   }
+// }
 
 
 
