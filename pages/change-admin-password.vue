@@ -7,7 +7,9 @@ definePageMeta({
 </script>
 
 <template>
+  <AdminHeaderSection/>
   <ChangeAdminPassword/>
+  <AdminFooterSection/>
 </template>
 
 <style scoped>

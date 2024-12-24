@@ -6,40 +6,54 @@
         <nav>
           <ul class="menu">
             <li>
-              <UIcon name="mdi-password" class="icon" />
+              <UIcon name="mdi-password" class="icon"/>
               <router-link to="change-admin-password">Change Password</router-link>
             </li>
             <li>
-              <UIcon name="subway-admin-1" class="icon" />
+              <UIcon name="subway-admin-1" class="icon"/>
               <router-link to="new-admin">Add New Admin</router-link>
             </li>
             <li>
-              <UIcon name="grommet-icons-user-admin" class="icon" />
+              <UIcon name="grommet-icons-user-admin" class="icon"/>
               <router-link to="admin-dashboard">Admin dashboard</router-link>
             </li>
             <li>
-              <UIcon name="eos-icons-admin" class="icon" />
+              <UIcon name="eos-icons-admin" class="icon"/>
               <router-link to="admin">Admin</router-link>
             </li>
             <li>
-              <UIcon name="uiw-logout" class="icon" />
+              <UIcon name="uiw-logout" class="icon"/>
               <router-link to="login">Log Out</router-link>
             </li>
           </ul>
         </nav>
       </aside>
       <main class="content">
-        <h2>Change Password</h2>
+        <h2>Add new admin</h2>
         <form @submit.prevent="handleSubmit">
-          <div v-for="(field, index) in fields" :key="index" class="form-group">
-            <label :for="field.label">{{ field.label }}</label>
-            <input
-                :id="field.label"
-                :type="field.type"
-                :placeholder="field.placeholder"
-                v-model="form[field.label]"
-            />
-            <span v-if="errors[field.label]" class="error">{{ errors[field.label] }}</span>
+          <div v-for="(question, index) in previousQuestions" :key="index" class="form-group">
+            <div class="form-control">
+              <label class="question-title" :for="question.label">{{ question.label }}:</label>
+
+              <input
+                  v-if="question.type === 'text' || question.type === 'password'"
+                  :type="question.type"
+                  v-model="form[question.label]"
+                  :placeholder="question.placeholder"
+                  :id="question.label"
+              />
+
+              <select
+                  v-if="question.type === 'select'"
+                  v-model="form[question.label]"
+                  :id="question.label"
+              >
+                <option value="" disabled>{{ question.placeholder }}</option>
+                <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
+              </select>
+
+              <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+            </div>
           </div>
           <button type="submit" class="submit-btn">Save Changes</button>
         </form>
@@ -49,16 +63,16 @@
 </template>
 
 <script setup>
-import { reactive, watch } from "vue";
-import { z } from "zod";
+import {reactive, watch} from 'vue';
+import {z} from 'zod';
 
-const fields = [
+const previousQuestions = [
   { label: "Current Password", type: "password", placeholder: "Enter Current Password" },
   { label: "New Password", type: "password", placeholder: "Enter New Password" },
   { label: "Confirm New Password", type: "password", placeholder: "Confirm New Password" },
 ];
 
-const schema = z.object({
+const formSchema = z.object({
   "Current Password": z
       .string()
       .min(12, "Must be at least 12 characters")
@@ -79,30 +93,39 @@ const schema = z.object({
 const form = reactive({});
 const errors = reactive({});
 
-fields.forEach((field) => {
-  form[field.label] = "";
-  errors[field.label] = "";
+previousQuestions.forEach((question) => {
+  form[question.label] = "";
+  errors[question.label] = "";
 });
 
 function validateField(field) {
   try {
-    schema.shape[field].parse(form[field]);
+    formSchema.shape[field].parse(form[field]);
     errors[field] = "";
-  } catch (e) {
-    errors[field] = e.errors?.[0]?.message || "Invalid input";
+  } catch (error) {
+    errors[field] = error.errors ? error.errors[0].message : error.message;
   }
 }
 
-fields.forEach((field) => {
-  watch(() => form[field.label], () => validateField(field.label));
+previousQuestions.forEach((question) => {
+  watch(
+      () => form[question.label],
+      () => validateField(question.label)
+  );
 });
 
+
 function handleSubmit() {
-  const result = schema.safeParse(form);
-  if (result.success) {
-    alert("Password changed successfully!");
+  form.Date = new Date().toLocaleDateString("en-GB");
+  const validationResults = formSchema.safeParse(form);
+  if (validationResults.success) {
+    console.log("Form Data:", { ...form });
+    alert("Form submitted successfully!");
   } else {
-    alert("Please fix the errors before submitting.");
+    alert("Please correct the errors in the form.");
+    validationResults.error.errors.forEach((err) => {
+      if (err.path) errors[err.path[0]] = err.message;
+    });
   }
 }
 </script>
@@ -125,7 +148,8 @@ function handleSubmit() {
   background-color: var(--main-color);
   padding: 20px;
   color: var(--text-color);
-  border-radius: 10px;
+  border-radius: 1rem;
+  min-height: 81vh;
 }
 
 .sidebar h1 {
@@ -165,7 +189,7 @@ function handleSubmit() {
   flex: 3;
   background-color: #ecf0f1;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 1rem;
 }
 
 .content h2 {
@@ -183,7 +207,8 @@ function handleSubmit() {
   margin-bottom: 5px;
 }
 
-.form-group input {
+.form-group input,
+.form-group select{
   width: 100%;
   padding: 10px;
   border: 2px solid var(--text-color);
