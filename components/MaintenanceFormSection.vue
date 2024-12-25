@@ -158,13 +158,21 @@ previousQuestions.forEach((question) => {
 
 const isPopupVisible = ref(false)
 
+function resetForm() {
+  Object.keys(form).forEach((key) => {
+    form[key] = "";
+  });
+}
+
 function handleSubmit() {
   form.Date = new Date().toLocaleDateString("en-GB");
   const validationResults = formSchema.safeParse(form);
   if (validationResults.success) {
     console.log("Form Data:", {...form});
-    alert("Form submitted successfully!");
+    isPopupVisible.value = true;
+    reloadNuxtApp()
   } else {
+    isPopupVisible.value = false;
     alert("Please correct the errors in the form.");
   }
 }
@@ -268,7 +276,7 @@ function handleSubmit() {
 <style scoped>
 
 .maintenance-room-section {
-  margin: 7rem;
+  margin: 3rem 7rem;
   border: 2px solid var(--text-hovor-color);
   border-radius: 0 30px 30px 0;
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
