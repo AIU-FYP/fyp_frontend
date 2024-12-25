@@ -3,6 +3,9 @@ import {computed, reactive, ref, watch} from 'vue';
 import  Popup from '~/components/PopupStudentSubmit.vue'
 import {z} from 'zod';
 import { nationalities, roomMaintenanceIssues } from "~/utils/nationalities";
+import {useNuxtApp} from "#app";
+
+let {$axios} = useNuxtApp()
 
 const userNationalityInput = ref('');
 const filteredNationalities = computed(() => {
@@ -35,7 +38,8 @@ const previousQuestions = [
   },
   {
     label: "Student ID",
-    type: "text", placeholder: "Enter your student ID (e.g., AIU21011234)",
+    type: "text",
+    placeholder: "Student ID (e.g., AIU21011234)",
     required: true
   },
   {
@@ -158,51 +162,48 @@ previousQuestions.forEach((question) => {
 
 const isPopupVisible = ref(false)
 
-function resetForm() {
-  Object.keys(form).forEach((key) => {
-    form[key] = "";
-  });
-}
+// function handleSubmit() {
+//   form.Date = new Date().toLocaleDateString("en-GB");
+//   const validationResults = formSchema.safeParse(form);
+//   if (validationResults.success) {
+//     console.log("Form Data:", {...form});
+//     isPopupVisible.value = true;
+//     reloadNuxtApp()
+//   } else {
+//     isPopupVisible.value = false;
+//     alert("Please correct the errors in the form.");
+//   }
+// }
 
-function handleSubmit() {
+async function handleSubmit() {
+  const api = useApi();
   form.Date = new Date().toLocaleDateString("en-GB");
+
   const validationResults = formSchema.safeParse(form);
   if (validationResults.success) {
-    console.log("Form Data:", {...form});
-    isPopupVisible.value = true;
-    reloadNuxtApp()
+    try {
+      const response = await api.post("/maintenance_requests/", { ...form });
+      console.log("Response Data:", response.data);
+      isPopupVisible.value = true;
+      Object.keys(form).forEach((key) => (form[key] = ""));
+    } catch (error) {
+      isPopupVisible.value = false;
+      if (error.response) {
+        console.error("Backend Error:", error.response.data);
+        alert(`Error: ${error.response.data.detail || "Unable to submit the form."}`);
+      } else if (error.request) {
+        console.error("No response from the server:", error.request);
+        alert("Server is not responding. Please try again later.");
+      } else {
+        console.error("Error in setting up the request:", error.message);
+        alert("An error occurred while submitting the form. Please try again.");
+      }
+    }
   } else {
     isPopupVisible.value = false;
     alert("Please correct the errors in the form.");
   }
 }
-
-// async function handleSubmit() {
-//   form.Date = new Date().toLocaleDateString("en-GB");
-//   const validationResults = formSchema.safeParse(form);
-//
-//   if (validationResults.success) {
-//     try {
-//       const api = useApi();
-//       console.log("Form Data Being Sent:", form); // Log the data
-//       const response = await api.post('/submit-maintenance-issue', form);
-//
-//       console.log("Server Response:", response); // Log server response
-//       if (response.status === 201 || response.status === 200) {
-//         alert("Form submitted successfully!");
-//         Object.keys(form).forEach(key => (form[key] = ""));
-//       } else {
-//         console.log("Unexpected Response Status:", response.status);
-//         alert("Failed to submit the form. Please try again.");
-//       }
-//     } catch (error) {
-//       console.error("Error while submitting the form:", error);
-//       alert("An error occurred while submitting the form. Please try again.");
-//     }
-//   } else {
-//     alert("Please correct the errors in the form.");
-//   }
-// }
 
 
 
@@ -227,7 +228,7 @@ function handleSubmit() {
         <form @submit.prevent="handleSubmit">
           <div class="maintenance-form">
             <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-              <label class="question-title" :for="question.label">{{ question.label }}:</label>
+              <label class="question-title" :for="question.label">{{ question.label }}</label>
 
               <input
                   v-if="question.type === 'text' || question.type === 'file'"

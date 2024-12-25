@@ -82,7 +82,7 @@ const formSchema = z.object({
   "Room No":
       z.string().regex(/^\d+[A-Za-z]*-\d-\d+$/, "Invalid Room Number format")
           .nonempty("Room Number is required"),
-  "Phone No (Local Number Only)":
+  "Phone No (Local No Only)":
       z.string().regex(/^\d{8,15}$/, "Invalid phone number")
           .nonempty("Phone Number is required"),
   "Email Address (Student Email Only)":
@@ -124,22 +124,26 @@ previousQuestions.forEach((question) => {
   watch(() => form[question.label], (newValue) => validateField(question.label, newValue));
 });
 
+const isPopupVisible = ref(false)
+
+
 function handleSubmit() {
+  form.Date = new Date().toLocaleDateString("en-GB");
   const validationResults = formSchema.safeParse(form);
   if (validationResults.success) {
     console.log("Form Data:", {...form});
-    alert("Form submitted successfully!");
+    isPopupVisible.value = true;
+    reloadNuxtApp()
   } else {
+    isPopupVisible.value = false;
     alert("Please correct the errors in the form.");
   }
 }
 
-const isPopupVisible = ref(false)
-
 </script>
 
 <template>
-  <div class="maintenance-room-section">
+  <div class="change-room-section">
     <div class="container">
       <div class="description">
         <img src="/images/AIU-Official-Logo.png" alt="AIU">
@@ -152,12 +156,12 @@ const isPopupVisible = ref(false)
         <p> Note: For medical reasons, attach an official medical report.</p>
       </div>
 
-      <div class="maintenance-room-form">
+      <div class="change-room-form">
         <h2>Please fill this Form</h2>
         <form @submit.prevent.once="handleSubmit">
           <div class="maintenance-form">
             <div class="info" v-for="(question, index) in previousQuestions" :key="index">
-              <label class="question-title" :for="question.label">{{ question.label }}:</label>
+              <label class="question-title" :for="question.label">{{ question.label }}</label>
 
               <input
                   v-if="question.type === 'text' || question.type === 'file'"
@@ -203,15 +207,15 @@ const isPopupVisible = ref(false)
 
 <style scoped>
 
-.maintenance-room-section {
-  margin: 7rem;
+.change-room-section {
+  margin: 3rem 7rem;
   border: 2px solid #eeeeee;
   border-radius: 0 30px 30px 0;
   box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
 }
 
 @media (max-width: 800px) {
-  .maintenance-room-section {
+  .change-room-section {
     margin: 0.5rem;
   }
 }
@@ -229,7 +233,7 @@ const isPopupVisible = ref(false)
   border-radius: 0;
 }
 
-.container .maintenance-room-form {
+.container .change-room-form {
   flex: 60%;
   padding: 2.5rem;
 }
@@ -266,7 +270,7 @@ const isPopupVisible = ref(false)
   text-align: justify;
 }
 
-.maintenance-room-form > h2 {
+.change-room-form > h2 {
   font-size: 1.5rem;
   color: var(--main-color);
   text-align: center;
