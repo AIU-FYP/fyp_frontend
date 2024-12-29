@@ -5,7 +5,7 @@ export function createApi() {
     const config = useRuntimeConfig();
 
     if (config.public.isDev) {
-        return constructApi('http://localhost:8000/api');
+        return constructApi('http://localhost:8000/api/');
     }
 
     return constructApi('https://younesdjelloul.pythonanywhere.com');

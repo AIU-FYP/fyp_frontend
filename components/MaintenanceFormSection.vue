@@ -1,8 +1,8 @@
 <script setup>
 import {computed, reactive, ref, watch} from 'vue';
-import  Popup from '~/components/PopupStudentSubmit.vue'
+import Popup from '~/components/PopupStudentSubmit.vue'
 import {z} from 'zod';
-import { nationalities, roomMaintenanceIssues } from "~/utils/nationalities";
+import {nationalities, roomMaintenanceIssues} from "~/utils/nationalities";
 import {useNuxtApp} from "#app";
 
 let {$axios} = useNuxtApp()
@@ -34,117 +34,122 @@ const previousQuestions = [
     label: "Name",
     type: "text",
     placeholder: "Enter your name",
-    required: true
+    required: true,
+    id: "student",
   },
   {
     label: "Student ID",
     type: "text",
     placeholder: "Student ID (e.g., AIU21011234)",
-    required: true
+    id: "student_id",
+    required: true,
   },
   {
     label: "Room No",
     type: "text",
     placeholder: "Enter your room No (e.g., 25i-3-10)",
-    required: true
+    required: true,
+    id: "room_number",
   },
   {
     label: "WhatsApp No",
     type: "text",
     placeholder: "Enter your whatsapp No",
-    required: true
+    id: "phone",
+    required: true,
   },
   {
     label: "Email Address (Student Email Only)",
     type: "text",
     placeholder: "Enter your email address",
-    required: true
+    id: "email",
+    required: true,
   },
   {
     label: "Gender",
     type: "select",
-    options: ["Male", "Female"],
+    options: ["male", "female"],
     required: true,
-    placeholder: "Enter your gender"
+    id: "gender",
+    placeholder: "Enter your gender",
   },
   {
     label: "Common type Issues",
     type: "select",
     options: filteredLocationsSpecificIssues.value,
     required: true,
-    placeholder: "Select the issue related to the selected location"
+    placeholder: "Select the issue related to the selected location",
+    id: "issue"
   },
   {
     label: "Nationality",
     type: "select",
     options: filteredNationalities.value,
-    placeholder: "Select nationality"
+    id: "nationality",
+    placeholder: "Select nationality",
   },
   {
     label: "How frequent the damages occur?",
     type: "select",
     options: ["1 time", "2 times", "3 times", "4 times", "5 times", "More than 5 times"],
     required: true,
-    placeholder: "How frequent the damages occur?"
+    id: "occurrence",
+    placeholder: "How frequent the damages occur?",
   },
   {
     label: "Please provide photo evidence",
     type: "file",
     required: true,
-    placeholder: "Please provide photo evidence"
+    placeholder: "Please provide photo evidence",
+    id: "evidence_photo",
   },
   {
     label: "Explain in detail the damage?",
     type: "textarea",
     required: true,
-    placeholder: "Explain in detail the damage in mention above"
+    id: "explanation",
+    placeholder: "Explain in detail the damage in mention above",
   }
 ];
 
 const formSchema = z.object({
-  "Name":
-      z.string().min(8, "Name must be at least 8 characters long")
-          .nonempty("Name is required"),
-  "Student ID":
-      z.string()
-          .regex(/^AIU\d{8}$/, "Invalid Student ID format")
-          .nonempty("Student ID is required"),
-  "Room No":
-      z.string().regex(/^\d+[A-Za-z]*-\d-\d+$/, "Invalid Room Number format")
-          .nonempty("Room Number is required"),
-  "WhatsApp No":
-      z.string().regex(/^\d{8,15}$/, "Invalid phone number")
-          .nonempty("Phone Number is required"),
-  "Email Address (Student Email Only)":
-      z.string()
-          .email("Invalid email format")
-          .regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'"),
-  "Gender":
-      z.string()
-          .nonempty("Gender is required"),
-  "Common type Issues":
-      z.string()
-          .nonempty("Location-specific Issue is required"),
-  "Nationality":
-      z.string()
-          .optional(),
-  "How frequent the damages occur?":
-      z.string()
-          .nonempty("Frequency of damages is required"),
-  "Please provide photo evidence":
-      z.any()
-          .optional(),
-  "Explain in detail the damage?":
-      z.string().min(20, "Detail must be at least 20 characters long")
-          .nonempty("Detail is required"),
+  student: z
+      .string()
+      .min(8, 'Name must be at least 8 characters long')
+      .nonempty('Name is required'),
+  student_id: z
+      .string()
+      .regex(/^AIU\d{8}$/, 'Invalid Student ID format')
+      .nonempty('Student ID is required'),
+  room_number: z
+      .string()
+      .regex(/^\d+[A-Za-z]*-\d-\d+$/, 'Invalid Room Number format')
+      .nonempty('Room Number is required'),
+  phone: z
+      .string()
+      .regex(/^\d{8,15}$/, 'Invalid phone number')
+      .nonempty('Phone Number is required'),
+  email: z
+      .string()
+      .email('Invalid email format')
+      .regex(/@student\.aiu\.edu\.my$/, "Must be a student email ending with '@student.aiu.edu.my'"),
+  gender: z.string().nonempty('Gender is required'),
+  issue: z.string().nonempty('Location-specific Issue is required'),
+  nationality: z.string().optional(),
+  occurrence: z.string().nonempty('Frequency of damages is required'),
+  evidence_photo: z.any().optional(),
+  explanation: z
+      .string()
+      .min(20, 'Detail must be at least 20 characters long')
+      .nonempty('Detail is required'),
 });
 
 const form = reactive({});
 const errors = reactive({});
 
 previousQuestions.forEach((question) => {
-  form[question.label] = "";
-  errors[question.label] = "";
+  form[question.id] = "";
+  errors[question.id] = "";
 });
 
 function validateField(field) {
@@ -152,28 +157,26 @@ function validateField(field) {
     formSchema.shape[field].parse(form[field]);
     errors[field] = "";
   } catch (error) {
+    console.error(`Validation failed for field: ${field}`, error);
     errors[field] = error.errors ? error.errors[0].message : error.message;
   }
 }
 
+
 previousQuestions.forEach((question) => {
-  watch(() => form[question.label], (newValue) => validateField(question.label, newValue));
+  watch(() => form[question.id], () => validateField(question.id));
 });
 
-const isPopupVisible = ref(false)
+const evidence_photo = ref(null);
 
-// function handleSubmit() {
-//   form.Date = new Date().toLocaleDateString("en-GB");
-//   const validationResults = formSchema.safeParse(form);
-//   if (validationResults.success) {
-//     console.log("Form Data:", {...form});
-//     isPopupVisible.value = true;
-//     reloadNuxtApp()
-//   } else {
-//     isPopupVisible.value = false;
-//     alert("Please correct the errors in the form.");
-//   }
-// }
+const handleFileUpload = (event, inputDetails) => {
+  if (inputDetails.type !== 'file') {
+    return;
+  }
+  evidence_photo.value = event.target.files[0];
+};
+
+const isPopupVisible = ref(false)
 
 async function handleSubmit() {
   const api = useApi();
@@ -182,29 +185,49 @@ async function handleSubmit() {
   const validationResults = formSchema.safeParse(form);
   if (validationResults.success) {
     try {
-      const response = await api.post("/maintenance_requests/", { ...form });
+      console.log("Sending API Request...");
+      const formDataObj = new FormData();
+      for (const key in form) {
+        const value = form[key];
+        if (value === null || value === undefined) {
+          continue;
+        }
+
+        formDataObj.append(key, value);
+      }
+
+      formDataObj.delete('evidence_photo')
+
+      if (evidence_photo.value) {
+        formDataObj.append('evidence_photo', evidence_photo.value)
+      }
+
+      const response = await api.post("/maintenance-requests/", formDataObj);
       console.log("Response Data:", response.data);
       isPopupVisible.value = true;
       Object.keys(form).forEach((key) => (form[key] = ""));
     } catch (error) {
       isPopupVisible.value = false;
+      console.error("Error occurred:", error);
       if (error.response) {
         console.error("Backend Error:", error.response.data);
         alert(`Error: ${error.response.data.detail || "Unable to submit the form."}`);
+        console.log("Response Data:", response.data.value);
       } else if (error.request) {
         console.error("No response from the server:", error.request);
         alert("Server is not responding. Please try again later.");
       } else {
-        console.error("Error in setting up the request:", error.message);
+        console.error("Request Setup Error:", error.message);
         alert("An error occurred while submitting the form. Please try again.");
       }
+      isPopupVisible.value = false;
     }
   } else {
+    console.log('Validation Errors:', validationResults.error.errors);
     isPopupVisible.value = false;
     alert("Please correct the errors in the form.");
   }
 }
-
 
 
 </script>
@@ -233,29 +256,32 @@ async function handleSubmit() {
               <input
                   v-if="question.type === 'text' || question.type === 'file'"
                   :type="question.type"
-                  v-model="form[question.label]"
+                  v-model="form[question.id]"
                   :placeholder="question.placeholder"
                   :id="question.label"
-                  @input="validateField(question.label)"
+                  :accept="question.type === 'file' ? '.doc,.docx,.pdf,.jpg,.jpeg,.png,.gif' : ''"
+                  @change="(e) => handleFileUpload(e, question)"
+                  @input="validateField(question.id)"
               />
+
 
               <select
                   v-if="question.type === 'select'"
-                  v-model="form[question.label]"
+                  v-model="form[question.id]"
                   :id="question.label"
-                  @change="validateField(question.label)"
+                  @change="validateField(question.id)"
               >
                 <option value="" disabled>{{ question.placeholder }}</option>
                 <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
               </select>
-              <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+              <span v-if="errors[question.id]" class="error">{{ errors[question.id] }}</span>
 
               <textarea
                   v-if="question.type === 'textarea'"
                   :id="question.label"
                   :name="question.label"
                   :placeholder="question.placeholder"
-                  v-model="form[question.label]"
+                  v-model="form[question.id]"
               />
 
             </div>
@@ -315,7 +341,7 @@ async function handleSubmit() {
 }
 
 @media (max-width: 1200px) {
-  .container  {
+  .container {
     display: block;
   }
 
