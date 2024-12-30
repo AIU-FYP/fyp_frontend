@@ -2,7 +2,7 @@
 import {computed, reactive, ref, watch} from 'vue';
 import Popup from '~/components/PopupAdminSubmit.vue'
 import {z} from 'zod';
-import { religions, femaleBlockOptions, maleBlockOptions, nationalities,blockData} from "~/utils/nationalities";
+import { religions, nationalities,} from "~/utils/nationalities";
 
 const form = reactive({});
 const errors = reactive({});
@@ -97,96 +97,36 @@ const previousQuestions = [
   },
   {
     label: "Block Name",
-    type: "select",
-    options: [],
+    type: "text",
+    // options: [],
     placeholder: "Select Block Name (e.g., 25i)",
     model: ref(""),
     id :"block_name"
   },
   {
     label: "Level No",
-    type: "select",
-    options: [],
+    type: "text",
+    // options: [],
     placeholder: "Select Level No (e.g., Level one)",
     model: ref(""),
     id :"level_number"
   },
   {
     label: "Room No",
-    type: "select",
-    options: [],
+    type: "text",
+    // options: [],
     placeholder: "Select Room No (e.g., 02)",
     model: ref(""),
     id : "room"
   },
   {
     label: "Which Zone",
-    type: "select",
-    options:[],
+    type: "text",
+    // options:[],
     placeholder: "How many seats are in the room?",
     id :"room_zone",
   },
 ];
-
-
-watch(
-    () => form["gender"],
-    (newGender) => {
-      const blockNameQuestion = previousQuestions.find(q => q.id === "block_name");
-      if (newGender === "male") {
-        blockNameQuestion.options = maleBlockOptions;
-      } else if (newGender === "female") {
-        blockNameQuestion.options = femaleBlockOptions;
-      } else {
-        blockNameQuestion.options = [];
-      }
-    }
-);
-
-watch(
-    () => form["block_name"],
-    (newBlock) => {
-      const levelQuestion = previousQuestions.find(q => q.id === "level_number");
-      if (blockData[newBlock]) {
-        levelQuestion.options = Object.keys(blockData[newBlock]);
-      } else {
-        levelQuestion.options = [];
-      }
-    }
-);
-
-watch(
-    () => form["level_number"],
-    (newLevel) => {
-      const roomQuestion = previousQuestions.find(q => q.id === "room");
-      const selectedBlock = form["block_name"];
-
-      if (blockData[selectedBlock] && blockData[selectedBlock][newLevel]) {
-        roomQuestion.options = Object.keys(blockData[selectedBlock][newLevel]);
-      } else {
-        roomQuestion.options = [];
-      }
-    }
-);
-
-
-watch(
-    () => [form["block_name"], form["level_number"], form["room"]],
-    ([selectedBlock, selectedLevel, selectedRoom]) => {
-      const zoneQuestion = previousQuestions.find(q => q.id === "room_zone");
-
-      if (
-          blockData[selectedBlock] &&
-          blockData[selectedBlock][selectedLevel] &&
-          blockData[selectedBlock][selectedLevel][selectedRoom]
-      ) {
-        zoneQuestion.options = blockData[selectedBlock][selectedLevel][selectedRoom];
-      } else {
-        zoneQuestion.options = [];
-      }
-    }
-);
-
 
 const formSchema = z.object({
   "name": z.string().min(8, "Name must be at least 8 characters long").nonempty("Name is required"),
@@ -199,10 +139,10 @@ const formSchema = z.object({
   "religion": z.string().optional(),
   "nationality": z.string().optional(),
   "major": z.string().optional(),
-  "block_name": z.string().nonempty("Block Name is required"),
-  "room": z.string().optional(),
-  "level_number": z.string().optional(),
-  "room_zone": z.string().optional(),
+  "block_name": z.string().min(2, "Name must be at least 8 characters long").nonempty("Name is required"),
+  "room": z.string().min(2, "Name must be at least 8 characters long").nonempty("Name is required"),
+  "level_number": z.string().min(2, "Name must be at least 8 characters long").nonempty("Name is required"),
+  "room_zone": z.string().min(2, "Name must be at least 8 characters long").nonempty("Name is required"),
 });
 
 previousQuestions.forEach((question) => {
@@ -222,17 +162,6 @@ function validateField(field) {
 previousQuestions.forEach((question) => {
   watch(() => form[question.id], () => validateField(question.id));
 });
-
-// function handleSubmit() {
-//   form.Date = new Date().toLocaleDateString("en-GB");
-//   const validationResults = formSchema.safeParse(form);
-//   if (validationResults.success) {
-//     console.log("Form Data:", {...form});
-//     alert("Form submitted successfully!");
-//   } else {
-//     alert("Please correct the errors in the form.");
-//   }
-// }
 
 async function handleSubmit() {
   const api = useApi();

@@ -3,18 +3,16 @@ import {defineEmits, defineProps} from 'vue'
 
 const studentFields = [
   {label: 'ID ', key: 'id'},
-  {label: 'Name ', key: 'name'},
-  {label: 'Student ID ', key: 'studentId'},
-  {label: 'Room No ', key: 'roomNo'},
-  {label: 'phone No ', key: 'phoneNo'},
-  {label: 'WhatsApp No ', key: 'whatsappNo'},
-  {label: 'Email Address ', key: 'emailAddress'},
+  {label: 'Name ', key: 'student'},
+  {label: 'Student ID ', key: 'student_id'},
+  {label: 'Room No ', key: 'room_number'},
+  {label: 'phone No ', key: 'phone'},
+  {label: 'Email Address ', key: 'email'},
   {label: 'Gender ', key: 'gender'},
-  {label: 'Location specific Issue ', key: 'locationSpecificIssue'},
-  {label: 'Frequent damages occur', key: 'frequentTheDamagesOccur'},
-  {label: 'Student Nationality ', key: 'studentNationality'},
-  {label: 'Photo evidence damages ', key: 'photoEvidenceDamages'},
-  {label: 'Reason for room change', key: 'detailTheDamage'},
+  {label: 'Frequent damages occur', key: 'occurrence'},
+  {label: 'Student Nationality ', key: 'nationality'},
+  {label: 'Photo evidence damages ', key: 'evidence_photo'},
+  {label: 'Reason for room change', key: 'explanation'},
   {key: 'status', label: 'Status'},
 ];
 
@@ -42,26 +40,45 @@ const closePopup = () => {
         </span>
       </div>
       <hr class="divider">
+
       <div class="popup-content">
         <div class="box" v-for="field in studentFields" :key="field.key">
-          <span class="student-label-info">
-            <span>
-              <UIcon
-                  style="color: var(--main-color)"
-                  name="ph-student"
-              />
-            </span>
-            {{ field.label }}</span>
+  <span class="student-label-info">
+    <span>
+      <UIcon
+          style="color: var(--main-color)"
+          name="ph-student"
+      />
+    </span>
+    {{ field.label }}
+  </span>
           <span class="student-key-info">
-            <span>
-              <UIcon
-                  style="color: var(--main-color)"
-                  name="bx-data"
-              />
-            </span>
-            {{ student[field.key] }}</span>
+    <span>
+      <UIcon
+          style="color: var(--main-color)"
+          name="bx-data"
+      />
+    </span>
+    <span v-if="field.key === 'evidence_photo'">
+      <a
+          :href="student[field.key]"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+          style="color: var(--main-color); text-decoration: underline; cursor: pointer;"
+      >
+        Supporting Document
+      </a>
+    </span>
+    <span v-else>
+      {{ student[field.key] }}
+    </span>
+  </span>
         </div>
+
       </div>
+
+
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
@@ -163,7 +180,7 @@ span {
   text-align: start;
   text-transform: capitalize;
   color: var(--main-color);
-  font-size: 1.2rem;
+  font-size: 1rem;
   width: 50%;
   padding: .5rem;
   border-radius: .5rem 0;

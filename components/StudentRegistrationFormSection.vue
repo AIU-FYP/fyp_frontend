@@ -191,7 +191,7 @@ function toggleLinkVisibility(index: number) {
 
 .dashboard-content {
   flex: 10;
-  padding: 4rem;
+  padding: 2rem;
   background-color: #eeeeee;
 }
 
