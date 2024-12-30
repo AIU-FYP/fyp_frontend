@@ -21,8 +21,7 @@ const columns = [
   {key: 'id', label: 'id'},
   {key: "date", label: 'Date',},
   {key: 'name', label: 'Name', sortable: true},
-  {key: 'studentId', label: 'Student ID', sortable: true},
-  {key: 'roomNo', label: 'Room No', sortable: true},
+  {key: 'room_number', label: 'Room No', sortable: true},
   {key: 'gender', label: 'Gender', sortable: true},
   {key: 'status', label: 'Status', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}
@@ -38,7 +37,7 @@ const api = $axios()
 
 const fetchData = async () => {
   try {
-    const response = await api.get("/Students/");
+    const response = await api.get("/change-room-requests/");
     people.value = response.data.map((person: Person) => ({
       ...person,
       date: new Date().toLocaleDateString(),
@@ -48,7 +47,6 @@ const fetchData = async () => {
     console.error('Error fetching data:', error);
   }
 }
-
 
 const isPopupVisible = ref(false);
 const currentStudent = ref({});

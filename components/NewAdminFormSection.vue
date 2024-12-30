@@ -1,3 +1,197 @@
+
+<script setup>
+import {reactive, watch} from 'vue';
+import {z} from 'zod';
+
+const previousQuestions = [
+  {
+    label: "Username",
+    type: "text",
+    placeholder: "Enter your username",
+    required: true,
+    id: "username"
+  },
+  {
+    label: "Name",
+    type: "text",
+    placeholder: "Enter your name",
+    required: true,
+    id: "name"
+  },
+  {
+    label: "Position",
+    type: "text",
+    placeholder: "Enter your position",
+    required: true,
+    id: "position"
+  },
+  {
+    label: "Staff ID",
+    type: "text",
+    placeholder: "Enter your staff ID (e.g., AIU21011234)",
+    required: true,
+    id: "staff_ID"
+  },
+  {
+    label: "Phone Number",
+    type: "text",
+    placeholder: "Enter your phone number",
+    required: true,
+    id: "phone"
+  },
+  {
+    label: "Email Address (Staff Email Only)",
+    type: "text",
+    placeholder: "Enter your email address",
+    required: true,
+    id: "email"
+  },
+  {
+    label: "Admin type (admin or super admin)",
+    type: "select",
+    options: ["Admin", "Super Admin"],
+    placeholder: "Select admin type",
+    required: true,
+    id: "staff_type"
+  },
+  {
+    label: "Password",
+    type: "password",
+    placeholder: "Enter your new password",
+    required: true,
+    id: "password"
+  },
+  {
+    label: "Confirm Password",
+    type: "password",
+    placeholder: "Confirm your password",
+    required: true,
+    id: "confirm_password"
+  }
+];
+
+const formSchema = z.object({
+  "username": z.string().min(4, "Name must be at least 4 characters long").nonempty("Name is required"),
+  "name": z.string().min(4, "Name must be at least 4 characters long").nonempty("Name is required"),
+  "position": z.string().min(5, "Position must be at least 5 characters long").nonempty("Position is required"),
+  "staff_ID": z.string().regex(/^AIU\d{8}$/, "Invalid Staff ID format").nonempty("Staff ID is required"),
+  "phone": z.string().regex(/^\d{8,15}$/, "Invalid phone number").nonempty("Phone Number is required"),
+  "email": z
+      .string()
+      .email("Invalid email format")
+      .regex(/@aiu\.edu\.my$/, "Must be a staff email ending with '@aiu.edu.my'"),
+  "staff_type": z.string().nonempty("Admin type is required"),
+  "password": z
+      .string()
+      .min(12, "Password must be at least 12 characters long")
+      .max(15, "Password must not exceed 15 characters")
+      .regex(/[a-zA-Z]/, "Password must include at least one letter")
+      .regex(/\d/, "Password must include at least one number")
+      .regex(/[@$!%*?&]/, "Password must include at least one special character"),
+  "confirm_password": z
+      .string()
+      .min(12, "Password must be at least 12 characters long")
+      .max(15, "Password must not exceed 15 characters")
+      .regex(/[a-zA-Z]/, "Password must include at least one letter")
+      .regex(/\d/, "Password must include at least one number")
+      .regex(/[@$!%*?&]/, "Password must include at least one special character"),
+});
+
+const form = reactive({});
+const errors = reactive({});
+
+previousQuestions.forEach((question) => {
+  form[question.id] = "";
+  errors[question.id] = "";
+});
+
+function validateField(field) {
+  try {
+    formSchema.shape[field].parse(form[field]);
+    errors[field] = "";
+  } catch (error) {
+    errors[field] = error.errors ? error.errors[0].message : error.message;
+  }
+}
+
+previousQuestions.forEach((question) => {
+  watch(
+      () => form[question.id],
+      () => validateField(question.id)
+  );
+});
+
+
+// function handleSubmit() {
+//   form.Date = new Date().toLocaleDateString("en-GB");
+//   const validationResults = formSchema.safeParse(form);
+//   if (validationResults.success) {
+//     console.log("Form Data:", { ...form });
+//     alert("Form submitted successfully!");
+//   } else {
+//     alert("Please correct the errors in the form.");
+//     validationResults.error.errors.forEach((err) => {
+//       if (err.path) errors[err.path[0]] = err.message;
+//     });
+//   }
+// }
+
+async function handleSubmit() {
+  const api = useApi();
+  form.Date = new Date().toLocaleDateString("en-GB");
+
+  const validationResults = formSchema.safeParse(form);
+  console.log("Form data:", form);
+
+  if (validationResults.success) {
+    try {
+      const payload = {
+        user: {
+          username: form.user.username || form.staff_ID,
+          email: form.user.email,
+          password: form.user.password,
+        },
+        position: form.position,
+        staff_ID: form.staff_ID,
+        phone: form.phone,
+        staff_type: form.staff_type,
+      };
+
+      console.log("Sending API Request...", payload);
+
+      const response = await api.post("/users/", payload);
+      console.log("Response Data:", response.data);
+
+      Object.keys(form).forEach((key) => {
+        if (typeof form[key] === "object") {
+          Object.keys(form[key]).forEach((nestedKey) => (form[key][nestedKey] = ""));
+        } else {
+          form[key] = "";
+        }
+      });
+
+      alert("Form submitted successfully!");
+    } catch (error) {
+      console.error("Error occurred:", error);
+      if (error.response) {
+        console.error("Backend Error:", error.response.data);
+        alert(`Error: ${error.response.data.detail || "Unable to submit the form."}`);
+      } else if (error.request) {
+        console.error("No response from the server:", error.request);
+        alert("Server is not responding. Please try again later.");
+      } else {
+        console.error("Request Setup Error:", error.message);
+        alert("An error occurred while submitting the form. Please try again.");
+      }
+    }
+  } else {
+    console.log("Validation Errors:", validationResults.error.errors);
+    alert("Please correct the errors in the form.");
+  }
+}
+
+</script>
+
 <template>
   <div class="settings-page">
     <div class="container">
@@ -38,21 +232,21 @@
               <input
                   v-if="question.type === 'text' || question.type === 'password'"
                   :type="question.type"
-                  v-model="form[question.label]"
+                  v-model="form[question.id]"
                   :placeholder="question.placeholder"
-                  :id="question.label"
+                  :id="question.id"
               />
 
               <select
                   v-if="question.type === 'select'"
-                  v-model="form[question.label]"
-                  :id="question.label"
+                  v-model="form[question.id]"
+                  :id="question.id"
               >
                 <option value="" disabled>{{ question.placeholder }}</option>
                 <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
               </select>
 
-              <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+              <span v-if="errors[question.id]" class="error">{{ errors[question.id] }}</span>
             </div>
           </div>
           <button type="submit" class="submit-btn">Save Changes</button>
@@ -61,128 +255,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import {reactive, watch} from 'vue';
-import {z} from 'zod';
-
-const previousQuestions = [
-  {
-    label: "Name",
-    type: "text",
-    placeholder: "Enter your name",
-    required: true,
-  },
-  {
-    label: "Position",
-    type: "text",
-    placeholder: "Enter your position",
-    required: true,
-  },
-  {
-    label: "Staff ID",
-    type: "text",
-    placeholder: "Enter your staff ID (e.g., AIU21011234)",
-    required: true,
-  },
-  {
-    label: "Phone Number",
-    type: "text",
-    placeholder: "Enter your phone number",
-    required: true,
-  },
-  {
-    label: "Email Address (Staff Email Only)",
-    type: "text",
-    placeholder: "Enter your email address",
-    required: true,
-  },
-  {
-    label: "Admin type (admin or super admin)",
-    type: "select",
-    options: ["admin", "Super admin"],
-    placeholder: "Select admin type",
-    required: true,
-  },
-  {
-    label: "Password",
-    type: "password",
-    placeholder: "Enter your new password",
-    required: true,
-  },
-  {
-    label: "Confirm Password",
-    type: "password",
-    placeholder: "Confirm your password",
-    required: true,
-  },
-];
-
-const formSchema = z.object({
-  "Name": z.string().min(4, "Name must be at least 4 characters long").nonempty("Name is required"),
-  "Position": z.string().min(5, "Position must be at least 5 characters long").nonempty("Position is required"),
-  "Staff ID": z.string().regex(/^AIU\d{8}$/, "Invalid Staff ID format").nonempty("Staff ID is required"),
-  "Phone Number": z.string().regex(/^\d{8,15}$/, "Invalid phone number").nonempty("Phone Number is required"),
-  "Email Address (Staff Email Only)": z
-      .string()
-      .email("Invalid email format")
-      .regex(/@aiu\.edu\.my$/, "Must be a staff email ending with '@aiu.edu.my'"),
-  "Admin type (admin or super admin)": z.string().nonempty("Admin type is required"),
-  "Password": z
-      .string()
-      .min(12, "Password must be at least 12 characters long")
-      .max(15, "Password must not exceed 15 characters")
-      .regex(/[a-zA-Z]/, "Password must include at least one letter")
-      .regex(/\d/, "Password must include at least one number")
-      .regex(/[@$!%*?&]/, "Password must include at least one special character"),
-  "Confirm Password": z
-      .string()
-      .min(12, "Password must be at least 12 characters long")
-      .max(15, "Password must not exceed 15 characters")
-      .regex(/[a-zA-Z]/, "Password must include at least one letter")
-      .regex(/\d/, "Password must include at least one number")
-      .regex(/[@$!%*?&]/, "Password must include at least one special character"),
-});
-
-const form = reactive({});
-const errors = reactive({});
-
-previousQuestions.forEach((question) => {
-  form[question.label] = "";
-  errors[question.label] = "";
-});
-
-function validateField(field) {
-  try {
-    formSchema.shape[field].parse(form[field]);
-    errors[field] = "";
-  } catch (error) {
-    errors[field] = error.errors ? error.errors[0].message : error.message;
-  }
-}
-
-previousQuestions.forEach((question) => {
-  watch(
-      () => form[question.label],
-      () => validateField(question.label)
-  );
-});
-
-
-function handleSubmit() {
-  form.Date = new Date().toLocaleDateString("en-GB");
-  const validationResults = formSchema.safeParse(form);
-  if (validationResults.success) {
-    console.log("Form Data:", { ...form });
-    alert("Form submitted successfully!");
-  } else {
-    alert("Please correct the errors in the form.");
-    validationResults.error.errors.forEach((err) => {
-      if (err.path) errors[err.path[0]] = err.message;
-    });
-  }
-}
-</script>
 
 <style scoped>
 .settings-page {

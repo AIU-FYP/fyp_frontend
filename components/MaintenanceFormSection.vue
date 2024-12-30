@@ -162,7 +162,6 @@ function validateField(field) {
   }
 }
 
-
 previousQuestions.forEach((question) => {
   watch(() => form[question.id], () => validateField(question.id));
 });
@@ -185,17 +184,15 @@ async function handleSubmit() {
   const validationResults = formSchema.safeParse(form);
   if (validationResults.success) {
     try {
-      console.log("Sending API Request...");
+      // console.log("Sending API Request...");
       const formDataObj = new FormData();
       for (const key in form) {
         const value = form[key];
         if (value === null || value === undefined) {
           continue;
         }
-
         formDataObj.append(key, value);
       }
-
       formDataObj.delete('evidence_photo')
 
       if (evidence_photo.value) {
@@ -228,7 +225,6 @@ async function handleSubmit() {
     alert("Please correct the errors in the form.");
   }
 }
-
 
 </script>
 
