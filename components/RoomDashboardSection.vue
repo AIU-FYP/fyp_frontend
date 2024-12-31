@@ -20,10 +20,7 @@ interface Person {
 const columns = [
   {key: 'id', label: 'id'},
   {key: 'gender', label: 'Gender', sortable: true},
-  {key: 'blockName', label: 'Block Name', sortable: true},
-  {key: 'roomNo', label: 'Room No', sortable: true},
-  {key: 'levelNo', label: 'Level No', sortable: true},
-  {key: 'status', label: 'Status', sortable: true},
+  {key: 'name', label: 'Block Name', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}
 ]
 
@@ -37,7 +34,7 @@ const api = $axios()
 
 const fetchData = async () => {
   try {
-    const response = await api.get("/Students/");
+    const response = await api.get("/hostels/");
     people.value = response.data.map((person: Person) => ({
       ...person,
       date: new Date().toLocaleDateString(),

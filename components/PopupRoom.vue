@@ -10,12 +10,7 @@ const props = defineProps({
 const emit = defineEmits(['update:show'])
 
 const studentFields = [
-  {key: 'id', label: 'id'},
-  {key: 'gender', label: 'Gender'},
-  {key: 'blockName', label: 'Block Name'},
-  {key: 'roomNo', label: 'Room No'},
-  {key: 'levelNo', label: 'Level No'},
-  {key: 'status', label: 'Status'},
+  {key: 'levelNo', label: 'Level No'}
 ];
 
 const closePopup = () => {
@@ -27,7 +22,7 @@ const closePopup = () => {
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
       <div class="popup-header">
-        <span style="font-size: 1.5rem">Welcome to {{ props.student.name }}</span>
+        <span style="font-size: 1.5rem">{{ props.student.name }}</span>
         <span @click="closePopup" class="close-btn">
           <UIcon
               name="fontisto-close"
@@ -57,11 +52,7 @@ const closePopup = () => {
       </div>
       <hr class="divider">
       <div class="popup-footer">
-        <div class="popup-bts">
-          <button class="room-occupied" id="roomOccupied">Room Occupied</button>
-          <button class="room-available" id="roomAvailable">Room Available</button>
-          <button class="room-out-of-service" id="roomOutOfService">Room Out Of Service</button>
-        </div>
+        <div class="popup-bts"></div>
         <div>
           <h2>Thank you </h2>
         </div>

@@ -14,12 +14,22 @@ const previousQuestions = [
     label: "Hostel name",
     type: "text",
     placeholder: "Hostel name",
+    id : "name"
+  },
+  {
+    label: "How many zone",
+    type: "select",
+    options: [{value: "2", lable: "Two"}, {value: "3", lable: "Three"}, {value: "4", lable: "Four"}],
+    placeholder: "Select Zone Count",
+    required: true,
+    id : "capacity"
   },
   {
     label: "Gender",
     type: "select",
-    options: ["Male", "Female"],
+    options: [{value : "male", lable: "Male"}, {value : "female", lable: "Female"},],
     placeholder: "Select your gender",
+    id : "gender"
   },
   {
     label: "Number of Rooms for Each Level",
@@ -32,12 +42,13 @@ const previousQuestions = [
     ],
     placeholder: "Select Rooms for Each Level",
     required: true,
+    id :"level"
   },
 ];
 
 const formSchema = z.object({
-  "Hostel name": z.string().min(3, "Name must be at least 3 characters long").nonempty("Hostel Name is required"),
-  Gender: z.string().nonempty("Gender is required"),
+  "name": z.string().min(3, "Name must be at least 3 characters long").nonempty("Hostel Name is required"),
+  "gender" : z.string().nonempty("Gender is required"),
 });
 
 previousQuestions.forEach((question) => {
@@ -47,8 +58,8 @@ previousQuestions.forEach((question) => {
       errors[level.key] = "";
     });
   } else {
-    form[question.label] = "";
-    errors[question.label] = "";
+    form[question.id] = "";
+    errors[question.id] = "";
   }
 });
 
@@ -66,22 +77,58 @@ previousQuestions.forEach((question) => {
     question.levels.forEach((level) => {
       watch(() => form.levels[level.key], () => validateField(level.key, form.levels[level.key]));
     });
-  } else {
-    watch(() => form[question.label], () => validateField(question.label, form[question.label]));
+  }  else {
+    watch(() => form[question.id], () => validateField(question.id, form[question.id]));
   }
 });
 
-function handleSubmit() {
-  const validationResults = formSchema.safeParse({
-    "Hostel name": form["Hostel name"],
-    Gender: form.Gender,
-  });
+async function handleSubmit() {
+  const api = useApi();
+  form.Date = new Date().toLocaleDateString("en-GB");
 
+  const validationResults = formSchema.safeParse(form);
   if (validationResults.success) {
-    console.log("Form Data:", { ...form });
-    isPopupVisible.value = true;
-    alert('Form submitted successfully!');
+    try {
+      console.log("Sending API Request...");
+
+      const payload = {
+        name: form.name,
+        capacity: form.capacity,
+        gender: form.gender,
+        levels: []
+      }
+
+      for (const level in form.levels) {
+        payload.levels.push({
+          number: parseInt(level.replace('level', '')),
+          rooms: form.levels[level]
+        })
+      }
+
+      console.log(payload)
+
+      const response = await api.post("/hostels/", payload);
+      console.log("Response Data:", response.data);
+      isPopupVisible.value = true;
+      Object.keys(form).forEach((key) => (form[key] = ""));
+    } catch (error) {
+      isPopupVisible.value = false;
+      console.error("Error occurred:", error);
+      if (error.response) {
+        console.error("Backend Error:", error.response.data);
+        alert(`Error: ${error.response.data.detail || "Unable to submit the form."}`);
+        console.log("Response Data:", response.data.value);
+      } else if (error.request) {
+        console.error("No response from the server:", error.request);
+        alert("Server is not responding. Please try again later.");
+      } else {
+        console.error("Request Setup Error:", error.message);
+        alert("An error occurred while submitting the form. Please try again.");
+      }
+    }
   } else {
+    console.log('Validation Errors:', validationResults.error.errors);
+    isPopupVisible.value = false;
     alert("Please correct the errors in the form.");
   }
 }
@@ -103,20 +150,20 @@ function handleSubmit() {
               <input
                   v-if="question.type === 'text'"
                   :type="question.type"
-                  v-model="form[question.label]"
+                  v-model="form[question.id]"
                   :placeholder="question.placeholder"
-                  :id="question.label"
-                  @input="validateField(question.label)"
+                  :id="question.id"
+                  @input="validateField(question.id)"
               />
 
               <select
                   v-if="question.type === 'select'"
-                  v-model="form[question.label]"
-                  :id="question.label"
-                  @change="validateField(question.label)"
+                  v-model="form[question.id]"
+                  :id="question.id"
+                  @change="validateField(question.id)"
               >
                 <option value="" disabled>{{ question.placeholder }}</option>
-                <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
+                <option v-for="option in question.options" :key="option.lable" :value="option.value">{{ option.lable }}</option>
               </select>
 
               <div v-else-if="question.type === 'multi-select'">
@@ -131,11 +178,11 @@ function handleSubmit() {
                     <option value="" disabled>{{ question.placeholder }}</option>
                     <option v-for="i in 20" :key="i" :value="i">{{ i }}</option>
                   </select>
-                  <span v-if="errors[level.key]" class="error">{{ errors[level.key] }}</span>
+                  <span v-if="errors[level.id]" class="error">{{ errors[level.id] }}</span>
                 </div>
               </div>
 
-              <span v-if="errors[question.label]" class="error">{{ errors[question.label] }}</span>
+              <span v-if="errors[question.id]" class="error">{{ errors[question.id] }}</span>
             </div>
           </div>
 

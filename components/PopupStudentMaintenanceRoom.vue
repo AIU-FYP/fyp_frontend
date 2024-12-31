@@ -82,7 +82,6 @@ const closePopup = () => {
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="accepted-done-by-SA" id="acceptedDoneBySA">accepted by SA</button>
           <button class="reject-maintenance-request" id="rejectMaintenanceRequest">Reject request</button>
           <button class="work-done-by-PPK" id="workDoneByPPK">Work done by PPK</button>
         </div>
@@ -213,17 +212,11 @@ span {
   text-transform: capitalize;
 }
 
-.popup-bts .accepted-done-by-SA {
-  border-radius: 0 1rem;
-  border: 2px solid var(--main-color);
-}
-
 .popup-bts .work-done-by-PPK {
   border-radius: 0 1rem;
   border: 2px solid var(--main-hovor-color);
 }
 
-.popup-bts .accepted-done-by-SA:hover,
 .popup-bts .work-done-by-PPK:hover {
   background: var(--button-hovor-color);
   border: 2px solid var(--button-hovor-color);

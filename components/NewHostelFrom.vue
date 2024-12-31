@@ -115,7 +115,7 @@ const previousQuestions = [
       </aside>
 
       <main class="dashboard-content">
-        <NewHostelForm/>
+        <NewHostelFormSection/>
       </main>
     </div>
   </div>

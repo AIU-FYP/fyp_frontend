@@ -1,11 +1,11 @@
 <script setup lang="ts">
 
-import AddNewHostel from "~/components/AddNewHostel.vue";
+import NewHostelFrom from "~/components/NewHostelFrom.vue";
 </script>
 
 <template>
   <AdminHeaderSection/>
-  <AddNewHostel/>
+  <NewHostelFrom/>
   <AdminFooterSection/>
 </template>
 

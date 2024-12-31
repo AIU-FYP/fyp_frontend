@@ -49,7 +49,7 @@ const previousQuestions = [
   {
     label: "Admin type (admin or super admin)",
     type: "select",
-    options: ["Admin", "Super Admin"],
+    options: [{value: "admin", label: 'Admin'}, {value: "super_admin", label: "Super Admin"}],
     placeholder: "Select admin type",
     required: true,
     id: "staff_type"
@@ -146,16 +146,18 @@ async function handleSubmit() {
   if (validationResults.success) {
     try {
       const payload = {
-        user: {
-          username: form.user.username || form.staff_ID,
-          email: form.user.email,
-          password: form.user.password,
-        },
-        position: form.position,
-        staff_ID: form.staff_ID,
-        phone: form.phone,
-        staff_type: form.staff_type,
+        username: form.username,
+        password: form.password,
+        profile: {
+          name: form.name,
+          position: form.position,
+          staff_ID: form.staff_ID,
+          phone: form.phone,
+          email: form.email,
+          staff_type: form.staff_type,
+        }
       };
+      console.log("payload:", payload)
 
       console.log("Sending API Request...", payload);
 
@@ -243,7 +245,7 @@ async function handleSubmit() {
                   :id="question.id"
               >
                 <option value="" disabled>{{ question.placeholder }}</option>
-                <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
+                <option v-for="option in question.options" :key="option" :value="option.value">{{ option.label }}</option>
               </select>
 
               <span v-if="errors[question.id]" class="error">{{ errors[question.id] }}</span>
