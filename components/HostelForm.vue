@@ -19,7 +19,7 @@ const previousQuestions = [
   {
     label: "How many zone",
     type: "select",
-    options: [{value: "2", lable: "Two"}, {value: "3", lable: "Three"}, {value: "4", lable: "Four"}],
+    options: [{value: "1", label: "One"},{value: "2", label: "Two"}, {value: "3", label: "Three"}, {value: "4", label: "Four"}],
     placeholder: "Select Zone Count",
     required: true,
     id : "capacity"
@@ -163,7 +163,7 @@ async function handleSubmit() {
                   @change="validateField(question.id)"
               >
                 <option value="" disabled>{{ question.placeholder }}</option>
-                <option v-for="option in question.options" :key="option.lable" :value="option.value">{{ option.lable }}</option>
+                <option v-for="option in question.options" :key="option.label" :value="option.value">{{ option.label }}</option>
               </select>
 
               <div v-else-if="question.type === 'multi-select'">
