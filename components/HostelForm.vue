@@ -17,19 +17,19 @@ const previousQuestions = [
     id : "name"
   },
   {
+    label: "Gender",
+    type: "select",
+    options: [{value : "male", label: "Male"}, {value : "female", label: "Female"},],
+    placeholder: "Select your gender",
+    id : "gender"
+  },
+  {
     label: "How many zone",
     type: "select",
     options: [{value: "1", label: "One"},{value: "2", label: "Two"}, {value: "3", label: "Three"}, {value: "4", label: "Four"}],
     placeholder: "Select Zone Count",
     required: true,
     id : "capacity"
-  },
-  {
-    label: "Gender",
-    type: "select",
-    options: [{value : "male", lable: "Male"}, {value : "female", lable: "Female"},],
-    placeholder: "Select your gender",
-    id : "gender"
   },
   {
     label: "Number of Rooms for Each Level",
