@@ -1,4 +1,4 @@
-export const nationalities = [
+export const dropdownOptions = [
     { value: "afghan", label: "Afghan" },
     { value: "albanian", label: "Albanian" },
     { value: "algerian", label: "Algerian" },

@@ -1,15 +1,15 @@
 <script setup>
 import {computed, reactive, ref, watch} from 'vue';
 import {z} from 'zod';
-import {nationalities,} from "~/utils/nationalities";
+import {dropdownOptions,} from "~/utils/dropdownOptions.js";
 import Popup from "~/components/StudentSubmitPopup.vue";
 
 const userNationalityInput = ref('');
 const filteredNationalities = computed(() => {
   if (!userNationalityInput.value) {
-    return nationalities;
+    return dropdownOptions;
   }
-  return nationalities.filter(n =>
+  return dropdownOptions.filter(n =>
       n.toLowerCase().startsWith(userNationalityInput.value.toLowerCase())
   );
 });

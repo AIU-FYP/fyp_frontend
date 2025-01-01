@@ -2,7 +2,7 @@
 import {computed, reactive, ref, watch} from 'vue';
 import Popup from '~/components/StudentSubmitPopup.vue'
 import {z} from 'zod';
-import {nationalities, roomMaintenanceIssues} from "~/utils/nationalities";
+import {dropdownOptions, roomMaintenanceIssues} from "~/utils/dropdownOptions.js";
 import {useNuxtApp} from "#app";
 
 let {$axios} = useNuxtApp()
@@ -10,9 +10,9 @@ let {$axios} = useNuxtApp()
 const userNationalityInput = ref('');
 const filteredNationalities = computed(() => {
   if (!userNationalityInput.value) {
-    return nationalities;
+    return dropdownOptions;
   }
-  return nationalities.filter(n =>
+  return dropdownOptions.filter(n =>
       n.toLowerCase().startsWith(userNationalityInput.value.toLowerCase())
   );
 });
@@ -68,7 +68,7 @@ const previousQuestions = [
   {
     label: "Gender",
     type: "select",
-    options: ["male", "female"],
+    options: [{value : "male", label : "Male" },{value : "female", label : "Female" }],
     required: true,
     id: "gender",
     placeholder: "Enter your gender",
@@ -91,7 +91,14 @@ const previousQuestions = [
   {
     label: "How frequent the damages occur?",
     type: "select",
-    options: ["1 time", "2 times", "3 times", "4 times", "5 times", "More than 5 times"],
+    options: [
+        {value : "1 time", label : "1 Time" },
+      {value : "2 time", label : "2 Time" },
+      {value : "3 time", label : "3 Time" },
+      {value : "4 time", label : "4 Time" },
+      {value : "5 time", label : "5 Time" },
+      {value : "More than 5 times", label : "More than 5 times" }
+    ],
     required: true,
     id: "occurrence",
     placeholder: "How frequent the damages occur?",
@@ -268,7 +275,7 @@ async function handleSubmit() {
                   @change="validateField(question.id)"
               >
                 <option value="" disabled>{{ question.placeholder }}</option>
-                <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
+                <option v-for="option in question.options" :key="option.value" :value="option.value">{{ option.label }}</option>
               </select>
               <span v-if="errors[question.id]" class="error">{{ errors[question.id] }}</span>
 
