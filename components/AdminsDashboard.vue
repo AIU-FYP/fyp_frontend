@@ -5,29 +5,30 @@ import {useNuxtApp} from "#app";
 
 let {$axios} = useNuxtApp()
 
-interface Person {
-  id: number
-  date: string
-  name: string
-  studentIdNumber: string
-  roomNumber: string
-  whatsappNumber: string
-  emailAddress: string
-  gender: string
-  extend?: boolean | string
+interface User {
+  id: number;
+  username: string;
+  password: string;
+  name: string;
+  position: string;
+  staff_ID: string;
+  phone: string;
+  email: string;
+  staff_type: string | null;
 }
 
 const columns = [
-  {key: 'id', label: 'id'},
-  {key: "date", label: 'Date',},
-  {key: 'name', label: 'Name',},
-  {key: 'username', label: 'User name'},
-  {key: 'staff_type', label: 'Staff type ', sortable: true},
-  {key: 'staff_id', label: 'Staff ID '},
-  {key: 'extend', label: 'Extend', sortable: false,}
-]
+  { key: 'id', label: 'ID' },
+  { key: 'username', label: 'Username' },
+  { key: 'name', label: 'Name' },
+  { key: 'position', label: 'Position' },
+  { key: 'staff_ID', label: 'Staff ID' },
+  { key: 'phone', label: 'Phone' },
+  { key: 'staff_type', label: 'Staff Type' },
+  { key: 'extend', label: 'Extend', sortable: false },
+];
 
-const people = ref<Person[]>([]);
+const people = ref<User[]>([]);
 const currentPage = ref(1);
 const pageSize = ref(10);
 const totalItems = ref(0);
@@ -37,86 +38,37 @@ const api = $axios()
 
 const fetchData = async () => {
   try {
-    console.log("name")
     const response = await api.get("/users/");
-    people.value = response.data.map((person: Person) => ({
-      ...person,
-      date: new Date().toLocaleDateString(),
+    people.value = response.data.map((person: any, index: number) => ({
+      id: index + 1, // Generate an ID if it doesn't exist in the response
+      username: person.username || '',
+      password: person.password || '',
+      name: person.profile?.name || '',
+      position: person.profile?.position || '',
+      staff_ID: person.profile?.staff_ID || '',
+      phone: person.profile?.phone || '',
+      email: person.profile?.email || '',
+      staff_type: person.profile?.staff_type || null,
     }));
     totalItems.value = response.data.length;
   } catch (error) {
     console.error('Error fetching data:', error);
   }
-}
+};
+
+
 
 const isPopupVisible = ref(false);
 const currentStudent = ref({});
 
 onMounted(fetchData)
 
-const visibleButtonIndex = ref<number | null>(null);
-
-const navigationButtons = [
-  {
-    name: "Student",
-    icon: "ph-student",
-    links: [
-      {text: "Register Student", url: "/student-registration-form"},
-      {text: "Manage Student", url: "/student-registration-dashboard"},
-    ],
-  },
-  {
-    name: "Maintenance",
-    icon: "wpf-maintenance",
-    links: [
-      {text: "Maintenance Form", url: "/maintenance-room-form"},
-      {text: "Manage Maintenance", url: "/maintenance-room-dashboard"},
-    ],
-  },
-  {
-    name: "Change Room",
-    icon: "bx-building",
-    links: [
-      {text: "Change Room Form", url: "/change-room-form"},
-      {text: "Manage Room Changes", url: "/change-room-dashboard"},
-    ],
-  },
-  {
-    name: "Hostels",
-    icon: "bx-building",
-    links: [
-      {text: "Add new Hostel", url: "/new-hostel-form"},
-      {text: "Manage Rooms", url: "/room-dashboard"},
-    ],
-  },
-];
-
-function toggleLinkVisibility(index: number) {
-  visibleButtonIndex.value = visibleButtonIndex.value === index ? null : index;
-}
-
-const isLoading = ref(false);
-const router = useRouter();
-
-
-async function navigateToPage(url: string) {
-  isLoading.value = true;
-  try {
-    setTimeout(async () => {
-      await router.push(url);
-      isLoading.value = false;
-    }, 2000);
-  } catch (error) {
-    console.error('Navigation error:', error);
-    isLoading.value = false;
-  }
-}
 
 definePageMeta({
   middleware: 'auth',
 });
 
-const openPopup = (row: Person) => {
+const openPopup = (row: User) => {
   currentStudent.value = row;
   isPopupVisible.value = true;
 };
@@ -220,15 +172,6 @@ onMounted(fetchData)
   margin: 0 auto;
 }
 
-.sidebar {
-  flex: 2;
-  background-color: var(--main-color);
-  padding: 2rem 1rem;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 .dashboard-content {
   flex: 6;
 }
@@ -238,31 +181,6 @@ onMounted(fetchData)
     display: block;
   }
 
-  .sidebar {
-    min-height: 30vh;
-  }
-}
-
-.btn-container {
-  padding: .5rem;
-  background-color: transparent;
-}
-
-.btn-container:hover {
-  background-color: var(--main-hovor-color);
-}
-
-.sidebar-button {
-  font-size: 1rem;
-  color: var(--text-color);
-  margin-bottom: 0.5rem;
-  text-align: start;
-  border-radius: .5rem;
-  transition: 0.3s ease-in-out;
-}
-
-.sidebar-button:hover {
-  color: var(--text-hovor-color);
 }
 
 .sidebar ul li {
@@ -357,10 +275,6 @@ onMounted(fetchData)
 }
 
 @media (max-width: 768px) {
-  .sidebar {
-    flex-basis: 100%;
-  }
-
   .dashboard-content {
     padding: 1rem;
   }

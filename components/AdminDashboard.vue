@@ -41,6 +41,8 @@
 
 <script setup>
 
+import AdminsDashboard from "~/components/AdminsDashboard.vue";
+
 definePageMeta({
   middleware: 'auth',
 })
