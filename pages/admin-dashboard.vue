@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import AdminDashboardSection from "~/components/AdminDashboard.vue";
-
 import {useAuth} from "~/composables/useAuth";
 import AdminHeader from "~/components/AdminHeader.vue";
 import AdminFooter from "~/components/AdminFooter.vue";

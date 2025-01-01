@@ -12,7 +12,7 @@ const auth = useAuth()
 
 <template>
   <AdminHeader/>
-  <NewAdminFormSection/>
+  <AdminForm/>
   <AdminFooter/>
 </template>
 

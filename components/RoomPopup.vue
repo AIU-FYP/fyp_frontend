@@ -33,7 +33,7 @@ const closePopup = () => {
       <div class="popup-content">
         <div class="container">
 
-          <div v-for="level in student.levels" :key="level.number" class="item">
+          <div v-for="level in student.levels" :key="level.number" class="levels">
 
             <span class="level-label">Level {{ level.number }}</span>
 
@@ -48,7 +48,14 @@ const closePopup = () => {
                         :key="zone"
                         class="capacity-part"
                     >
+
+                      <UIcon
+                          name="mdi-bed"
+                          class="icon"
+                      />
                       {{ convertToLetter(zone) }}
+
+
 
                     </div>
 
@@ -147,12 +154,16 @@ span {
   border: 2px solid var(--main-color);
 }
 
+.levels{
+  border: 2px solid var(--main-color);
+  margin: 10px;
+}
+
 .level-label {
   font-size: 1.2rem;
   color: var(--text-hovor-color);
-  margin-bottom: 20px;
   background-color: var(--main-color);
-  padding: 0 20px;
+  padding: 0 50px 10px 50px;
 }
 
 .level-box {
@@ -160,40 +171,35 @@ span {
   flex-direction: row;
   flex-wrap: wrap;
   margin: 10px;
-  max-height: 300px;
+  max-height: 350px;
   overflow-y: auto;
   gap: 20px;
 
 }
 
 .level-box div {
-  width: 100px;
+  width: 230px;
   height: auto;
   text-align: center;
   color: black;
-  font-size: .9rem;
-}
-
-.box {
-  align-items: start;
-  text-align: start;
 }
 
 .room-number {
-  margin: 10rem 0;
+  font-size: 1rem;
 }
 
 .capacity-container {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 .capacity-part {
-  width: 30%;
+  display: block;
+  width:20px;
   height: 20px;
-  background-color: red;
   margin-right: 5px;
+  background-color: red;
   border-radius: 4px;
 }
 

@@ -10,14 +10,14 @@ const props = defineProps({
 const emit = defineEmits(['update:show'])
 
 const studentFields = [
+
   {label: 'ID ', key: 'id'},
   {label: 'Name', key: 'name'},
-  {label: 'Staff ID', key: 'staffId'},
-  {label: 'Phone No', key: 'phoneNo'},
-  {label: 'Email Address', key: 'emailAddress'},
-  {label: 'Country of Residence', key: 'countryOfResidence'},
-  {label: 'Password', key: 'password'},
-
+  {key: 'username', label: 'User name',},
+  {key: 'staff_ID', label: 'User name',},
+  {key: 'staff_type', label: 'Admin type',},
+  {label: 'WhatsApp No', key: 'phone'},
+  {label: 'Email Address', key: 'email'},
 ];
 
 const closePopup = () => {
@@ -26,7 +26,7 @@ const closePopup = () => {
 }
 
 const updateStaffInfo = () => {
-  console.log('Updated Staff info:', props.student)
+  console.log('Updated student info:', props.student)
   closePopup()
 }
 </script>
@@ -66,8 +66,8 @@ const updateStaffInfo = () => {
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="delete-staff" id="deleteStaff">Delete Staff</button>
-          <button @click="updateStaffInfo" class="change-staff" id="changeStaff">Change Staff Info</button>
+          <button class="delete-admin" id="deleteAdmin">Delete Admin</button>
+          <button @click="updateStaffInfo" class="change-admin-info" id="changeAdminInfo">Change Admin Info</button>
         </div>
         <div>
           <h2>Thank you </h2>
@@ -84,10 +84,11 @@ const updateStaffInfo = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .popup-container {
@@ -100,7 +101,7 @@ const updateStaffInfo = () => {
   max-height: 90vh;
   position: relative;
   overflow-y: auto;
-  border: 3px solid var(--main-color);
+  z-index: 1001;
 }
 
 @media (max-width: 1200px) {
@@ -201,29 +202,44 @@ span {
   justify-content: space-around;
 }
 
+
+@media (max-width: 800px){
+  .popup-bts{
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    gap: 0;
+  }
+  .popup-bts button {
+    padding: .5rem;
+    margin: 1rem 0;
+    font-size: 1rem;
+  }
+}
+
 .popup-bts button {
   padding: .5rem;
   font-size: 1.2rem;
   text-transform: capitalize;
 }
 
-.popup-bts .change-staff {
+.popup-bts .change-admin-info {
   border-radius: 0 1rem;
   border: 2px solid var(--main-color);
 }
 
-.popup-bts .change-staff:hover {
+.popup-bts .change-admin-info:hover {
   background: var(--main-color);
   color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
 
-.popup-bts .delete-staff {
+.popup-bts .delete-admin {
   border-radius: 0 1rem;
   border: 2px solid red;
 }
 
-.popup-bts .delete-staff:hover {
+.popup-bts .delete-admin:hover {
   background: red;
   color: var(--text-hovor-color);
   transition: .4s ease-in-out;
@@ -244,3 +260,5 @@ h2 {
 }
 
 </style>
+
+

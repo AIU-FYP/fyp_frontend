@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue';
-import Popup from '~/components/RoomPopup.vue'
+import Popup from '~/components/AdminInfoPopup.vue'
 import {useNuxtApp} from "#app";
 
 let {$axios} = useNuxtApp()
@@ -18,8 +18,12 @@ interface Person {
 }
 
 const columns = [
-  {key: 'gender', label: 'Gender', sortable: true},
-  {key: 'name', label: 'Block Name', sortable: true},
+  {key: 'id', label: 'id'},
+  {key: "date", label: 'Date',},
+  {key: 'name', label: 'Name',},
+  {key: 'username', label: 'User name'},
+  {key: 'staff_type', label: 'Staff type ', sortable: true},
+  {key: 'staff_id', label: 'Staff ID '},
   {key: 'extend', label: 'Extend', sortable: false,}
 ]
 
@@ -33,7 +37,8 @@ const api = $axios()
 
 const fetchData = async () => {
   try {
-    const response = await api.get("/hostels/");
+    console.log("name")
+    const response = await api.get("/users/");
     people.value = response.data.map((person: Person) => ({
       ...person,
       date: new Date().toLocaleDateString(),
@@ -43,7 +48,6 @@ const fetchData = async () => {
     console.error('Error fetching data:', error);
   }
 }
-
 
 const isPopupVisible = ref(false);
 const currentStudent = ref({});
@@ -146,37 +150,14 @@ onMounted(fetchData)
 <template>
   <div class="admin-dashboard">
     <div class="container">
-
-      <aside class="sidebar">
-        <div v-for="(button, index) in navigationButtons" :key="index">
-          <div class="btn-container">
-            <button
-                @click="toggleLinkVisibility(index)"
-                :aria-expanded="visibleButtonIndex === index"
-                class="sidebar-button"
-            >
-              <UIcon
-                  :name="button.icon"
-              />
-              {{ button.name }}
-            </button>
-          </div>
-          <ul v-if="visibleButtonIndex === index">
-            <li v-for="(link, linkIndex) in button.links" :key="linkIndex">
-              <a @click.prevent="navigateToPage(link.url)">{{ link.text }}</a>
-            </li>
-          </ul>
-        </div>
-      </aside>
-
       <main class="dashboard-content">
         <div class="sub-container">
 
           <div class="content">
-
             <div class="header">
+
               <div class="search-container">
-                <UInput v-model="q" placeholder="Filter hostels..."/>
+                <UInput v-model="q" placeholder="Filter students..."/>
               </div>
             </div>
 

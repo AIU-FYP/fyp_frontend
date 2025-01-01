@@ -1,6 +1,7 @@
 <template>
   <div class="settings-page">
     <div class="container">
+
       <aside class="sidebar">
         <h1>Account Settings</h1>
         <nav>
@@ -28,10 +29,12 @@
           </ul>
         </nav>
       </aside>
+
       <main class="content">
         <h2>Admin Dashboard</h2>
-        <AdminDashboard/>
+        <AdminsDashboard/>
       </main>
+
     </div>
   </div>
 </template>

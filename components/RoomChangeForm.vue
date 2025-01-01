@@ -52,7 +52,7 @@ const previousQuestions = [
   {
     label: "Gender",
     type: "select",
-    options: ["male", "female"],
+    options: [{value : "male", label : "Male" }, {value : "female", label : "Female" }],
     required: true,
     placeholder: "Enter your gender",
     id :"gender"
@@ -144,7 +144,6 @@ const handleFileUpload = (event, inputDetails) => {
 
 const isPopupVisible = ref(false)
 
-
 async function handleSubmit() {
   const api = useApi();
   form.Date = new Date().toLocaleDateString("en-GB");
@@ -196,7 +195,6 @@ async function handleSubmit() {
   }
 }
 
-
 </script>
 
 <template>
@@ -237,7 +235,7 @@ async function handleSubmit() {
                   @change="validateField(question.id)"
               >
                 <option value="" disabled>{{ question.placeholder }}</option>
-                <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
+                <option v-for="option in question.options" :key="option.value" :value="option.value">{{ option.label }}</option>
               </select>
               <span v-if="errors[question.id]" class="error">{{ errors[question.id] }}</span>
 

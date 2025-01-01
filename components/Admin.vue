@@ -158,7 +158,7 @@ onMounted(() => {
   <div class="admin-dashboard">
     <div class="container">
 
-      <LoaderSection v-if="isLoading"/>
+      <Loader v-if="isLoading"/>
 
       <aside class="sidebar">
         <div v-for="(button, index) in navigationButtons" :key="index">

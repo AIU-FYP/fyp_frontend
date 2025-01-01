@@ -7,7 +7,7 @@ import AdminFooterSection from "~/components/AdminFooter.vue";
 
 <template>
   <AdminHeaderSection/>
-  <TestCode/>
+  <TestSideBar/>
   <AdminFooterSection/>
 </template>
 
