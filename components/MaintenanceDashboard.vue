@@ -5,7 +5,7 @@ import {useNuxtApp} from "#app";
 
 let {$axios} = useNuxtApp()
 
-interface StudentMaintenanceRequest {
+interface StudentRequest {
   id: number
   date: string
   name: string
@@ -27,7 +27,7 @@ const columns = [
   {key: 'extend', label: 'Extend', sortable: false,}
 ]
 
-const requests = ref<StudentMaintenanceRequest[]>([]);
+const requests = ref<StudentRequest[]>([]);
 const currentPage = ref(1);
 const pageSize = ref(10);
 const totalItems = ref(0);
@@ -38,7 +38,7 @@ const api = $axios()
 const fetchData = async () => {
   try {
     const response = await api.get("/maintenance-requests/");
-    requests.value = response.data.map((request: StudentMaintenanceRequest) => ({
+    requests.value = response.data.map((request: StudentRequest) => ({
       ...request,
       date: new Date().toLocaleDateString(),
     }));
@@ -114,7 +114,7 @@ definePageMeta({
   middleware: 'auth',
 });
 
-const openPopup = (row: StudentMaintenanceRequest) => {
+const openPopup = (row: StudentRequest) => {
   currentRequest.value = row;
   isPopupVisible.value = true;
 };

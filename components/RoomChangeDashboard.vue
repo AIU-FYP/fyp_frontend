@@ -3,9 +3,7 @@ import {computed, onMounted, ref} from 'vue';
 import Popup from '~/components/StudentRoomChangePopup.vue'
 import {useNuxtApp} from "#app";
 
-let {$axios} = useNuxtApp()
-
-interface Person {
+interface RequestFields {
   id: number
   date: string
   name: string
@@ -17,6 +15,7 @@ interface Person {
   extend?: boolean | string
 }
 
+
 const columns = [
   {key: 'id', label: 'id'},
   {key: "date", label: 'Date',},
@@ -27,19 +26,11 @@ const columns = [
   {key: 'extend', label: 'Extend', sortable: false,}
 ]
 
-const people = ref<Person[]>([]);
-const currentPage = ref(1);
-const pageSize = ref(10);
-const totalItems = ref(0);
-const q = ref('');
-
-const api = $axios()
-
 const fetchData = async () => {
   try {
     const response = await api.get("/change-room-requests/");
-    people.value = response.data.map((person: Person) => ({
-      ...person,
+    requests.value = response.data.map((request: RequestFields) => ({
+      ...request,
       date: new Date().toLocaleDateString(),
     }));
     totalItems.value = response.data.length;
@@ -48,8 +39,33 @@ const fetchData = async () => {
   }
 }
 
+definePageMeta({
+  middleware: 'auth',
+});
+
+let {$axios} = useNuxtApp()
+interface StudentRequest {
+  id: number
+  date: string
+  name: string
+  studentIdNumber: string
+  roomNumber: string
+  whatsappNumber: string
+  emailAddress: string
+  gender: string
+  extend?: boolean | string
+}
+
+const requests = ref<RequestFields[]>([]);
+const currentPage = ref(1);
+const pageSize = ref(10);
+const totalItems = ref(0);
+const q = ref('');
+
+const api = $axios()
+
 const isPopupVisible = ref(false);
-const currentStudent = ref({});
+const currentRequest = ref({});
 
 onMounted(fetchData)
 
@@ -97,7 +113,6 @@ function toggleLinkVisibility(index: number) {
 const isLoading = ref(false);
 const router = useRouter();
 
-
 async function navigateToPage(url: string) {
   isLoading.value = true;
   try {
@@ -111,22 +126,18 @@ async function navigateToPage(url: string) {
   }
 }
 
-definePageMeta({
-  middleware: 'auth',
-});
-
-const openPopup = (row: Person) => {
-  currentStudent.value = row;
+const openPopup = (row: StudentRequest) => {
+  currentRequest.value = row;
   isPopupVisible.value = true;
 };
 
 const filteredRows = computed(() => {
   if (!q.value) {
-    return people.value;
+    return requests.value;
   }
 
-  return people.value.filter((person) => {
-    return Object.values(person).some((value) => {
+  return requests.value.filter((request) => {
+    return Object.values(request).some((value) => {
       return String(value).toLowerCase().includes(q.value.toLowerCase());
     });
   });
@@ -143,6 +154,7 @@ const handlePageChange = (newPage: number) => {
 };
 
 onMounted(fetchData)
+
 
 </script>
 
@@ -179,7 +191,7 @@ onMounted(fetchData)
             <div class="header">
 
               <div class="search-container">
-                <UInput v-model="q" placeholder="Filter students..."/>
+                <UInput v-model="q" placeholder="Filter requests..."/>
               </div>
             </div>
 
@@ -189,7 +201,7 @@ onMounted(fetchData)
                 <Popup
                     :show="isPopupVisible"
                     @update:show="isPopupVisible = $event"
-                    :student="currentStudent"
+                    :request="currentRequest"
                 />
               </template>
             </UTable>

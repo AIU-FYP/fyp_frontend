@@ -1,15 +1,7 @@
 <script setup>
 import {defineEmits, defineProps} from 'vue'
 
-
-const props = defineProps({
-  show: Boolean,
-  student: Object
-});
-
-const emit = defineEmits(['update:show'])
-
-const studentFields = [
+const requestFields = [
   {label: 'ID ', key: 'id'},
   {label: 'Name ', key: 'student'},
   {label: 'Student ID', key: 'student_id'},
@@ -23,6 +15,13 @@ const studentFields = [
   {label: 'Status', key: 'status'},
 ];
 
+const props = defineProps({
+  show: Boolean,
+  request: Object
+});
+
+const emit = defineEmits(['update:show'])
+
 const closePopup = () => {
   emit('update:show', false)
 }
@@ -32,7 +31,7 @@ const closePopup = () => {
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
       <div class="popup-header">
-        <span style="font-size: 1.5rem">Welcome to {{ props.student.name }}</span>
+        <span style="font-size: 1.5rem">Welcome to {{ props.request.name }}</span>
         <span @click="closePopup" class="close-btn">
           <UIcon
               name="fontisto-close"
@@ -41,7 +40,7 @@ const closePopup = () => {
       </div>
       <hr class="divider">
       <div class="popup-content">
-        <div class="box" v-for="field in studentFields" :key="field.key">
+        <div class="box" v-for="field in requestFields" :key="field.key">
   <span class="student-label-info">
     <span>
       <UIcon
@@ -60,7 +59,7 @@ const closePopup = () => {
     </span>
     <span v-if="field.key === 'supporting_doc'">
       <a
-          :href="student[field.key]"
+          :href="request[field.key]"
           target="_blank"
           rel="noopener noreferrer"
           class="link"
@@ -70,7 +69,7 @@ const closePopup = () => {
       </a>
     </span>
     <span v-else>
-      {{ student[field.key] }}
+      {{ request[field.key] }}
     </span>
   </span>
         </div>
