@@ -3,7 +3,7 @@ import {defineEmits, defineProps} from "vue";
 
 const props = defineProps({
   show: Boolean,
-  student: Object,
+  hostel: Object,
 });
 
 const emit = defineEmits(["update:show"]);
@@ -22,7 +22,7 @@ const closePopup = () => {
     <div class="popup-container" @click.stop>
 
       <div class="popup-header">
-        <span style="font-size: 1.5rem">{{ student.name }}</span>
+        <span style="font-size: 1.5rem">{{ hostel.name }} {{hostel.gender}}</span>
         <span @click="closePopup" class="close-btn">
           <UIcon name="fontisto-close"/>
         </span>
@@ -33,7 +33,7 @@ const closePopup = () => {
       <div class="popup-content">
         <div class="container">
 
-          <div v-for="level in student.levels" :key="level.number" class="levels">
+          <div v-for="level in hostel.levels" :key="level.number" class="levels">
 
             <span class="level-label">Level {{ level.number }}</span>
 
@@ -53,10 +53,7 @@ const closePopup = () => {
                           name="mdi-bed"
                           class="icon"
                       />
-                      {{ convertToLetter(zone) }}
-
-
-
+                      <span> {{ convertToLetter(zone) }}</span>
                     </div>
 
                   </div>
@@ -73,16 +70,6 @@ const closePopup = () => {
           </div>
         </div>
       </div>
-
-      <hr class="divider"/>
-
-      <div class="popup-footer">
-        <div class="popup-bts"></div>
-        <div>
-          <h2>Thank you</h2>
-        </div>
-      </div>
-
     </div>
   </div>
 </template>
@@ -102,7 +89,7 @@ const closePopup = () => {
 }
 
 .popup-container {
-  background: #fff;
+  background: #EEEEEE;
   padding: 2rem;
   width: 90%;
   max-width: 90%;
@@ -203,6 +190,12 @@ span {
   border-radius: 4px;
 }
 
+.capacity-part .icon,
+.capacity-part span{
+  color: var(--text-hovor-color);
+  font-size: 1rem;
+}
+
 @media (max-width: 800px) {
   .box {
     display: flex;
@@ -210,27 +203,9 @@ span {
   }
 }
 
-.popup-bts {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin: 2rem 0;
-}
 
-.popup-bts button {
-  padding: .5rem;
-  font-size: 1.2rem;
-  text-transform: capitalize;
-}
 
 @media (max-width: 800px) {
-  .popup-bts {
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-  }
-
   .popup-bts button {
     margin: 0.5rem;
     font-size: 1rem;

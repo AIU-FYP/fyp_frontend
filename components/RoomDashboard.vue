@@ -5,25 +5,23 @@ import {useNuxtApp} from "#app";
 
 let {$axios} = useNuxtApp()
 
-interface Person {
+interface Hostel {
   id: number
   date: string
   name: string
-  studentIdNumber: string
-  roomNumber: string
-  whatsappNumber: string
-  emailAddress: string
   gender: string
+  email: string
   extend?: boolean | string
 }
 
 const columns = [
   {key: 'gender', label: 'Gender', sortable: true},
+  {key: 'date', label: 'Date', sortable: true},
   {key: 'name', label: 'Block Name', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}
 ]
 
-const people = ref<Person[]>([]);
+const hostels = ref<Hostel[]>([]);
 const currentPage = ref(1);
 const pageSize = ref(10);
 const totalItems = ref(0);
@@ -34,8 +32,8 @@ const api = $axios()
 const fetchData = async () => {
   try {
     const response = await api.get("/hostels/");
-    people.value = response.data.map((person: Person) => ({
-      ...person,
+    hostels.value = response.data.map((hostel: Hostel) => ({
+      ...hostel,
       date: new Date().toLocaleDateString(),
     }));
     totalItems.value = response.data.length;
@@ -44,9 +42,8 @@ const fetchData = async () => {
   }
 }
 
-
 const isPopupVisible = ref(false);
-const currentStudent = ref({});
+const currentHostel = ref({});
 
 onMounted(fetchData)
 
@@ -112,18 +109,18 @@ definePageMeta({
   middleware: 'auth',
 });
 
-const openPopup = (row: Person) => {
-  currentStudent.value = row;
+const openPopup = (row: Hostel) => {
+  currentHostel.value = row;
   isPopupVisible.value = true;
 };
 
 const filteredRows = computed(() => {
   if (!q.value) {
-    return people.value;
+    return hostels.value;
   }
 
-  return people.value.filter((person) => {
-    return Object.values(person).some((value) => {
+  return hostels.value.filter((hostel) => {
+    return Object.values(hostel).some((value) => {
       return String(value).toLowerCase().includes(q.value.toLowerCase());
     });
   });
@@ -186,7 +183,7 @@ onMounted(fetchData)
                 <Popup
                     :show="isPopupVisible"
                     @update:show="isPopupVisible = $event"
-                    :student="currentStudent"
+                    :hostel="currentHostel"
                 />
               </template>
             </UTable>
@@ -250,6 +247,7 @@ onMounted(fetchData)
 
 .dashboard-content {
   flex: 6;
+  padding: 50px;
 }
 
 @media (max-width: 1200px) {
