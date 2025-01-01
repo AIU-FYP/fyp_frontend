@@ -122,20 +122,6 @@ previousQuestions.forEach((question) => {
 });
 
 
-// function handleSubmit() {
-//   form.Date = new Date().toLocaleDateString("en-GB");
-//   const validationResults = formSchema.safeParse(form);
-//   if (validationResults.success) {
-//     console.log("Form Data:", { ...form });
-//     alert("Form submitted successfully!");
-//   } else {
-//     alert("Please correct the errors in the form.");
-//     validationResults.error.errors.forEach((err) => {
-//       if (err.path) errors[err.path[0]] = err.message;
-//     });
-//   }
-// }
-
 async function handleSubmit() {
   const api = useApi();
   form.Date = new Date().toLocaleDateString("en-GB");

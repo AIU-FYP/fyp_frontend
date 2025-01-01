@@ -1,12 +1,12 @@
 <script setup lang="ts">
 
-import ChangeRoomForm from "~/components/ChangeRoomForm.vue";
+import ChangeRoomForm from "~/components/RoomChangeForm.vue";
 </script>
 
 <template>
-  <HeaderSection/>
+  <Header/>
   <ChangeRoomForm/>
-  <FooterSection/>
+  <Footer/>
 </template>
 
 <style scoped>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 
-import NewHostelFrom from "~/components/NewHostelFrom.vue";
+import HostelFormSubmit from "~/components/HostelFormSubmit.vue";
 </script>
 
 <template>
-  <AdminHeaderSection/>
-  <NewHostelFrom/>
-  <AdminFooterSection/>
+  <AdminHeader/>
+  <HostelFormSubmit/>
+  <AdminFooter/>
 </template>
 
 <style scoped>

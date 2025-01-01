@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import RoomDashboardSection from "~/components/RoomDashboardSection.vue";
+import RoomDashboardSection from "~/components/RoomDashboard.vue";
 
 import {useAuth} from "~/composables/useAuth";
 
@@ -13,9 +13,9 @@ const auth = useAuth()
 </script>
 
 <template>
-  <AdminHeaderSection/>
-  <RoomDashboardSection/>
-  <AdminFooterSection/>
+  <AdminHeader/>
+  <RoomDashboard/>
+  <AdminFooter/>
 </template>
 
 <style scoped>

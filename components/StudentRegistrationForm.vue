@@ -1,6 +1,6 @@
 <script setup>
 import {computed, reactive, ref, watch} from 'vue';
-import Popup from '~/components/PopupAdminSubmit.vue'
+import Popup from '~/components/AdminSubmitPopup.vue'
 import {z} from 'zod';
 import { religions, nationalities,} from "~/utils/nationalities";
 

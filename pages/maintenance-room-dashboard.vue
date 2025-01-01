@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import MaintenanceDashboardSection from "~/components/MaintenanceDashboardSection.vue";
 
 definePageMeta({
   middleware: 'auth'
@@ -8,9 +7,9 @@ definePageMeta({
 </script>
 
 <template>
-  <AdminHeaderSection/>
-  <MaintenanceDashboardSection/>
-  <AdminFooterSection/>
+  <AdminHeader/>
+  <MaintenanceDashboard/>
+  <AdminFooter/>
 </template>
 
 <style scoped>

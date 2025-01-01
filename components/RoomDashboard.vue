@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, ref} from 'vue';
-import Popup from '~/components/PopupRoom.vue'
+import Popup from '~/components/RoomPopup.vue'
 import {useNuxtApp} from "#app";
 
 let {$axios} = useNuxtApp()
@@ -18,7 +18,6 @@ interface Person {
 }
 
 const columns = [
-  {key: 'id', label: 'id'},
   {key: 'gender', label: 'Gender', sortable: true},
   {key: 'name', label: 'Block Name', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}

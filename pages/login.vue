@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
-import LogInSection from "~/components/LogInSection.vue";
+import LogInFrom from "~/components/LogInFrom.vue";
 </script>
 
 <template>
-  <LogInSection/>
+  <LogInFrom/>
 </template>
 
 <style scoped>

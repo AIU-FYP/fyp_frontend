@@ -4,16 +4,6 @@ import { useRouter } from 'vue-router';
 
 const isLoading = ref(false);
 const visibleButtonIndex = ref<number | null>(null);
-const formData = ref<Record<string, any>>({
-  hostelName: '',
-  gender: '',
-  levels: {
-    level1: null,
-    level2: null,
-    level3: null,
-    level4: null,
-  },
-});
 
 const router = useRouter();
 
@@ -115,7 +105,7 @@ const previousQuestions = [
       </aside>
 
       <main class="dashboard-content">
-        <NewHostelFormSection/>
+        <HostelForm/>
       </main>
     </div>
   </div>

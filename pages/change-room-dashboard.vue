@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {useAuth} from "~/composables/useAuth";
-import ChangeRoomDashboardSection from "~/components/ChangeRoomDashboardSection.vue";
 
 const auth = useAuth()
 
@@ -12,9 +11,9 @@ definePageMeta({
 </script>
 
 <template>
-  <AdminHeaderSection/>
-  <ChangeRoomDashboardSection/>
-  <AdminFooterSection/>
+  <AdminHeader/>
+  <RoomChangeDashboard/>
+  <AdminFooter/>
 </template>
 
 <style scoped>

@@ -1,6 +1,6 @@
 <script setup>
 import {computed, reactive, ref, watch} from 'vue';
-import Popup from '~/components/PopupStudentSubmit.vue'
+import Popup from '~/components/StudentSubmitPopup.vue'
 import {z} from 'zod';
 import {nationalities, roomMaintenanceIssues} from "~/utils/nationalities";
 import {useNuxtApp} from "#app";

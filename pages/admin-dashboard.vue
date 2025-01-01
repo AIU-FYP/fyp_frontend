@@ -1,8 +1,10 @@
 <script setup lang="ts">
 
-import AdminDashboardSection from "~/components/AdminDashboardSection.vue";
+import AdminDashboardSection from "~/components/AdminDashboard.vue";
 
 import {useAuth} from "~/composables/useAuth";
+import AdminHeader from "~/components/AdminHeader.vue";
+import AdminFooter from "~/components/AdminFooter.vue";
 
 definePageMeta({
   middleware: 'auth'
@@ -14,9 +16,9 @@ const auth = useAuth()
 </script>
 
 <template>
-  <AdminHeaderSection/>
-  <AdminDashboardSection/>
-  <AdminFooterSection/>
+  <AdminHeader/>
+  <AdminDashboard/>
+  <AdminFooter/>
 </template>
 
 <style scoped>

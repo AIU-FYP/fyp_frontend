@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
-import AdminHeaderSection from "~/components/AdminHeaderSection.vue";
-import AdminFooterSection from "~/components/AdminFooterSection.vue";
+import AdminHeaderSection from "~/components/AdminHeader.vue";
+import AdminFooterSection from "~/components/AdminFooter.vue";
 
 </script>
 

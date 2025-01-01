@@ -1,18 +1,14 @@
 <script setup lang="ts">
-
-import HeaderSection from "~/components/HeaderSection.vue";
-import LandingSection from "~/components/LandingSection.vue";
-import AboutSection from "~/components/AboutSection.vue";
-import TeamSection from "~/components/TeamSection.vue";
-import FooterSection from "~/components/FooterSection.vue";
+import LandingPage from "~/components/LandingPage.vue";
+import Team from "~/components/Team.vue";
 </script>
 
 <template>
-  <HeaderSection/>
-  <LandingSection/>
-  <AboutSection/>
-  <TeamSection/>
-  <FooterSection/>
+  <Header/>
+  <LandingPage/>
+  <About/>
+  <Team/>
+  <Footer/>
 </template>
 
 <style scoped>

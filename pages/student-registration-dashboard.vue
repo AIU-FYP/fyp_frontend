@@ -12,9 +12,9 @@ const auth = useAuth()
 </script>
 
 <template>
-  <AdminHeaderSection/>
-  <StudentDashboradSection/>
-  <AdminFooterSection/>
+  <AdminHeader/>
+  <StudentDashboard/>
+  <AdminFooter/>
 </template>
 
 <style scoped>

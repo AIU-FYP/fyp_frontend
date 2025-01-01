@@ -1,184 +1,124 @@
-<script setup lang="ts">
-
-import {onMounted, ref} from 'vue'
-import {useNuxtApp} from '#app'
-import Popup from '~/components/PopupAdminInfo.vue'
-
-interface Person {
-  id: number
-  date: string
-  name: string
-  studentIdNumber: string
-  roomNumber: string
-  whatsappNumber: string
-  emailAddress: string
-  gender: string
-  extend?: boolean | string
-}
-
-const columns = [
-  {key: 'id', label: 'id'},
-  {key: 'name', label: 'Name', sortable: true},
-  {key: 'staffId', label: 'Staff ID', sortable: true},
-  {key: 'phoneNo', label: 'Phone No', sortable: true},
-  {key: 'emailAdminAddress', label: 'Email', sortable: true},
-  {key: 'extend', label: 'Extend', sortable: false,}
-]
-
-const people = ref<Person[]>([]);
-
-let {$axios} = useNuxtApp()
-const api = $axios()
-
-const fetchData = async () => {
-  try {
-    const response = await api.get("/Students/")
-    people.value = response.data.map((person: Person) => ({
-      ...person,
-      date: new Date().toLocaleDateString()
-    }))
-  } catch (error) {
-    console.error('Error fetching data:', error)
-  }
-}
-
-
-const isPopupVisible = ref(false);
-const currentStudent = ref({});
-
-const openPopup = (row: Person) => {
-  currentStudent.value = row;
-  isPopupVisible.value = true;
-};
-
-onMounted(fetchData)
-
-</script>
-
 <template>
-
-  <div class="admin-dashboard">
+  <div class="settings-page">
     <div class="container">
-      <main class="dashboard-content">
-        <div class="sub-container">
-          <div class="header">
-            <h2 class="admin-title">Welcome back</h2>
-          </div>
-          <hr class="divider"/>
-          <div class="content">
-            <UTable :columns="columns" :rows="people">
-              <template #extend-data="{ row }">
-                <a @click="openPopup(row)" class="extend-btn">Extend</a>
-                <Popup
-                    :show="isPopupVisible"
-                    @update:show="isPopupVisible = $event"
-                    :student="currentStudent"
-                />
-              </template>
-            </UTable>
-          </div>
-          <hr class="divider"/>
-          <div class="footer">
-            <h2 class="footer-megs" style="text-align: center">Thank you !</h2>
-          </div>
-        </div>
+      <aside class="sidebar">
+        <h1>Account Settings</h1>
+        <nav>
+          <ul class="menu">
+            <li>
+              <UIcon name="mdi-password" class="icon"/>
+              <router-link to="change-admin-password">Change Password</router-link>
+            </li>
+            <li>
+              <UIcon name="subway-admin-1" class="icon"/>
+              <router-link to="new-admin">Add New Admin</router-link>
+            </li>
+            <li>
+              <UIcon name="grommet-icons-user-admin" class="icon"/>
+              <router-link to="admin-dashboard">Admin dashboard</router-link>
+            </li>
+            <li>
+              <UIcon name="eos-icons-admin" class="icon"/>
+              <router-link to="admin">Admin</router-link>
+            </li>
+            <li>
+              <UIcon name="uiw-logout" class="icon"/>
+              <router-link to="login">Log Out</router-link>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+      <main class="content">
+        <h2>Admin Dashboard</h2>
+        <AdminDashboard/>
       </main>
     </div>
   </div>
 </template>
 
+<script setup>
+
+definePageMeta({
+  middleware: 'auth',
+})
+
+</script>
+
 <style scoped>
-.admin-dashboard {
-  display: block;
-}
-
-.admin-dashboard > .container {
+.settings-page {
   display: flex;
-  flex-wrap: nowrap;
-  padding: 0;
-  margin: 0 auto;
-  max-width: 1300px;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
   width: 100%;
+  margin: 0 auto;
 }
 
-@media (max-width: 1200px) {
-  .admin-dashboard .container{
-    border-radius: 0;
-    border: none;
-  }
-}
-
-.dashboard-content {
+.sidebar {
   flex: 1;
-}
-
-.sidebar ul {
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar ul li {
-  list-style: none;
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  font-size: 1rem;
-  text-align: start;
-  text-transform: capitalize;
-  font-weight: normal;
+  background-color: var(--main-color);
+  padding: 20px;
   color: var(--text-color);
+  border-radius: 10px;
+  min-height: 81vh;
+}
+
+.sidebar h1 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  display: flex;
+  align-items: center;
+  padding: .5rem;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  cursor: pointer;
   background-color: transparent;
 }
 
-.sidebar ul li:hover {
-  color: var(--text-hovor-color);
+.menu li:hover {
   background-color: var(--main-hovor-color);
+  transition: .3s ease-in-out;
 }
 
+.menu li .icon {
+  margin-right: 10px;
+}
 
-.extend-btn {
+.menu li a {
   text-decoration: none;
-  background-color: var(--main-color);
-  padding: 0.2rem 0.5rem;
-  margin: 0;
-  font-size: 1rem;
-  border-radius: 0.5rem;
-  color: #eeeeee;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-.extend-btn:hover {
-  background-color: var(--text-hovor-color);
-  color: var(--main-color);
+.content {
+  flex: 3;
+  background-color: #ecf0f1;
+  padding: 20px;
+  border-radius: 10px;
 }
 
-
-.admin-title,
-.footer-megs {
+.content h2 {
   font-size: 1.5rem;
-  color: var(--main-color);
-  text-align: center;
-}
-
-.divider {
-  width: calc(100% - 1rem);
-  border-bottom: 0.1rem solid var(--main-color);
-  margin: 1rem 0;
-  padding: 0;
-  color: var(--main-color);
-}
-
-/* Media Queries for Responsiveness */
-@media (max-width: 1200px) {
-  .admin-dashboard > .container {
-    flex-direction: column;
-  }
-
+  margin-bottom: 20px;
+  color: var(--main-hovor-color);
 }
 
 @media (max-width: 768px) {
-  .dashboard-content {
-    padding: 1rem;
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    margin-bottom: 20px;
   }
 }
 </style>

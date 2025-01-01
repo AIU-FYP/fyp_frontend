@@ -11,9 +11,9 @@ const auth = useAuth()
 </script>
 
 <template>
-  <AdminHeaderSection/>
+  <AdminHeader/>
   <NewAdminFormSection/>
-  <AdminFooterSection/>
+  <AdminFooter/>
 </template>
 
 <style scoped>

@@ -1,67 +1,83 @@
-<script setup>
-import {defineEmits, defineProps} from 'vue'
 
+<script setup>
+import { defineEmits, defineProps } from "vue";
 
 const props = defineProps({
   show: Boolean,
-  student: Object
+  student: Object,
 });
 
-const emit = defineEmits(['update:show'])
-
-const studentFields = [
-  {key: 'levelNo', label: 'Level No'}
-];
+const emit = defineEmits(["update:show"]);
 
 const closePopup = () => {
-  emit('update:show', false)
-}
+  emit("update:show", false);
+};
 </script>
 
 <template>
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
+
       <div class="popup-header">
-        <span style="font-size: 1.5rem">{{ props.student.name }}</span>
+        <span style="font-size: 1.5rem">{{ student.name }}</span>
         <span @click="closePopup" class="close-btn">
-          <UIcon
-              name="fontisto-close"
-          />
+          <UIcon name="fontisto-close" />
         </span>
       </div>
-      <hr class="divider">
+
+      <hr class="divider" />
+
       <div class="popup-content">
-        <div class="box" v-for="field in studentFields" :key="field.key">
-          <span class="student-label-info">
-            <span>
-              <UIcon
-                  style="color: var(--main-color)"
-                  name="ph-student"
-              />
-            </span>
-            {{ field.label }}:</span>
-          <span class="student-key-info">
-            <span>
-              <UIcon
-                  style="color: var(--main-color)"
-                  name="bx-data"
-              />
-            </span>
-            {{ student[field.key] }}</span>
+        <div class="container">
+
+          <div v-for="level in student.levels" :key="level.number" class="grid-item">
+
+            <span class="level-label">Level {{ level.number }}</span>
+
+            <div class="level-box">
+              <div v-for="room in level.room_details" :key="room.number" class="room-box">
+                <div class="box">
+                  <div class="capacity-container">
+
+
+                    <div
+                        v-for="zone in room.capacity"
+                        :key="zone"
+                        class="capacity-part"
+                    >
+                       {{ zone }}
+                    </div>
+
+                  </div>
+
+                  <div class="room-box">
+                    <span> Room :</span>
+                    <span>{{ room.number }}</span>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
-      <hr class="divider">
+
+      <hr class="divider" />
+
       <div class="popup-footer">
         <div class="popup-bts"></div>
         <div>
-          <h2>Thank you </h2>
+          <h2>Thank you</h2>
         </div>
       </div>
+
     </div>
   </div>
 </template>
 
 <style scoped>
+
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -77,8 +93,8 @@ const closePopup = () => {
 .popup-container {
   background: #fff;
   padding: 2rem;
-  width: 60%;
-  max-width: 60%;
+  width: 90%;
+  max-width: 90%;
   scroll-behavior: smooth;
   text-align: center;
   max-height: 90vh;
@@ -93,7 +109,6 @@ const closePopup = () => {
     max-width: 100%;
   }
 }
-
 
 @media (max-width: 800px) {
   .popup-container {
@@ -131,40 +146,62 @@ span {
 
 .divider {
   margin: 3% 2%;
-  border: 2px solid var(--main-color);;
+  border: 2px solid var(--main-color);
 }
 
 .popup-content {
   padding: 0 20px;
 }
 
-.box {
-  display: flex;
+.level-label{
+  font-size: 1.5rem;
+  color: var(--main-color);
+  margin-bottom: 20px;
 }
 
-.student-label-info,
-.student-key-info {
-  text-align: start;
-  text-transform: capitalize;
-  color: var(--main-color);
-  font-size: 1.2rem;
-  width: 50%;
-  padding: .5rem;
-  border-radius: .5rem 0;
-  background-color: #eeeeee;
-  margin-bottom: .5rem;
+.level-box {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+  gap: 20px;
+}
+
+.level-box div {
+  width: 70px;
+  height: auto;
+  text-align: center;
+}
+
+.box {
+  align-items: start;
+  text-align:start ;
+}
+
+.box span {
+  display: block;
+}
+
+.capacity-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.capacity-part {
+  width: 30%;
+  height: 20px;
+  background-color: red;
+  margin-right: 5px;
+  border-radius: 4px;
 }
 
 @media (max-width: 800px) {
   .box {
     display: flex;
     flex-direction: column;
-  }
-
-  .student-label-info,
-  .student-key-info {
-    width: 100%;
-    font-size: .9rem;
   }
 }
 
@@ -179,35 +216,6 @@ span {
   padding: .5rem;
   font-size: 1.2rem;
   text-transform: capitalize;
-}
-
-.popup-bts .room-occupied {
-  border-radius: 0 1rem;
-  border: 2px solid var(--main-color);
-}
-
-.popup-bts .room-available {
-  border-radius: 0 1rem;
-  border: 2px solid var(--main-hovor-color);
-}
-
-.popup-bts .room-occupied:hover,
-.popup-bts .room-available:hover {
-  background: var(--button-hovor-color);
-  color: var(--text-hovor-color);
-  border: 2px solid var(--button-hovor-color);
-  transition: .4s ease-in-out;
-}
-
-.popup-bts .room-out-of-service {
-  border-radius: 0 1rem;
-  border: 2px solid red;
-}
-
-.popup-bts .room-out-of-service:hover {
-  background: red;
-  color: var(--text-hovor-color);
-  transition: .4s ease-in-out;
 }
 
 @media (max-width: 800px) {

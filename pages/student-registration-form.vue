@@ -10,9 +10,9 @@ const auth = useAuth()
 </script>
 
 <template>
-  <AdminHeaderSection/>
-  <StudentRegistrationFormSection/>
-  <AdminFooterSection/>
+  <AdminHeader/>
+  <StudentRegistrationFormSubmit/>
+  <AdminFooter/>
 </template>
 
 <style scoped>

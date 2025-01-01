@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
+import MaintenanceForm from "~/components/MaintenanceForm.vue";
 </script>
 
 <template>
-  <HeaderSection/>
-  <MaintenanceFormSection/>
-  <FooterSection/>
+  <Header/>
+  <MaintenanceForm/>
+  <Footer/>
 </template>
 
 <style scoped>
