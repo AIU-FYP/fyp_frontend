@@ -91,7 +91,6 @@ function toggleLinkVisibility(index: number) {
 const isLoading = ref(false);
 const router = useRouter();
 
-
 async function navigateToPage(url: string) {
   isLoading.value = true;
   try {

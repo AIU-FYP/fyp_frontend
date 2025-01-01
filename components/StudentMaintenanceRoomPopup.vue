@@ -1,7 +1,7 @@
 <script setup>
 import {defineEmits, defineProps} from 'vue'
 
-const studentFields = [
+const requestFields = [
   {label: 'ID ', key: 'id'},
   {label: 'Name ', key: 'student'},
   {label: 'Student ID ', key: 'student_id'},
@@ -18,7 +18,7 @@ const studentFields = [
 
 const props = defineProps({
   show: Boolean,
-  student: Object
+  request: Object
 });
 
 const emit = defineEmits(['update:show'])
@@ -32,7 +32,7 @@ const closePopup = () => {
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
       <div class="popup-header">
-        <span style="font-size: 1.5rem">Welcome  to {{props.student.name}}</span>
+        <span style="font-size: 1.5rem">Student name is {{props.request.student}}</span>
         <span @click="closePopup" class="close-btn">
           <UIcon
               name="fontisto-close"
@@ -42,7 +42,7 @@ const closePopup = () => {
       <hr class="divider">
 
       <div class="popup-content">
-        <div class="box" v-for="field in studentFields" :key="field.key">
+        <div class="box" v-for="field in requestFields" :key="field.key">
   <span class="student-label-info">
     <span>
       <UIcon
@@ -61,7 +61,7 @@ const closePopup = () => {
     </span>
     <span v-if="field.key === 'evidence_photo'">
       <a
-          :href="student[field.key]"
+          :href="request[field.key]"
           target="_blank"
           rel="noopener noreferrer"
           class="link"
@@ -71,7 +71,7 @@ const closePopup = () => {
       </a>
     </span>
     <span v-else>
-      {{ student[field.key] }}
+      {{ request[field.key] }}
     </span>
   </span>
         </div>
@@ -80,15 +80,14 @@ const closePopup = () => {
 
 
       <hr class="divider">
+
       <div class="popup-footer">
         <div class="popup-bts">
           <button class="reject-maintenance-request" id="rejectMaintenanceRequest">Reject request</button>
           <button class="work-done-by-PPK" id="workDoneByPPK">Work done by PPK</button>
         </div>
-        <div>
-          <h2>Thank you </h2>
-        </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -203,7 +202,7 @@ span {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  margin: 2rem 0;
+  margin: 1rem 0;
 }
 
 .popup-bts button {
@@ -249,10 +248,5 @@ span {
   }
 }
 
-h2 {
-  font-size: 1.5rem;
-  text-align: center;
-  text-transform: capitalize;
-}
 
 </style>

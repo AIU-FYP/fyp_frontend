@@ -5,7 +5,7 @@ import {useNuxtApp} from "#app";
 
 let {$axios} = useNuxtApp()
 
-interface Person {
+interface StudentMaintenanceRequest {
   id: number
   date: string
   name: string
@@ -27,7 +27,7 @@ const columns = [
   {key: 'extend', label: 'Extend', sortable: false,}
 ]
 
-const people = ref<Person[]>([]);
+const requests = ref<StudentMaintenanceRequest[]>([]);
 const currentPage = ref(1);
 const pageSize = ref(10);
 const totalItems = ref(0);
@@ -38,8 +38,8 @@ const api = $axios()
 const fetchData = async () => {
   try {
     const response = await api.get("/maintenance-requests/");
-    people.value = response.data.map((person: Person) => ({
-      ...person,
+    requests.value = response.data.map((request: StudentMaintenanceRequest) => ({
+      ...request,
       date: new Date().toLocaleDateString(),
     }));
     totalItems.value = response.data.length;
@@ -48,9 +48,8 @@ const fetchData = async () => {
   }
 }
 
-
 const isPopupVisible = ref(false);
-const currentStudent = ref({});
+const currentRequest = ref({});
 
 onMounted(fetchData)
 
@@ -98,7 +97,6 @@ function toggleLinkVisibility(index: number) {
 const isLoading = ref(false);
 const router = useRouter();
 
-
 async function navigateToPage(url: string) {
   isLoading.value = true;
   try {
@@ -116,18 +114,18 @@ definePageMeta({
   middleware: 'auth',
 });
 
-const openPopup = (row: Person) => {
-  currentStudent.value = row;
+const openPopup = (row: StudentMaintenanceRequest) => {
+  currentRequest.value = row;
   isPopupVisible.value = true;
 };
 
 const filteredRows = computed(() => {
   if (!q.value) {
-    return people.value;
+    return requests.value;
   }
 
-  return people.value.filter((person) => {
-    return Object.values(person).some((value) => {
+  return requests.value.filter((request) => {
+    return Object.values(request).some((value) => {
       return String(value).toLowerCase().includes(q.value.toLowerCase());
     });
   });
@@ -190,10 +188,11 @@ onMounted(fetchData)
                 <Popup
                     :show="isPopupVisible"
                     @update:show="isPopupVisible = $event"
-                    :student="currentStudent"
+                    :request="currentRequest"
                 />
               </template>
             </UTable>
+
             <div class="pagination">
               <button
                   :disabled="currentPage === 1"
