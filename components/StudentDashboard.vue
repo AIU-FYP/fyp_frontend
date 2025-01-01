@@ -21,8 +21,8 @@ const columns = [
   {key: 'id', label: 'id'},
   {key: "date", label: 'Date',},
   {key: 'name', label: 'Name', sortable: true},
-  {key: 'studentId', label: 'Student ID', sortable: true},
-  {key: 'roomNo', label: 'Room No', sortable: true},
+  {key: 'student_id', label: 'Student ID', sortable: true},
+  {key: 'room', label: 'Room No', sortable: true},
   {key: 'gender', label: 'Gender', sortable: true},
   {key: 'status', label: 'Status', sortable: true},
   {key: 'extend', label: 'Extend', sortable: false,}

@@ -1,6 +1,5 @@
-
 <script setup>
-import { defineEmits, defineProps } from "vue";
+import {defineEmits, defineProps} from "vue";
 
 const props = defineProps({
   show: Boolean,
@@ -8,6 +7,10 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:show"]);
+
+const convertToLetter = (zoneNumber) => {
+  return String.fromCharCode(64 + Number(zoneNumber));
+};
 
 const closePopup = () => {
   emit("update:show", false);
@@ -21,16 +24,16 @@ const closePopup = () => {
       <div class="popup-header">
         <span style="font-size: 1.5rem">{{ student.name }}</span>
         <span @click="closePopup" class="close-btn">
-          <UIcon name="fontisto-close" />
+          <UIcon name="fontisto-close"/>
         </span>
       </div>
 
-      <hr class="divider" />
+      <hr class="divider"/>
 
       <div class="popup-content">
         <div class="container">
 
-          <div v-for="level in student.levels" :key="level.number" class="grid-item">
+          <div v-for="level in student.levels" :key="level.number" class="item">
 
             <span class="level-label">Level {{ level.number }}</span>
 
@@ -45,25 +48,26 @@ const closePopup = () => {
                         :key="zone"
                         class="capacity-part"
                     >
-                       {{ zone }}
+                      {{ convertToLetter(zone) }}
+
                     </div>
 
                   </div>
 
                   <div class="room-box">
-                    <span> Room :</span>
-                    <span>{{ room.number }}</span>
+                    <span class="room-number"> Room :{{ room.number }}</span>
                   </div>
 
                 </div>
               </div>
 
             </div>
+
           </div>
         </div>
       </div>
 
-      <hr class="divider" />
+      <hr class="divider"/>
 
       <div class="popup-footer">
         <div class="popup-bts"></div>
@@ -84,7 +88,7 @@ const closePopup = () => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -100,7 +104,6 @@ const closePopup = () => {
   max-height: 90vh;
   position: relative;
   overflow-y: auto;
-  border: 3px solid var(--main-color);
 }
 
 @media (max-width: 1200px) {
@@ -129,14 +132,9 @@ span {
 }
 
 .close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: var(--main-color);
 }
 
 .close-btn:hover {
@@ -145,43 +143,44 @@ span {
 }
 
 .divider {
-  margin: 3% 2%;
+  margin: 20px 0;
   border: 2px solid var(--main-color);
 }
 
-.popup-content {
-  padding: 0 20px;
-}
-
-.level-label{
-  font-size: 1.5rem;
-  color: var(--main-color);
+.level-label {
+  font-size: 1.2rem;
+  color: var(--text-hovor-color);
   margin-bottom: 20px;
+  background-color: var(--main-color);
+  padding: 0 20px;
 }
 
 .level-box {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 20px;
+  margin: 10px;
   max-height: 300px;
   overflow-y: auto;
   gap: 20px;
+
 }
 
 .level-box div {
-  width: 70px;
+  width: 100px;
   height: auto;
   text-align: center;
+  color: black;
+  font-size: .9rem;
 }
 
 .box {
   align-items: start;
-  text-align:start ;
+  text-align: start;
 }
 
-.box span {
-  display: block;
+.room-number {
+  margin: 10rem 0;
 }
 
 .capacity-container {

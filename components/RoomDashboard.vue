@@ -173,8 +173,8 @@ onMounted(fetchData)
         <div class="sub-container">
 
           <div class="content">
-            <div class="header">
 
+            <div class="header">
               <div class="search-container">
                 <UInput v-model="q" placeholder="Filter students..."/>
               </div>

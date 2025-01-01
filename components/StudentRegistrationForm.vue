@@ -69,7 +69,7 @@ const previousQuestions = [
   {
     label: "Gender",
     type: "select",
-    options: ["male", "female"],
+    options: [{value : "male" ,label :"Male"}, {value : "female" ,label :"Female"}],
     placeholder: "Select your gender",
     model: ref(""),
     id: "gender",
@@ -90,15 +90,13 @@ const previousQuestions = [
   },
   {
     label: "Program/Major",
-    type: "select",
-    options: ["Freshman", "Sophomore", "Junior", "Senior"],
-    placeholder: "Select your program or major",
+    type: "text",
+    placeholder: "Enter your program or major",
     id : "major",
   },
   {
     label: "Block Name",
     type: "text",
-    // options: [],
     placeholder: "Select Block Name (e.g., 25i)",
     model: ref(""),
     id :"block_name"
@@ -106,7 +104,6 @@ const previousQuestions = [
   {
     label: "Level No",
     type: "text",
-    // options: [],
     placeholder: "Select Level No (e.g., Level one)",
     model: ref(""),
     id :"level_number"
@@ -114,7 +111,6 @@ const previousQuestions = [
   {
     label: "Room No",
     type: "text",
-    // options: [],
     placeholder: "Select Room No (e.g., 02)",
     model: ref(""),
     id : "room"
@@ -122,7 +118,6 @@ const previousQuestions = [
   {
     label: "Which Zone",
     type: "text",
-    // options:[],
     placeholder: "How many seats are in the room?",
     id :"room_zone",
   },
@@ -138,7 +133,7 @@ const formSchema = z.object({
   "gender": z.string().nonempty("Gender is required"),
   "religion": z.string().optional(),
   "nationality": z.string().optional(),
-  "major": z.string().optional(),
+  "major": z.string().min(3, "Name must be at least 3 characters long").nonempty("Major is required"),
   "block_name": z.string().min(2, "Name must be at least 8 characters long").nonempty("Name is required"),
   "room": z.string().min(2, "Name must be at least 8 characters long").nonempty("Name is required"),
   "level_number": z.string().min(2, "Name must be at least 8 characters long").nonempty("Name is required"),
@@ -228,7 +223,7 @@ async function handleSubmit() {
                   @change="validateField(question.id)"
               >
                 <option value="" disabled>{{ question.placeholder }}</option>
-                <option v-for="option in question.options" :key="option" :value="option">{{ option }}</option>
+                <option v-for="option in question.options" :key="option.label" :value="option.value">{{ option.label }}</option>
               </select>
               <span v-if="errors[question.id]" class="error">{{ errors[question.id] }}</span>
 

@@ -1,23 +1,10 @@
 <script setup>
 import {defineEmits, defineProps} from 'vue'
 
-const student = [{
-  studentName: "student name",
-  StudentIDNumber: "Student ID Number",
-  RoomNumber: "Room Number",
-  PhoneNumber: "Phone Number",
-  WhatsAppNumber: "WhatsApp Number",
-  EmailAddress: "Email Address ",
-  Gender: "Gender",
-  EnterYourNationality: "Enter your Nationality",
-  PleaseProvidePhotoEvidence: "Please provide photo evidence",
-  ExplainYourReasonForRoomChange: "Explain your reason for room change"
-
-}]
-
 const props = defineProps({
   show: Boolean
 })
+
 const emit = defineEmits(['update:show'])
 
 const closePopup = () => {
