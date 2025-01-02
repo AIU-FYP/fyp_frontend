@@ -30,6 +30,7 @@ const closePopup = () => {
 <template>
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
+
       <div class="popup-header">
         <span style="font-size: 1.5rem">Welcome to {{ props.request.name }}</span>
         <span @click="closePopup" class="close-btn">
@@ -38,51 +39,39 @@ const closePopup = () => {
           />
         </span>
       </div>
+
       <hr class="divider">
+
       <div class="popup-content">
         <div class="box" v-for="field in requestFields" :key="field.key">
-  <span class="student-label-info">
-    <span>
-      <UIcon
-          style="color: var(--main-color)"
-          name="ph-student"
-      />
-    </span>
-    {{ field.label }}
-  </span>
-          <span class="student-key-info">
-    <span>
-      <UIcon
-          style="color: var(--main-color)"
-          name="bx-data"
-      />
-    </span>
-    <span v-if="field.key === 'supporting_doc'">
-      <a
-          :href="request[field.key]"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link"
-          style="color: var(--main-color); text-decoration: underline; cursor: pointer;"
-      >
-        Supporting Document
-      </a>
-    </span>
-    <span v-else>
-      {{ request[field.key] }}
-    </span>
-  </span>
+          <span class="student-label-info">
+            <UIcon
+                style="color: var(--main-color)"
+                name="ph-student"
+            />
+            {{ field.label }}</span>
+          <span class="student-key-info"><span></span>
+            <span v-if="field.key === 'supporting_doc'">
+              <a
+                  :href="request[field.key]"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="link"
+                  style="color: var(--main-color); text-decoration: underline; cursor: pointer;"
+              >Supporting Document</a>
+            </span>
+            <span v-else-if="field.key === 'reason' " class="truncate-single">
+              {{request[field.key]}}
+            </span>
+            <span v-else>{{ request[field.key] }}</span>
+          </span>
         </div>
-
       </div>
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
           <button class="accept-change-request" id="acceptChangeRequest">Accept change request</button>
           <button class="reject-change-request" id="rejectChangeRequest">Reject change request</button>
-        </div>
-        <div>
-          <h2>Thank you </h2>
         </div>
       </div>
     </div>
@@ -181,6 +170,15 @@ span {
   border-radius: .5rem 0;
   background-color: #eeeeee;
   margin-bottom: .5rem;
+}
+
+.truncate-single {
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  word-wrap: break-word;
+  line-height: 1.5rem;
+  padding: 0.5rem;
 }
 
 @media (max-width: 800px) {
