@@ -1,5 +1,6 @@
 <script setup>
 import {defineEmits, defineProps} from 'vue'
+import axios from "axios";
 
 const requestFields = [
   {label: 'ID ', key: 'id'},
@@ -25,6 +26,25 @@ const emit = defineEmits(['update:show'])
 const closePopup = () => {
   emit('update:show', false)
 }
+
+const updateStatus = async (newStatus) => {
+  try {
+    const response = await axios.patch(
+        `http://127.0.0.1:8000/api/change-room-requests/${props.request.id}/`,
+        { status: newStatus },
+    );
+    console.log('Success:', response.data);
+    alert("Success updated")
+    emit('update:show', false);
+  } catch (error) {
+    if (error.response) {
+      console.error('Error response:', error.response.data);
+    } else {
+      console.error('Error:', error.message);
+    }
+  }
+};
+
 </script>
 
 <template>
@@ -70,8 +90,8 @@ const closePopup = () => {
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="accept-change-request" id="acceptChangeRequest">Accept change request</button>
-          <button class="reject-change-request" id="rejectChangeRequest">Reject change request</button>
+          <button class="accept-change-request" @click="updateStatus('accepted')">Accept change request</button>
+          <button class="reject-change-request" @click="updateStatus('rejected')">Reject change request</button>
         </div>
       </div>
     </div>
