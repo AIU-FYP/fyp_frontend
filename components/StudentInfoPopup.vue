@@ -1,52 +1,70 @@
 <script setup>
-import {defineEmits, defineProps} from 'vue'
+import { defineEmits, defineProps } from 'vue';
+import axios from 'axios';
 
 const props = defineProps({
   show: Boolean,
-  student: Object
+  student: Object,
 });
 
-const emit = defineEmits(['update:show'])
+const emit = defineEmits(['update:show']);
 
 const studentFields = [
-  {label: 'ID ', key: 'id'},
-  {label: 'Status', key: 'status'},
-  {label: 'Name', key: 'name'},
-  {label: 'Student ID', key: 'student_id'},
-  {label: 'Passport No', key: 'passport'},
-  {label: 'Date of Arrived', key: 'arrival_date'},
-  {label: 'WhatsApp No', key: 'phone'},
-  {label: 'Student Email', key: 'email'},
-  {label: 'Gender', key: 'gender'},
-  {label: 'Religion', key: 'religion'},
-  {label: 'Nationality', key: 'nationality'},
-  {label: 'Program/Major', key: 'major'},
-  {label: 'Block Name', key: 'name'},
-  {label: 'Level No', key: 'level'},
-  {label: 'Room No', key: 'room'},
-  {label: 'Hostel Name', key: 'room'},
-  {label: 'Which Zone?', key: 'room_zone'},
+  { label: 'ID ', key: 'id' },
+  { label: 'Status', key: 'status' },
+  { label: 'Name', key: 'name' },
+  { label: 'Student ID', key: 'student_id' },
+  { label: 'Passport No', key: 'passport' },
+  { label: 'Date of Arrival', key: 'arrival_date' },
+  { label: 'WhatsApp No', key: 'phone' },
+  { label: 'Student Email', key: 'email' },
+  { label: 'Gender', key: 'gender' },
+  { label: 'Religion', key: 'religion' },
+  { label: 'Nationality', key: 'nationality' },
+  { label: 'Program/Major', key: 'major' },
+  { label: 'Block Name', key: 'name' },
+  { label: 'Level No', key: 'level' },
+  { label: 'Room No', key: 'room' },
+  { label: 'Hostel Name', key: 'room' },
+  { label: 'Which Zone?', key: 'room_zone' },
 ];
 
 const closePopup = () => {
-  emit('update:show', false)
-  closePopup()
-}
+  emit('update:show', false);
+};
 
 const updateStudentInfo = async () => {
   try {
-    const apiUrl = `http://127.0.0.1:8000/students/${props.student.id}/`; // Adjust as needed
-    console.log('Sending PATCH request to:', apiUrl);
-    console.log('Payload:', props.student);
-
-    const response = await axios.patch(apiUrl, props.student);
-    console.log('Response:', response.data);
-
-    alert('Student info updated successfully!');
-    closePopup();
+    const response = await axios.patch(
+        `http://127.0.0.1:8000/api/students/${props.student.id}/`,
+        { ...props.student }
+    );
+    console.log('Success:', response.data);
+    alert("Student info updated successfully");
+    emit('update:show', false);
   } catch (error) {
-    console.error('Failed to update student info:', error.response || error);
-    alert('Failed to update student info. Please check the console for details.');
+    if (error.response) {
+      console.error('Error response:', error.response.data);
+    } else {
+      console.error('Error:', error.message);
+    }
+  }
+};
+
+const deleteStudent = async () => {
+  try {
+    const response = await axios.delete(
+        `http://127.0.0.1:8000/api/students/${props.student.id}/`
+    );
+    console.log('Student deleted:', response.data);
+    alert("Student deleted successfully");
+    emit('update:show', false); // Close the popup after deletion
+  } catch (error) {
+    if (error.response) {
+      console.error('Error response:', error.response.data);
+    } else {
+      console.error('Error:', error.message);
+    }
   }
 };
 
@@ -58,9 +76,7 @@ const updateStudentInfo = async () => {
       <div class="popup-header">
         <span style="font-size: 1.5rem">Welcome to {{ props.student.name }}</span>
         <span @click="closePopup" class="close-btn">
-          <UIcon
-              name="fontisto-close"
-          />
+          <UIcon name="fontisto-close" />
         </span>
       </div>
       <hr class="divider">
@@ -68,35 +84,36 @@ const updateStudentInfo = async () => {
         <div class="box" v-for="field in studentFields" :key="field.key">
           <span class="student-label-info">
             <span>
-              <UIcon
-                  style="color: var(--main-color)"
-                  name="ph-student"
-              />
+              <UIcon style="color: var(--main-color)" name="ph-student" />
             </span>
-            {{ field.label }}:</span>
+            {{ field.label }}:
+          </span>
           <span class="student-key-info">
             <input
                 v-if="field.key !== 'status'"
-                v-model="student[field.key]"
+                v-model="props.student[field.key]"
                 class="control-input"
             />
-            <span v-else>{{ student[field.key] }}</span>
+            <span v-else>{{ props.student[field.key] }}</span>
           </span>
         </div>
       </div>
       <hr class="divider">
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="delete-student" id="deleteStudent">Delete Student</button>
-          <button @click="updateStudentInfo" class="change-student-info" id="changeStudentInfo">Change Student Info</button>
+          <button @click="deleteStudent" class="delete-student">Delete Student</button>
+          <button @click="updateStudentInfo" class="change-student-info">
+            Change Student Info
+          </button>
         </div>
         <div>
-          <h2>Thank you </h2>
+          <h2>Thank you</h2>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 .popup-overlay {
@@ -122,7 +139,6 @@ const updateStudentInfo = async () => {
   max-height: 90vh;
   position: relative;
   overflow-y: auto;
-  border: 3px solid var(--main-color);
   z-index: 1001;
 }
 
