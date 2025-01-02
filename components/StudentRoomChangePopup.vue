@@ -178,7 +178,6 @@ span {
   display: flex;
   word-wrap: break-word;
   line-height: 1.5rem;
-  padding: 0.5rem;
 }
 
 @media (max-width: 800px) {

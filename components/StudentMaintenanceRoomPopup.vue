@@ -28,20 +28,21 @@ const closePopup = () => {
   emit('update:show', false);
 };
 
-const updateStatus = async (status) => {
+const updateStatus = async (newStatus) => {
   try {
     const response = await axios.patch(
-        `/api/${props.request.type}-requests/${props.request.id}/`,
-        {
-          status: status,
-        }
+        `http://127.0.0.1:8000/api/maintenance-requests/${props.request.id}/`,
+        { status: newStatus },
     );
-    // Handle success
+    console.log('Success:', response.data);
+    alert("Success updated")
     emit('update:show', false);
-    alert('Status updated successfully');
   } catch (error) {
-    console.error('Failed to update status:', error);
-    alert('Failed to update status. Please check the console for details.');
+    if (error.response) {
+      console.error('Error response:', error.response.data);
+    } else {
+      console.error('Error:', error.message);
+    }
   }
 };
 </script>
@@ -91,10 +92,10 @@ const updateStatus = async (status) => {
 
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="reject-maintenance-request" @click="updateStatus('rejected')">
+          <button class="reject-request" @click="updateStatus('rejected')">
             Reject request
           </button>
-          <button class="work-done-by-ppk" @click="updateStatus('ppk_done')">
+          <button class="work-done" @click="updateStatus('ppk_done')">
             Work done by PPK
           </button>
         </div>
@@ -234,24 +235,24 @@ span {
   text-transform: capitalize;
 }
 
-.popup-bts .work-done-by-PPK {
+.popup-bts .work-done{
   border-radius: 0 1rem;
   border: 2px solid var(--main-hovor-color);
 }
 
-.popup-bts .work-done-by-PPK:hover {
+.popup-bts .work-done:hover {
   background: var(--button-hovor-color);
   border: 2px solid var(--button-hovor-color);
   color: var(--text-hovor-color);
   transition: .4s ease-in-out;
 }
 
-.popup-bts .reject-maintenance-request {
+.popup-bts .reject-request {
   border-radius: 0 1rem;
   border: 2px solid red;
 }
 
-.popup-bts .reject-maintenance-request:hover {
+.popup-bts .reject-request:hover {
   background: red;
   color: var(--text-hovor-color);
   transition: .4s ease-in-out;
