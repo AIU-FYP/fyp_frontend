@@ -1,7 +1,6 @@
 <script setup>
 import {defineEmits, defineProps} from 'vue'
 
-
 const props = defineProps({
   show: Boolean,
   student: Object
@@ -34,10 +33,23 @@ const closePopup = () => {
   closePopup()
 }
 
-const updateStaffInfo = () => {
-  console.log('Updated student info:', props.student)
-  closePopup()
-}
+const updateStudentInfo = async () => {
+  try {
+    const apiUrl = `http://127.0.0.1:8000/students/${props.student.id}/`; // Adjust as needed
+    console.log('Sending PATCH request to:', apiUrl);
+    console.log('Payload:', props.student);
+
+    const response = await axios.patch(apiUrl, props.student);
+    console.log('Response:', response.data);
+
+    alert('Student info updated successfully!');
+    closePopup();
+  } catch (error) {
+    console.error('Failed to update student info:', error.response || error);
+    alert('Failed to update student info. Please check the console for details.');
+  }
+};
+
 </script>
 
 <template>
@@ -76,7 +88,7 @@ const updateStaffInfo = () => {
       <div class="popup-footer">
         <div class="popup-bts">
           <button class="delete-student" id="deleteStudent">Delete Student</button>
-          <button @click="updateStaffInfo" class="change-student-info" id="changeStudentInfo">Change Student Info</button>
+          <button @click="updateStudentInfo" class="change-student-info" id="changeStudentInfo">Change Student Info</button>
         </div>
         <div>
           <h2>Thank you </h2>

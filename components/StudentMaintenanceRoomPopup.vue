@@ -1,5 +1,6 @@
 <script setup>
-import {defineEmits, defineProps} from 'vue'
+import {defineEmits, defineProps} from 'vue';
+import axios from 'axios';
 
 const requestFields = [
   {label: 'ID ', key: 'id'},
@@ -18,73 +19,84 @@ const requestFields = [
 
 const props = defineProps({
   show: Boolean,
-  request: Object
+  request: Object,
 });
 
-const emit = defineEmits(['update:show'])
+const emit = defineEmits(['update:show']);
 
 const closePopup = () => {
-  emit('update:show', false)
-}
+  emit('update:show', false);
+};
+
+const updateStatus = async (status) => {
+  try {
+    const response = await axios.patch(
+        `/api/${props.request.type}-requests/${props.request.id}/`,
+        {
+          status: status,
+        }
+    );
+    // Handle success
+    emit('update:show', false);
+    alert('Status updated successfully');
+  } catch (error) {
+    console.error('Failed to update status:', error);
+    alert('Failed to update status. Please check the console for details.');
+  }
+};
 </script>
 
 <template>
   <div v-if="show" class="popup-overlay" @click="closePopup">
     <div class="popup-container" @click.stop>
       <div class="popup-header">
-        <span style="font-size: 1.5rem">Student name is {{props.request.student}}</span>
+        <span style="font-size: 1.5rem">Student name is {{ props.request.student }}</span>
         <span @click="closePopup" class="close-btn">
-          <UIcon
-              name="fontisto-close"
-          />
+          <UIcon name="fontisto-close"/>
         </span>
       </div>
       <hr class="divider">
 
       <div class="popup-content">
         <div class="box" v-for="field in requestFields" :key="field.key">
-  <span class="student-label-info">
-    <span>
-      <UIcon
-          style="color: var(--main-color)"
-          name="ph-student"
-      />
-    </span>
-    {{ field.label }}
-  </span>
+          <span class="student-label-info">
+            <span>
+              <UIcon style="color: var(--main-color)" name="ph-student"/>
+            </span>
+            {{ field.label }}
+          </span>
           <span class="student-key-info">
-    <span>
-      <UIcon
-          style="color: var(--main-color)"
-          name="bx-data"
-      />
-    </span>
-    <span v-if="field.key === 'evidence_photo'">
-      <a
-          :href="request[field.key]"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link"
-          style="color: var(--main-color); text-decoration: underline; cursor: pointer;"
-      >
-        Supporting Document
-      </a>
-    </span>
-    <span v-else>
-      {{ request[field.key] }}
-    </span>
-  </span>
+            <span v-if="field.key === 'evidence_photo'">
+              <a
+                  :href="request[field.key]"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="link"
+                  style="color: var(--main-color); text-decoration: underline; cursor: pointer;"
+              >
+                Supporting Document
+              </a>
+            </span>
+            <span v-else-if = "field.key === 'explanation' " class="truncate-single">
+              {{request[field.key]}}
+            </span>
+            <span v-else>
+              {{ request[field.key] }}
+            </span>
+          </span>
         </div>
-
       </div>
-
 
       <hr class="divider">
 
       <div class="popup-footer">
         <div class="popup-bts">
-          <button class="reject-maintenance-request" id="rejectMaintenanceRequest">Reject request</button>
-          <button class="work-done-by-PPK" id="workDoneByPPK">Work done by PPK</button>
+          <button class="reject-maintenance-request" @click="updateStatus('rejected')">
+            Reject request
+          </button>
+          <button class="work-done-by-ppk" @click="updateStatus('ppk_done')">
+            Work done by PPK
+          </button>
         </div>
       </div>
 
@@ -130,7 +142,7 @@ const closePopup = () => {
   .popup-container {
     width: 100%;
     max-width: 100%;
-    border-radius:  0;
+    border-radius: 0;
   }
 }
 
@@ -186,11 +198,22 @@ span {
   margin-bottom: .5rem;
 }
 
-@media (max-width: 800px){
-  .box{
+.truncate-single {
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  word-wrap: break-word;
+  line-height: 1.5rem;
+  padding: 0.5rem;
+}
+
+
+@media (max-width: 800px) {
+  .box {
     display: flex;
-    flex-direction: column ;
+    flex-direction: column;
   }
+
   .student-label-info,
   .student-key-info {
     width: 100%;
@@ -234,13 +257,14 @@ span {
   transition: .4s ease-in-out;
 }
 
-@media (max-width: 800px){
-  .popup-bts{
+@media (max-width: 800px) {
+  .popup-bts {
     flex-direction: column;
     padding: 0;
     margin: 0;
     gap: 0;
   }
+
   .popup-bts button {
     padding: .5rem;
     margin: 1rem 0;
